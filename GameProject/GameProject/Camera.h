@@ -13,11 +13,11 @@ public:
     /// </summary>
     enum StartCameraState
     {
-        StartView      = 0,
-        SecondView     = 1,
-        FoucusOnBoss   = 2,
-        FoucusOnPlayer = 3,
-        Stop           = 4,
+        StartView      = 0,     // 最初の位置
+        SecondView     = 1,     // ２つ目の位置
+        FoucusOnBoss   = 2,     // ボスに注目する状態
+        FoucusOnPlayer = 3,     // プレイヤーに注目する状態
+        Stop           = 4,     // 視点の移動をしない状態
     };
 
     //コンストラクタ

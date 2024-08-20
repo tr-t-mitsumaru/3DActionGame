@@ -1,10 +1,12 @@
 ﻿#include"DxLib.h"
+#include"EffekseerForDXLib.h"
 #include"Game.h"
 #include"InputManager.h"
 #include"ModelDataManager.h"
 #include"CollisionManager.h"
 #include"ShotManager.h"
 #include"EffectManager.h"
+#include"ImageDataManager.h"
 
 //----------------------------//
 // WinMain関数.
@@ -44,6 +46,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     CollisionManager::CreateInstance();
     EffectManager::CreateInstance();
     ShotManager::CreateInstance();
+    ImageDataManager::CreateInstance();
 
 
 
@@ -68,6 +71,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     CollisionManager::DeleteInstance();
     ShotManager::DeleteInstance();
     EffectManager::DeleteInstance();
+    ImageDataManager::DeleteInstance();
+
+
+    Effkseer_End();
 
 
     DxLib_End();                // ＤＸライブラリ使用の終了処理

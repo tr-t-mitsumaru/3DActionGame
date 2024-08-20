@@ -11,6 +11,10 @@ class Player
 {
 public:
 
+    /////////        定数         ////////
+
+    static constexpr int   MaxHp = 1000;   // HPの最大値
+
     //アニメーションの種類
     enum AnimationState
     {
@@ -59,6 +63,12 @@ public:
 
     //getter,setter
     const VECTOR GetPosition()const { return position; }
+
+    /// <summary>
+    /// HPを渡す
+    /// </summary>
+    /// <returns>HP</returns>
+    const int GetHp()const { return hp; }
 
     //コンストラクタ
     Player();

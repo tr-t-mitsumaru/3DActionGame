@@ -12,7 +12,15 @@ public:
     /// </summary>
     enum ImageTag
     {
-
+        HpGage        = 0,
+        HpFrame       = 1,
+        Frame         = 2,
+        HpBack        = 3,
+        HpGageSub     = 4,
+        BossHpGage    = 5,
+        BossHpFrame   = 6,
+        BossHpBack    = 7,
+        BossHpGageSub = 8,
     };
 
     /// <summary>
@@ -36,7 +44,7 @@ public:
     /// </summary>
     /// <param name="imageTag">イメージタグ</param>
     /// <returns>イメージハンドル</returns>
-    static const int GetImageHandle(ImageTag imageTag);
+    const int GetImageHandle(ImageTag imageTag);
 
 
 private:
@@ -45,16 +53,6 @@ private:
     ImageDataManager();
     //デストラクタ
     ~ImageDataManager();
-
-    /// <summary>
-    /// 必要な画像をロードする
-    /// </summary>
-    static void LoadImage();
-
-    /// <summary>
-    /// 読み込んだ画像の削除
-    /// </summary>
-    static void DeleteImage();
 
     //自身のポインタ
     static ImageDataManager* imageDataManager;

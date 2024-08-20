@@ -8,6 +8,7 @@ class Boss;
 class CollisionManager;
 class ShotManager;
 class EffectManager;
+class GameSceneUI;
 
 
 /// <summary>
@@ -62,6 +63,7 @@ private:
     CollisionManager* collisionManager; //コリジョンマネージャーのインスタンスにアクセスるポインタ
     ShotManager*      shotManager;      // ショットマネージャーにアクセスするポインタ
     EffectManager*    effectManager ;   // エフェクトマネージャーにアクセスするポインタ
+    GameSceneUI*      gameSceneUI;      // ゲームシーンのUI
     
 };
 
