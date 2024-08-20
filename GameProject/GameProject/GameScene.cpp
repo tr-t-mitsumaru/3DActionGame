@@ -107,7 +107,7 @@ void GameScene::Update()
         player->Update(boss->GetPosition(),camera->GetPosition());
         boss->Update(player->GetPosition(), camera->GetPosition());
         camera->UpdatePlayerCamera(player->GetPosition());
-        gameSceneUI->Update(player->GetHp());
+        gameSceneUI->Update(player->GetHp(),boss->GetHp());
     }
 
     //各クラスのアップデートを呼ぶ

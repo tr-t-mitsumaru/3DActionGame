@@ -1,6 +1,7 @@
 ﻿#include"ImageDataManager.h"
 #include "GameSceneUI.h"
 #include"Player.h"
+#include"Boss.h"
 
 
 /// <summary>
@@ -9,7 +10,8 @@
 GameSceneUI::GameSceneUI()
     :uiBlendOpacity(0)
     ,currentBlendState(Opaque)
-    ,displayHp(Player::MaxHp)
+    ,playerDisplayHp(Player::MaxHp)
+    ,bossDisplayHp(Boss::MaxHp)
 {
     // インスタンスをもってくる
     imageDataManager = ImageDataManager::GetInstance();
@@ -27,6 +29,8 @@ GameSceneUI::GameSceneUI()
 
     // 画像のサイズを取る
     GetGraphSize(hpGageHadle, &playerHpGageMaxWidth, &playerHpGageMaxHeight);
+    GetGraphSize(bossHpGageHandle, &bossHpGageMaxWidth, &bossHpGageMaxHeight);
+
 
 }
 
@@ -41,19 +45,30 @@ GameSceneUI::~GameSceneUI()
 /// <summary>
 /// 更新処理
 /// </summary>
-void GameSceneUI::Update(const int playerHp)
+void GameSceneUI::Update(const int playerHp,const int bossHp)
 {
     // ブレンド率の更新
     UpdateBlendRate();
 
-    // 描画するHPバーの計算
-    displayHp += ((float)playerHp - displayHp) * LerpSpeed;
+    // 描画するプレイヤーのHPバーの計算
+    playerDisplayHp += ((float)playerHp - playerDisplayHp) * LerpSpeed;
 
-    //描画するプレイヤーのHPバーの幅を計算
+    // 描画するボスのHPバーの計算
+    bossDisplayHp += ((float)bossHp - bossDisplayHp) * LerpSpeed;
+
+    // 描画するプレイヤーのHPバーの幅を計算
     currentPlayerHpGageWidth = (((float)playerHp / (float)(Player::MaxHp)) * playerHpGageMaxWidth);
 
+    // 描画するボスのHPバーの幅を計算
+    currentBossHpGageWidth = (((float)bossHp / (float)(Boss::MaxHp)) * bossHpGageMaxWidth);
+
+
     // 描画するプレイヤーのサブHPバーの幅を計算
-    currentPlayerSubHpGageWidth = ((displayHp / (float)Player::MaxHp) * playerHpGageMaxWidth);
+    currentPlayerSubHpGageWidth = ((playerDisplayHp / (float)Player::MaxHp) * playerHpGageMaxWidth);
+
+    // 描画するプレイヤーのサブHPバーの幅を計算
+    currentBossSubHpGageWidth = ((bossDisplayHp / (float)Boss::MaxHp) * bossHpGageMaxWidth);
+
 
     
 }
@@ -110,14 +125,14 @@ void GameSceneUI::Draw()
     DrawGraph(700, 90, hpFrameHandle, TRUE);
 
 
-    DrawGraph(600, 800, hpBackGageHandle, TRUE);
+    DrawGraph(600, 800, bossHpBackHandle, TRUE);
 
-    DrawExtendGraph(700, 90, 700 + currentPlayerSubHpGageWidth, 90 + playerHpGageMaxHeight, subHpGageHandle, TRUE);
+    DrawExtendGraph(700, 800, 700 + currentBossSubHpGageWidth, 90 + bossHpGageMaxHeight, bossSubHpGageHandle, TRUE);
 
-    DrawExtendGraph(700, 90, 700 + currentPlayerHpGageWidth, 90 + playerHpGageMaxHeight, hpGageHadle, TRUE);
+    DrawExtendGraph(700, 800, 700 + currentBossHpGageWidth, 90 + bossHpGageMaxHeight, bossHpGageHandle, TRUE);
 
     // HPバーのフレームを描画
-    DrawGraph(700, 90, hpFrameHandle, TRUE);
+    DrawGraph(700, 800, bossHpFrameHandle, TRUE);
 
     // ブレンドモードをノーマルに戻す
     SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);

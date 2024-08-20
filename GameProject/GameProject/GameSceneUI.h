@@ -42,7 +42,7 @@ public:
     /// <summary>
     /// 更新処理
     /// </summary>
-    void Update(const int playerHp);
+    void Update(const int playerHp, const int bossHp);
 
     /// <summary>
     /// フェードインを開始する
@@ -69,7 +69,7 @@ private:
     static constexpr float  FeadInMax            =  255;                         // フェードインの最大値
     static constexpr int    FeadInSpeed          =  4;                           // フェードインのスピード
     static constexpr int    FeadOutSpeed         =  4;                           // フェードアウトのスピード
-    static constexpr float  LerpSpeed            = 0.01f;                         // Hpバーを減らす線形補間の速さ
+    static constexpr float  LerpSpeed            = 0.01f;                        // Hpバーを減らす線形補間の速さ
 
 
 
@@ -87,13 +87,17 @@ private:
     int               bossHpFrameHandle;          // ボスのHPゲージの枠
     int               bossHpGageHandle;           // ボスのHPゲージ
     int               bossSubHpGageHandle;        // ボスのサブHPゲージ
-
     int               uiBlendOpacity;             // UIのブレンド率
     int               playerHpGageMaxWidth;       // プレイヤーのHPゲージの幅
     int               playerHpGageMaxHeight;      // プレイヤーのHPゲージの高さ
+    int               bossHpGageMaxWidth;         // プレイヤーのHPゲージの幅
+    int               bossHpGageMaxHeight;        // プレイヤーのHPゲージの高さ
     int               currentPlayerHpGageWidth;   // 現在のプレイヤーのHPゲージの幅
     int               currentPlayerSubHpGageWidth;// 現在のプレイヤーのサブHPゲージの幅
-    float             displayHp;                  // 描画するHPの量
+    int               currentBossHpGageWidth;     // 現在のボスのHPゲージの幅
+    int               currentBossSubHpGageWidth;  // 現在のボスのサブHPゲージの幅
+    float             playerDisplayHp;            // 描画するプレイヤーHPの量
+    float             bossDisplayHp;              // 描画するボスのHPの量
     BlendState        currentBlendState;          // 現在のブレンドの状態
 
 

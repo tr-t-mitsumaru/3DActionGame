@@ -15,6 +15,11 @@ class Boss
 {
 public:
 
+    ////////         定数          /////////
+
+    static constexpr int MaxHp = 2000;      // ボスのHP
+
+
     /// <summary>
     /// アニメーションの状態
     /// </summary>
@@ -46,7 +51,7 @@ public:
         StandingNow       = 1,  // 立ち上がっている途中
         Stand             = 2,  // 立ち上がった
         IntimidationStart = 3,  // 威嚇の動きが始まった状態
-        EndMove               = 4,  // 行動終了
+        EndMove           = 4,  // 行動終了
     };
 
     ///////  ゲッター  ///////
@@ -71,6 +76,12 @@ public:
     /// </summary>
     /// <returns>アニメーションの再生時間</returns>
     const float GetAnimationNowTime() const { return animationNowTime; }
+
+    /// <summary>
+    /// HPの値を返す
+    /// </summary>
+    /// <returns>HP</returns>
+    const int GetHp() const { return hp; }
 
     //コンストラクタ
     Boss();
