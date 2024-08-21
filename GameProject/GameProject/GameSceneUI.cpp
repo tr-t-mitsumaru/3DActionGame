@@ -120,8 +120,11 @@ void GameSceneUI::Draw()
     // 画面の枠画像の描画
     DrawGraph(0, 0, frameHandle, TRUE);
 
+    // プレイヤーに関するUIの追加
+    DrawPlayerUI();
 
-
+    // ボスに関するUIの追加
+    DrawBossUI();
 
     // ブレンドモードをノーマルに戻す
     SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
