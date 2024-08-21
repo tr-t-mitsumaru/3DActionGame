@@ -41,18 +41,33 @@ private:
     static constexpr float OffsetCollisionPositonScale  = 0.1;      // 当たり判定をプレイヤーの向いている方向にどれだけ動かすか
     static const VECTOR    OffsetCollisionPosition;                 // 当たり判定をプレイヤーの位置からどれだけずらすか
     static constexpr float CollisionRadius              = 60.0f;    // 当たり判定の半径
-    static constexpr int   DamageAmount                 = 30;       // ダメージ量
-    static constexpr float MoveSpeed                    = 8.0f;     // 移動速度
     static constexpr float TargetOffsetDistance         = 100.0f;   // ターゲットとの距離からどれだけずらすか
-    static constexpr float AnimationBlendSpeed          = 0.01f;    // アニメーションのブレンドスピード
+
+    // 攻撃に必要なパラメーター
+    static constexpr float EasyAnimationBlendSpeed      = 0.008f;   // 弱い時のアニメーションのブレンドスピード
+    static constexpr float NormalAnimationBlendSpeed    = 0.015f;   // 通常時のアニメーションのブレンドスピード
+    static constexpr float HardAnimationBlendSpeed      = 0.03f;    // 強い時のアニメーションのブレンドスピード
+    static constexpr int   EasyDamageAmount             = 70;       // 弱い時のダメージ量
+    static constexpr int   NormalDamageAmount           = 120;      // 通常時のダメージ量
+    static constexpr int   HardDamageAmount             = 140;      // 強い時のダメージ量
+    static constexpr float EasyMoveSpeed                = 5.0f;     // 弱い時の移動スピード
+    static constexpr float NormalMoveSpeed              = 6.0f;     // 通常時の移動スピード
+    static constexpr float HardMoveSpeed                = 8.0f;     // 強い時の移動スピード
+
+
 
 
     ///////  メンバ変数  ////////
 
-    RunState currentRunState;     // 現在の走りステートの状態
-    VECTOR   direction;            // 移動する方向
-    VECTOR   startPosition;        // 突進を開始した座標
-    float    targetLength;         // ターゲットとの距離
+    RunState currentRunState;             // 現在の走りステートの状態
+    VECTOR   direction;                   // 移動する方向
+    VECTOR   startPosition;               // 突進を開始した座標
+    float    targetLength;                // ターゲットとの距離
+    bool     isAttackParameterInitialize; // 攻撃に必要なパラメーターを初期化したか
+    int      damageAmount;                // 与えるダメージ量
+    float    animationBlendSpeed;         // アニメーションのブレンドスピード
+    int      moveSpeed;                   // 移動スピード
+
 
 
     //ToDo
@@ -90,6 +105,11 @@ private:
     /// <param name="targetPosition">目標の座標</param>
     /// <param name="position">自身の座標</param>
     void InitializeRunPrameters(const VECTOR targetPosition, const VECTOR position);
+
+    /// <summary>
+    /// 体力に合わせて攻撃する強さのパラメーターを変更
+    /// </summary>
+    void InitializeAttackPrameters();
 
 #ifdef _DEBUG
     /// <summary>

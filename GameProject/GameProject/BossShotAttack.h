@@ -48,10 +48,15 @@ private:
     static constexpr float ShotCreateAnimationRatio = 0.35f;   // ショットを作成するアニメーションの再生率
     static constexpr float ShotSpeed                = 8.0f;    // 弾のスピード
     static constexpr float ShotRadius               = 30.0f;   // 弾の半径
-    static constexpr int   ShotDamageAmount         = 15;      // ショットが与えるダメージ
+    static constexpr int   ShotDamageAmount         = 70;      // ショットが与えるダメージ
     static constexpr float AnimationBlendSpeed      = 0.01f;   // アニメーションのブレンドスピード
     static constexpr float EffectDefaultScale       = 30.0f;   // エフェクトのサイズ
     static constexpr float EffectPlaySpeed          = 1.0f;    // エフェクトの再生速度
+
+    static constexpr int   EasyAnimationBlendSpeed   = 0.008f;  // 弱い時のアニメーションのブレンドスピード
+    static constexpr int   NormalAnimationBlendSpeed = 0.01f;   // 通常時のアニメーションのブレンドスピード
+    static constexpr int   HardAnimationBlendSpeed   = 0.03f;   // 強い時のアニメーションのブレンドスピード
+
 
     
 

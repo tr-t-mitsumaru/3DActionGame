@@ -11,10 +11,8 @@
 BossAreaAttack::BossAreaAttack(int& InitializeModelHandle, const int beforeAnimationIndex)
     :StateBase(InitializeModelHandle, Boss::GroundAttack, beforeAnimationIndex)
     ,attackState(NoAttack)
+    ,isAttackParameterInitialize(false)
 {
-    //アニメーション速度の初期化
-    animationSpeed = InitializeAnimationSpeed;
-
     //インプットマネージャーのインスタンスをもってくる
     inputManager = InputManager::GetInstance();
 
@@ -42,6 +40,9 @@ BossAreaAttack::~BossAreaAttack()
 /// <param name="position">プレイヤーモデルの向き</param>
 void BossAreaAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)
 {
+    // 攻撃に必要なパラメーターの初期化
+    InitializeAttackParameter();
+
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
@@ -49,7 +50,7 @@ void BossAreaAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTO
     CreateShotByAnimationTime(position);
 
     //アニメーションの再生時間のセット
-    UpdateAnimation(AnimationBlendSpeed);
+    UpdateAnimation(animationBlendSpeed);
 
     //シーンが切り替わっていればアニメーションをデタッチ
     DetachAnimation();
@@ -67,7 +68,7 @@ void BossAreaAttack::ChangeState()
     if (currentPlayAnimationState == FirstRoopEnd)
     {
         //ボスの移動ステートに移行
-        nextState = new BossIdle(modelhandle,this->GetAnimationIndex(),BossIdle::AreaAttack);
+        nextState = new BossIdle(modelhandle,this->GetAnimationIndex(),BossIdle::AreaAttack,isChangingMove);
     }
     else
     {
@@ -114,13 +115,13 @@ InitializeShotData BossAreaAttack::InitializeShot(const int index,const VECTOR c
     initializeShotData.direction = VNorm(VTransform(VGet(1.0f, 0.0f, 0.0f), rotationMatrix));
 
     //弾の半径を代入
-    initializeShotData.radius = ShotRadius;
+    initializeShotData.radius = shotRadius;
 
     //弾のダメージ量を代入
-    initializeShotData.damageAmount = ShotDamageAmount;
+    initializeShotData.damageAmount = shotDamageAmount;
 
     // 弾のスピードの代入
-    initializeShotData.speed = ShotSpeed;
+    initializeShotData.speed = shotSpeed;
 
     // ショットを撃ったキャラのタグを代入
     initializeShotData.shooterTag = CollisionManager::BossAreaAttack;
@@ -156,3 +157,51 @@ void BossAreaAttack::CreateShotByAnimationTime(const VECTOR position)
         attackState = StartAttack;
     }
 }
+
+/// <summary>
+/// 体力に合わせて攻撃する強さのパラメーターを変更
+/// </summary>
+void BossAreaAttack::InitializeAttackParameter()
+{
+    if (!isAttackParameterInitialize)
+    {
+        switch (currentHpState)
+        {
+            // 体力が多い状態での初期化
+        case Boss::High:
+
+            animationBlendSpeed = EasyAnimationBlendSpeed;
+            shotRadius = EasyShotRadius;
+            shotSpeed = EasyShotSpeed;
+            shotDamageAmount = EasyShotDamageAmount;
+            animationSpeed = EasyAnimationSpeed;
+            break;
+            // 体力が通常状態での初期化
+        case Boss::Middle:
+
+            animationBlendSpeed = NormalAnimationBlendSpeed;
+            shotRadius = NormalShotRadius;
+            shotSpeed = NormalShotSpeed;
+            shotDamageAmount = NormalShotDamageAmount;
+            animationSpeed = NormalAnimationSpeed;
+
+            break;
+            // 体力が少ない状態での初期化
+        case Boss::Low:
+
+            animationBlendSpeed = HardAnimationBlendSpeed;
+            shotRadius = HardShotRadius;
+            shotSpeed = HardShotSpeed;
+            shotDamageAmount = HardShotDamageAmount;
+            animationSpeed = HardAnimationSpeed;
+            break;
+        default:
+
+
+            break;
+        }
+
+        isAttackParameterInitialize = true;
+    }
+}
+

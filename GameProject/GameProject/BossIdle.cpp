@@ -4,6 +4,7 @@
 #include"BossAreaAttack.h"
 #include"BossShotAttack.h"
 #include"BossRunAttack.h"
+#include"BossMoveChange.h"
 #include"BossIdle.h"
 #include"Boss.h"
 
@@ -12,7 +13,7 @@
 ///<summary>
 ///コンストラクタ
 ///</summary>
-BossIdle::BossIdle(int& InitializeModelHandle,const int beforeAnimationIndex,const NextStateList initializePreviousStateName)
+BossIdle::BossIdle(int& InitializeModelHandle,const int beforeAnimationIndex,const NextStateList initializePreviousStateName, const bool beforeIsChangintMove)
     :StateBase(InitializeModelHandle,Boss::Idle,beforeAnimationIndex)
 {
     //アニメーション速度の初期化
@@ -23,7 +24,7 @@ BossIdle::BossIdle(int& InitializeModelHandle,const int beforeAnimationIndex,con
     // 前回のステートを保存
     previousStateName = initializePreviousStateName;
 
-    
+    isChangingMove = beforeIsChangintMove;
 }
 
 /// <summary>
@@ -97,6 +98,11 @@ void BossIdle::ChangeState()
         nextState = new BossRunAttack(modelhandle, animationIndex);
 
         break;
+    case BossIdle::MoveChange:
+
+        nextState = new BossMoveChange(modelhandle, animationIndex);
+
+        break;
     default:
 
         nextState = this;
@@ -110,66 +116,74 @@ void BossIdle::ChangeState()
 /// </summary>
 void BossIdle::SelectActionPattern(const float targetDistance)
 {
-
-
     bool isMatchPreviousState = true;
 
-    while (isMatchPreviousState)
+    // 行動を変えるフラグがたっていればその時点で切り替える
+    if (isChangingMove)
     {
-        // 行動選択のためのランダムな値を入れる
-        int randPattern = GetRand(RandRange);
+        nextStateName = MoveChange;
+    }
+    else
+    {
+        while (isMatchPreviousState)
+        {
+            // 行動選択のためのランダムな値を入れる
+            int randPattern = GetRand(RandRange);
 
-        // ターゲットとの距離が近かったら
-        if (targetDistance <= ShortRange)
-        {
-            // それぞれの確率で処理が分岐する
-            if (randPattern < ShortRangeDefaultAttackProbability)
+            // ターゲットとの距離が近かったら
+            if (targetDistance <= ShortRange)
             {
-                nextStateName = DefaultAttack;
+                // それぞれの確率で処理が分岐する
+                if (randPattern < ShortRangeDefaultAttackProbability)
+                {
+                    nextStateName = DefaultAttack;
+                }
+                else if (randPattern >= ShortRangeDefaultAttackProbability && randPattern < ShortRangeDefaultAttackProbability + ShortRangeAreaAttackProbability)
+                {
+                    nextStateName = AreaAttack;
+                }
             }
-            else if (randPattern >= ShortRangeDefaultAttackProbability && randPattern < ShortRangeDefaultAttackProbability + ShortRangeAreaAttackProbability)
+            // 中距離だった場合
+            else if (targetDistance > ShortRange && targetDistance <= MiddleRange)
             {
-                nextStateName = AreaAttack;
+                if (randPattern < MiddleRangeAreaAttackProbability)
+                {
+                    nextStateName = AreaAttack;
+                }
+                else if (randPattern >= MiddleRangeAreaAttackProbability && randPattern < MiddleRangeShotAttackProbability + MiddleRangeShotAttackProbability)
+                {
+                    nextStateName = ShotAttack;
+                }
+                else
+                {
+                    nextStateName = Move;
+                }
             }
-        }
-        // 中距離だった場合
-        else if (targetDistance > ShortRange && targetDistance <= MiddleRange)
-        {
-            if (randPattern < MiddleRangeAreaAttackProbability)
-            {
-                nextStateName = AreaAttack;
-            }
-            else if (randPattern >= MiddleRangeAreaAttackProbability && randPattern < MiddleRangeShotAttackProbability + MiddleRangeShotAttackProbability)
-            {
-                nextStateName = ShotAttack;
-            }
+            // 遠距離だった場合
             else
             {
-                nextStateName = Move;
+                if (randPattern < LongRangeRunAttackProbability)
+                {
+                    nextStateName = RunAttack;
+                }
+                else if (randPattern >= LongRangeRunAttackProbability && randPattern < LongRangeShotAttackProbability + LongRangeRunAttackProbability)
+                {
+                    nextStateName = ShotAttack;
+                }
+                else
+                {
+                    nextStateName = Move;
+                }
             }
-        }
-        // 遠距離だった場合
-        else
-        {
-            if (randPattern < LongRangeRunAttackProbability)
-            {
-                nextStateName = RunAttack;
-            }
-            else if (randPattern >= LongRangeRunAttackProbability && randPattern < LongRangeShotAttackProbability + LongRangeRunAttackProbability)
-            {
-                nextStateName = ShotAttack;
-            }
-            else
-            {
-                nextStateName = Move;
-            }
-        }
 
-        if (nextStateName != previousStateName)
-        {
-            isMatchPreviousState = false;
+            if (nextStateName != previousStateName)
+            {
+                isMatchPreviousState = false;
+            }
         }
     }
+
+
 
 
 

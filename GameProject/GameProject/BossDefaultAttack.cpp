@@ -15,9 +15,9 @@ const VECTOR BossDefaultAttack::OffsetPosition = VGet(30.0f, 40.0f, 0.0f);
 /// <param name="beforeAnimationIndex">前のステートでのアニメーション</param>
 BossDefaultAttack::BossDefaultAttack(int& InitializeModelHandle, const int beforeAnimationIndex)
     :StateBase(InitializeModelHandle, Boss::Attack, beforeAnimationIndex)
+    ,isAttackParameterInitialize(false)
+    ,isChangedAnimationSpeed(false)
 {
-    //アニメーション速度の初期化
-    animationSpeed = InitializeAnimationSpeed;
 
     //インプットマネージャーをもってくる
     inputManager = InputManager::GetInstance();
@@ -47,11 +47,17 @@ BossDefaultAttack::~BossDefaultAttack()
 /// <param name="position">プレイヤーモデルの向き</param>
 void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& position, const VECTOR targetPosition, VECTOR cameraPosition)
 {
+    // 攻撃に必要なパラメータの初期化
+    InitializeAttackParameter();
+
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
     //アニメーションの再生時間のセット
     UpdateAnimation();
+
+    // アニメーションスピード
+    ChangeAnimationSpeed();
 
     // 向く方向を計算
     VECTOR direction = CalculateTargetDirection(targetPosition, position);
@@ -98,7 +104,7 @@ void BossDefaultAttack::ChangeState()
     if (currentPlayAnimationState == FirstRoopEnd)
     {
         //ボスの移動ステートに移行
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::DefaultAttack);
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::DefaultAttack,isChangingMove);
     }
     else
     {
@@ -179,6 +185,57 @@ void BossDefaultAttack::UpdateEffectData(const VECTOR modelDirection,const VECTO
     effectData.playSpeed = EffectPlaySpeed;
 }
 
+/// <summary>
+/// 攻撃に必要なパラメータの初期化
+/// </summary>
+void BossDefaultAttack::InitializeAttackParameter()
+{
+    if (! isAttackParameterInitialize)
+    {
+        switch (currentHpState)
+        {
+        // 体力が多い状態での初期化
+        case Boss::High:
+
+            animationSpeed = EasyAnimationSpeed;
+
+            break;
+        // 体力が通常状態での初期化
+        case Boss::Middle:
+
+            animationSpeed = NormalAnimationSpeed;
+            break;
+        // 体力が少ない状態での初期化
+        case Boss::Low:
+
+            animationSpeed = HardAnimationSpeed;
+            break;
+        default:
+
+
+            break;
+        }
+
+        isAttackParameterInitialize = true;
+    }
+
+}
+
+/// <summary>
+/// アニメーションスピードの切り替え
+/// </summary>
+void BossDefaultAttack::ChangeAnimationSpeed()
+{
+    // アニメーションが一定まで再生されたら
+    if (animationNowTime / animationLimitTime >= AnimationSpeedChangeRate && ! isChangedAnimationSpeed)
+    {
+        // アニメーションスピードを切り替える
+        animationSpeed = InitializeAnimationSpeed;
+
+        // アニメーションのスピードを切り替えたのでフラグを切り替える
+        isChangedAnimationSpeed = true;
+    }
+}
 
 #ifdef _DEBUG
 

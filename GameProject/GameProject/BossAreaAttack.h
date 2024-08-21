@@ -42,16 +42,30 @@ private:
 
     ///////  定数  ///////
 
-    static constexpr float InitializeAnimationSpeed = 0.6f;         // アニメーションの初期速度
-    static constexpr float AnimationBlendSpeed      = 0.03f;        // アニメーションのブレンドスピード
-    static constexpr int   CreateShotNumber         = 50;           // 範囲攻撃で生成する弾の数
-    static constexpr float FullCircleRadian         = 2 * DX_PI_F;  // １回転分のラジアン
-    static constexpr float ShotRadius               = 20.0f;        // 生成する弾の半径
-    static constexpr int   ShotDamageAmount         = 15;           // 弾のダメージ量
-    static constexpr float ShotSpeed                = 5.0f;         // 弾のスピード
-    static constexpr float ShotCreateAnimationRatio = 0.5f;         // ショットを撃つアニメーションの再生率
-    static constexpr float EffectDefaultScale       = 25.0f;        // エフェクトの初期スケール
-    static constexpr float EffectPlaySpeed          = 1.0f;
+    // 攻撃時のパラメーター
+    static constexpr float EasyAnimationBlendSpeed   = 0.02f;        // 弱い時のアニメーションのブレンドスピード
+    static constexpr float NormalAnimationBlendSpeed = 0.04f;        // 通常状態でのアニメーションのブレンドスピード
+    static constexpr float HardAnimationBlendSpeed   = 0.07f;        // 強い時のアニメーションブレンドスピード
+    static constexpr float EasyShotRadius            = 12.0f;        // 弱い時の弾の大きさ
+    static constexpr float NormalShotRadius          = 18.0f;        // 普通の時の弾の大きさ
+    static constexpr float HardShotRadius            = 24.0f;        // 強い時の弾の大きさ
+    static constexpr float EasyShotSpeed             = 3.5f;         // 弱い時の弾の速度
+    static constexpr float NormalShotSpeed           = 5.0f;         // 普通の時の弾の速度
+    static constexpr float HardShotSpeed             = 7.0f;         // 強い時の弾の速度
+    static constexpr int   EasyShotDamageAmount      = 40;           // 弱い時の弾のダメージ
+    static constexpr int   NormalShotDamageAmount    = 60;           // 普通の時の弾のダメージ
+    static constexpr int   HardShotDamageAmount      = 80;           // 強い時の弾のダメージ
+    static constexpr float EasyAnimationSpeed        = 0.4f;         // 弱い時のアニメーションの速さ
+    static constexpr float NormalAnimationSpeed      = 0.6f;         // 普通の時のアニメーションの速さ
+    static constexpr float HardAnimationSpeed        = 0.8f;         // 強い時のアニメーションの速さ
+
+
+    static constexpr float InitializeAnimationSpeed = 0.6f;          // アニメーションの初期速度
+    static constexpr int   CreateShotNumber          = 50;           // 範囲攻撃で生成する弾の数
+    static constexpr float FullCircleRadian          = 2 * DX_PI_F;  // １回転分のラジアン
+    static constexpr float ShotCreateAnimationRatio  = 0.5f;         // ショットを撃つアニメーションの再生率
+    static constexpr float EffectDefaultScale        = 25.0f;        // エフェクトの初期スケール
+    static constexpr float EffectPlaySpeed           = 1.0f;         // エフェクトの再生スピード
 
     ///////  メンバ変数  ////////
 
@@ -63,8 +77,13 @@ private:
     CollisionData collisionData;           //当たり判定に必要な情報をまとめたもの
     CollisionManager* collisionManager;    //当たり判定の管理クラスのポインタ
     //ショット関連
-    ShotManager* shotManager;              // ショットの管理クラス
-    AttackState  attackState;              // 現在の攻撃の状態
+    ShotManager* shotManager;                 // ショットの管理クラス
+    AttackState  attackState;                 // 現在の攻撃の状態
+    float        shotSpeed;                   // ショットのスピード
+    bool         isAttackParameterInitialize; // 攻撃に必要なパラメーターを初期化したか
+    float        animationBlendSpeed;         // アニメーションのブレンドスピード
+    float        shotRadius;                  // 生成する弾のサイズ
+    int          shotDamageAmount;            // 弾のダメージ
 
     ///////  メンバ関数  //////
 
@@ -88,4 +107,8 @@ private:
     /// <param name="position">自身の座標</param>
     void CreateShotByAnimationTime(const VECTOR position);
 
+    /// <summary>
+    /// 体力に合わせて攻撃する強さのパラメーターを変更
+    /// </summary>
+    void InitializeAttackParameter();
 };

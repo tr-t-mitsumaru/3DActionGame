@@ -65,14 +65,14 @@ private:
     static constexpr float  NormalAttackOffsetPositionScale          = 18.0f;  // 通常攻撃のプレイヤーとどれだけ離すかの大きさ
     static constexpr int    NormalAttackCollisionCapsuleAngle        = -30;    // 通常攻撃の当たり判定用カプセルの回転角度
     static constexpr float  NormalAttackCollisionStartAnimationRatio = 0.3;    // 当たり判定を始めるアニメーションの再生率
-    static constexpr int    NormalAttackDamageAmount                 = 2;      // 通常攻撃の与えるダメージ量
+    static constexpr int    NormalAttackDamageAmount                 = 70;     // 通常攻撃の与えるダメージ量
     static constexpr float  StrongAttackCollisionCapsuleLineLength   = 15.0f;  // 強攻撃の当たり判定のカプセルの半分の長さ
     static constexpr float  StrongAttackCollisionRadius              = 15.0f;  // 強攻撃の当たり判定のカプセルの半径
     static const     VECTOR StrongAttackOffsetPositionY;                       // 強攻撃のプレイヤーと攻撃の当たり判定座標がどれだけずれているか
     static constexpr float  StrongAttackOffsetPositionScale          = 18.0f;  // 強攻撃のプレイヤーとどれだけ離すかの大きさ
     static constexpr int    StrongAttackCollisionCapsuleAngle        = 0;      // 強攻撃の当たり判定用カプセルの回転角度
     static constexpr float  StrongAttackCollisionStartAnimationRatio = 0.3;    // 強攻撃の当たり判定を始めるアニメーションの再生率
-    static constexpr int    StrongAttackDamageAmount                 = 1;      // 強攻撃の与えるダメージ量
+    static constexpr int    StrongAttackDamageAmount                 = 110;    // 強攻撃の与えるダメージ量
     static constexpr float  FirstComboMoveSpeed                      = 0.15f;  // １撃目の移動速度
     static constexpr float  SecondComboMoveSpeed                     = 0.4f;   // ２撃目の移動速度
     static constexpr float  ThirdComboMoveSpeed                      = 0.5f;   // ３撃目の移動速度
@@ -83,8 +83,10 @@ private:
     static constexpr float  FirstAttackCollisionEndTime              = 0.3f;   // １撃目の当たり判定を終了する時間
     static constexpr float  SecondAttackCollisionStartTime           = 0.49f;  // 2撃目の当たり判定を開始する時間
     static constexpr float  SecondAttackCollisionEndTime             = 0.55f;  // 2撃目の当たり判定を終了する時間
+    static constexpr int    SecondAttackDamageAmount                 = 90;     // 2番目の攻撃のダメージ量
     static constexpr float  ThirdAttackCollisionStartTime            = 0.75f;  // 3撃目の当たり判定を開始する時間
     static constexpr float  ThirdAttackCollisionEndTime              = 0.84f;  // 3撃目の当たり判定を終了する時間
+    static constexpr int    ThirdAttackDamageAmount                  = 110;    // 3番目の攻撃の与えるダメージ
 
 
 

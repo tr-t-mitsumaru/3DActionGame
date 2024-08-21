@@ -67,7 +67,7 @@ void BossShotAttack::ChangeState()
     if (shotState == RightSHot && currentPlayAnimationState == FirstRoopEnd)
     {
         //ボスの突進攻撃ステートに移行
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::ShotAttack);
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::ShotAttack,isChangingMove);
     }
     else
     {

@@ -145,6 +145,7 @@
     <ClCompile Include="BossDefaultAttack.cpp" />
     <ClCompile Include="BossIdle.cpp" />
     <ClCompile Include="BossMove.cpp" />
+    <ClCompile Include="BossMoveChange.cpp" />
     <ClCompile Include="BossRunAttack.cpp" />
     <ClCompile Include="BossShotAttack.cpp" />
     <ClCompile Include="BossStart.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="StateBase.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Utility.h" />
+    <ClInclude Include="BossMoveChange.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

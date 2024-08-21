@@ -12,6 +12,7 @@ const VECTOR BossRunAttack::OffsetCollisionPosition = VGet(0.0f, 20.0f, 0.0f);
 BossRunAttack::BossRunAttack(int& InitializeModelHandle, const int beforeAnimationIndex)
     :StateBase(InitializeModelHandle, Boss::Run, beforeAnimationIndex)
     ,currentRunState(RunStart)
+    ,isAttackParameterInitialize(false)
 {
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
@@ -42,6 +43,9 @@ BossRunAttack::~BossRunAttack()
 void BossRunAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)
 {
 
+    // 体力によって変わる攻撃時のパラメーターを変更
+    InitializeAttackPrameters();
+
     if (currentPlayAnimationState == BlendEnd)
     {
         // 移動する時に必要な情報を初期化
@@ -66,7 +70,7 @@ void BossRunAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR
     }
 
     //アニメーションの再生時間のセット
-    UpdateAnimation(AnimationBlendSpeed);
+    UpdateAnimation(animationBlendSpeed);
 
     //当たり判定に必要な情報の更新
     UpdateCollisionData(modelDirection, position);
@@ -98,7 +102,7 @@ void BossRunAttack::ChangeState()
 
     if (currentRunState == RunEnd)
     {
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::RunAttack);
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::RunAttack,isChangingMove);
     }
     else
     {
@@ -134,7 +138,7 @@ void BossRunAttack::UpdateCollisionData(const VECTOR& modelDirection, const VECT
     collisionData.onHit = std::bind(&BossRunAttack::OnHit, this, std::placeholders::_1);
 
     //当たった際のダメージ量
-    collisionData.damageAmount = DamageAmount;
+    collisionData.damageAmount = damageAmount;
 }
 
 
@@ -168,10 +172,52 @@ void BossRunAttack::InitializeRunPrameters(const VECTOR targetPosition, const VE
         targetLength = VSize(VSub(targetPosition, position));
 
         // 移動量の設定
-        velocity = VScale(direction, MoveSpeed);
+        velocity = VScale(direction, moveSpeed);
 
         // 走っている状態を切り替える
         currentRunState = Run;
+    }
+}
+
+/// <summary>
+/// 体力に合わせて攻撃する強さのパラメーターを変更
+/// </summary>
+void BossRunAttack::InitializeAttackPrameters()
+{
+    if (!isAttackParameterInitialize)
+    {
+        switch (currentHpState)
+        {
+            // 体力が多い状態での初期化
+        case Boss::High:
+
+            animationBlendSpeed = EasyAnimationBlendSpeed;
+            damageAmount = EasyDamageAmount;
+            moveSpeed = EasyMoveSpeed;
+            break;
+            // 体力が通常状態での初期化
+        case Boss::Middle:
+
+            animationBlendSpeed = NormalAnimationBlendSpeed;
+            damageAmount = NormalDamageAmount;
+            moveSpeed = NormalMoveSpeed;
+
+            break;
+            // 体力が少ない状態での初期化
+        case Boss::Low:
+
+            animationBlendSpeed = HardAnimationBlendSpeed;
+            damageAmount = HardDamageAmount;
+            moveSpeed = HardMoveSpeed;
+
+            break;
+        default:
+
+
+            break;
+        }
+
+        isAttackParameterInitialize = true;
     }
 }
 

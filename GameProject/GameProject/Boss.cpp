@@ -28,6 +28,7 @@ Boss::Boss()
     ,isStartUpdateStartScene(false)
     ,isEndAnimationFirstRoop(false)
     ,isPlaiedIntimidationEffect(false)
+    ,currentHpState(High)
 {
     //モデルマネージャーにアクセスるポインタの代入
     ModelDataManager* modelDataManager = ModelDataManager::GetInstance();
@@ -48,7 +49,7 @@ Boss::Boss()
     animationNowTime = 0.0f;
 
     //最初のステートを待機状態にする
-    nowState = new BossIdle(modelHandle, -1,BossIdle::None);
+    nowState = new BossIdle(modelHandle, -1,BossIdle::None,false);
 
     //コリジョンマネージャーのインスタンスのアドレスを取得
     collisionManager = collisionManager->GetInstance();
@@ -109,6 +110,7 @@ void Boss::Update(const VECTOR targetPosition,const VECTOR cameraPosition)
     {
         ChangeState();
     }
+
 }
 
 // 登場シーンでの更新処理
@@ -286,6 +288,10 @@ void Boss::ChangeState()
 {
     delete nowState;
     nowState = nextState;
+
+    // 現在のHPの状態を代入する
+    nowState->SetCurrentHpState(currentHpState);
+
     nextState = NULL;
 }
 
@@ -484,18 +490,20 @@ void Boss::InitializeIntimidationEffectData()
 /// </summary>
 void Boss::UpdateHpState()
 {
-    // HPの残り割合によってステートを切り替える
-    if (hp <= MaxHp * ThresholdLowHp)
+    // 体力大から中に切り替えるとき
+    if (hp <= MaxHp * ThresholdMidleHp && currentHpState == High)
     {
-        currentHpState = Low;
-    }
-    else if (hp <= MaxHp * ThresholdMidleHp)
-    {
+        // 切り替える時のフラグをたてる
+        // 切り替える際のステートにするため
+        nowState->SwitchIsChangingMove();
         currentHpState = Middle;
+            
     }
-    else
+    // 体力中から小に切り替える時
+    else if (hp <= MaxHp * ThresholdLowHp && currentHpState == Middle)
     {
-        currentHpState = High;
+        nowState->SwitchIsChangingMove();
+        currentHpState = Low;
     }
 }
 

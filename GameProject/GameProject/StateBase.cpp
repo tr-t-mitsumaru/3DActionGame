@@ -16,6 +16,8 @@ StateBase::StateBase(int& modelHandle,const int animationState,const int beforeA
     ,beforeAnimationIndex(-1)
     ,currentPlayAnimationState(BlendStart)
     ,lifeState(Player::NoDamage)
+    ,currentHpState(Boss::High)
+    ,isChangingMove(false)
 {
     //もってきたモデルハンドルを代入
     this->modelhandle = modelHandle;
@@ -136,3 +138,10 @@ VECTOR StateBase::CalculateTargetDirection(const VECTOR targetPosition, const VE
     return  direction = VNorm(direction);
 }
 
+/// <summary>
+/// 行動を変えるフラグの切り替えをおこなう
+/// </summary>
+void StateBase::SwitchIsChangingMove()
+{
+    isChangingMove = true;
+}

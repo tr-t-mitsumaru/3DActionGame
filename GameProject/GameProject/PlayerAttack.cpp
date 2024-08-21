@@ -298,6 +298,7 @@ void PlayerAttack::IsComboAttackActive()
             inputManager->GetKeyPushState(InputManager::RB) == InputManager::Push)
         {
             currentComboState = Second;
+            damageAmount = SecondAttackDamageAmount;
 
         }
         else if (currentAnimationRatio > SecondAttackInputStartTime + InputTimeLimit)
@@ -315,6 +316,7 @@ void PlayerAttack::IsComboAttackActive()
             inputManager->GetKeyPushState(InputManager::RB) == InputManager::Push)
         {
             currentComboState = Third;
+            damageAmount = ThirdAttackDamageAmount;
         }
         else if (currentAnimationRatio > ThirdAttackInputStartTime + InputTimeLimit)
         {

@@ -17,6 +17,8 @@ public:
     //デストラクタ
     virtual ~StateBase();
 
+    
+
     /////          ゲッター           ////
 
     /// 移動処理などが終わった後のベロシティを渡す
@@ -33,6 +35,9 @@ public:
 
     // 体力の状態を返す
     const Player::LifeState GetLifeState() const { return lifeState; }
+
+    // 行動を変更しているかのフラグ
+    const bool GetIsChangingMove()const { return isChangingMove; }
 
     // 現在のHPの状態をセットする
     void SetCurrentHpState(const Boss::HPState initializeHpState) { currentHpState = initializeHpState; }
@@ -73,6 +78,11 @@ public:
     /// </summary>
     void SetNoLifeState();
 
+    /// <summary>
+    /// 行動を変えるフラグの切り替えをおこなう
+    /// </summary>
+    void SwitchIsChangingMove();
+
 protected:
 
     ///////  enum  //////
@@ -102,6 +112,7 @@ protected:
     int                 beforeAnimationIndex;      // 前回のアニメーションのインデックス
     float               animationBlendRate;        // 前回のアニメーションと現在のアニメーションでのブレンド率
     Boss::HPState       currentHpState;            // 現在のHPの状態
+    bool                isChangingMove;            // 行動を変更している途中か
 
 
 

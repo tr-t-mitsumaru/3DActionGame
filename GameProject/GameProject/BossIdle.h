@@ -16,13 +16,14 @@ public:
         AreaAttack    = 2,  // 範囲攻撃
         ShotAttack    = 3,  // 弾を撃つ攻撃
         RunAttack     = 4,  // 突進攻撃
-        None          = 5,  // ステートが存在しない場合
+        MoveChange    = 5,  // 行動を変更させるステート  
+        None          = 6,  // ステートが存在しない場合
     };
 
     ///////  メンバ関数  ///////
 
     //コンストラクタ
-    BossIdle(int& modelHandle, const int beforeAnimationIndex, const NextStateList initializeBeforeStateName);
+    BossIdle(int& modelHandle, const int beforeAnimationIndex, const NextStateList initializeBeforeStateName, const bool beforeIsChangintMove);
     //デストラクタ
     ~BossIdle();
 

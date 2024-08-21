@@ -33,9 +33,13 @@ private:
     static constexpr float  CollisionCapsuleAngle                  = 50;       // 当たり判定のカプセルの角度
     static constexpr float  InitializeCollisionStartAnimationRatio = 0.45f;    // 当たり判定を始めるアニメーションの再生率
     static constexpr float  CollisionEndAnimationRatio             = 0.5f;     // 当たり判定を終わらせるアニメーションの再生率
-    static constexpr int    DamageAmount                           = 20;       // 与えるダメージ量
+    static constexpr int    DamageAmount                           = 90;       // 与えるダメージ量
     static constexpr float  EffectPlaySpeed                        = 1.0f;     // エフェクトの再生速度
-    static constexpr float  EffectDefaultScale                     = 20.0f;    // エフェクトの基本サイズ 
+    static constexpr float  EffectDefaultScale                     = 20.0f;    // エフェクトの基本サイズ
+    static constexpr float  EasyAnimationSpeed                     = 0.2f;     // 弱い時のアニメーションのスピード
+    static constexpr float  NormalAnimationSpeed                   = 0.5f;     // 通常時のアニメーションのスピード
+    static constexpr float  HardAnimationSpeed                     = 1.0f;     // 強い時のアニメーションスピード
+    static constexpr float  AnimationSpeedChangeRate               = 0.26f;     // アニメーションのスピードを変更する再生率
 
     ///////  メンバ変数  ////////
 
@@ -48,6 +52,9 @@ private:
     CollisionManager* collisionManager;              // 当たり判定の管理クラスのポインタ
     EffectManager*    effectManager;                 // エフェクト管理クラスのポインタ
     EffectData        effectData;                    // エフェクトの再生に必要な情報をまとめたデータ
+    bool              isAttackParameterInitialize;   // 攻撃に使うパラメータを初期化したか
+    float             animationBlendSpeed;           // 前のアニメーションとブレンドする時間
+    bool              isChangedAnimationSpeed;       // アニメーションのスピードを切り替えたかのフラグ
 
 
     ///////  メンバ関数  //////
@@ -72,6 +79,16 @@ private:
     /// </summary>
     /// <param name="modelDirection">モデルの向き</param>
     void UpdateEffectData(const VECTOR modelDirection, const VECTOR characterPosition);
+
+    /// <summary>
+    /// 攻撃に必要なパラメータの初期化
+    /// </summary>
+    void InitializeAttackParameter();
+
+    /// <summary>
+    /// アニメーションスピードの切り替え
+    /// </summary>
+    void ChangeAnimationSpeed();
 
 #ifdef _DEBUG
     /// <summary>
