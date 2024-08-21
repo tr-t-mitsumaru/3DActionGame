@@ -87,6 +87,9 @@ void Boss::Update(const VECTOR targetPosition,const VECTOR cameraPosition)
     //ステート毎のアップデートを行う
     nowState->Update(modelDirection, position,targetPosition,cameraPosition);
 
+    // 体力の状態を更新
+    UpdateHpState();
+
     // 移動処理
     position = VAdd(position, nowState->GetVelocity());
 
@@ -474,5 +477,25 @@ void Boss::InitializeIntimidationEffectData()
 
     // エフェクトのサイズ
     intimidationEffectData.scalingRate = VGet(IntimidationEffectScale, IntimidationEffectScale, IntimidationEffectScale);
+}
+
+/// <summary>
+/// 体力の状態を更新
+/// </summary>
+void Boss::UpdateHpState()
+{
+    // HPの残り割合によってステートを切り替える
+    if (hp <= MaxHp * ThresholdLowHp)
+    {
+        currentHpState = Low;
+    }
+    else if (hp <= MaxHp * ThresholdMidleHp)
+    {
+        currentHpState = Middle;
+    }
+    else
+    {
+        currentHpState = High;
+    }
 }
 

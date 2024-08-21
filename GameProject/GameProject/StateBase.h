@@ -34,6 +34,9 @@ public:
     // 体力の状態を返す
     const Player::LifeState GetLifeState() const { return lifeState; }
 
+    // 現在のHPの状態をセットする
+    void SetCurrentHpState(const Boss::HPState initializeHpState) { currentHpState = initializeHpState; }
+
     ///////  メンバ関数  //////
 
     /// <summary>
@@ -98,6 +101,7 @@ protected:
     int                 animationIndex;            // 現在のアニメーションのインデックス
     int                 beforeAnimationIndex;      // 前回のアニメーションのインデックス
     float               animationBlendRate;        // 前回のアニメーションと現在のアニメーションでのブレンド率
+    Boss::HPState       currentHpState;            // 現在のHPの状態
 
 
 

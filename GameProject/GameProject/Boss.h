@@ -54,6 +54,16 @@ public:
         EndMove           = 4,  // 行動終了
     };
 
+    /// <summary>
+    /// 残りHPの状態
+    /// </summary>
+    enum HPState
+    {
+        High   = 0,     // 多い
+        Middle = 1,     // 普通
+        Low    = 2,     // 少ない
+    };
+
     ///////  ゲッター  ///////
 
     // 座標を渡す
@@ -138,6 +148,9 @@ private:
     static constexpr float SecondAnimationSpeed       = 0.5f;       // ２個目のアニメーションの速度
     static constexpr float AnimationBlendSpeed        = 0.01f;      // アニメーションのブレンドスピード
     static constexpr float IntimidationEffectScale    = 40.0f;      // 威嚇時のエフェクトの大きさ
+    static constexpr float ThresholdLowHp             = 0.3f;       // HPが少ない状態のしきい値
+    static constexpr float ThresholdMidleHp           = 0.7f;       // HPが普通の状態のしきい値
+
 
     ////         メンバ変数           ////
 
@@ -148,7 +161,8 @@ private:
     VECTOR            position;         //座標
     CollisionData     collisionData;    //当たり判定に必要な情報
     CollisionManager* collisionManager; //当たり判定管理クラスにアクセスするポインタ
-    int               hp;
+    int               hp;               // 体力
+    HPState           currentHpState;   // 現在の体力の状態
 
     //ステート
     StateBase* nowState;                //現在のステートを保存するポインタ
@@ -231,5 +245,10 @@ private:
     /// プレイヤーの回転制御
     /// </summary>
     void UpdateAngle();
+
+    /// <summary>
+    /// HPの状態の更新
+    /// </summary>
+    void UpdateHpState();
 
 };

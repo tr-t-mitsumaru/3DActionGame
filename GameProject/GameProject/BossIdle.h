@@ -53,7 +53,7 @@ private:
     ///////  メンバ変数  ///////
 
     NextStateList nextStateName;        // 次のステート
-    NextStateList previousStateName;      // 前のステート
+    NextStateList previousStateName;    // 前のステート
 
     //ToDo
     //AIを作成したら入力は必要ないので削除

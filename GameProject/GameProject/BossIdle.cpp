@@ -23,7 +23,7 @@ BossIdle::BossIdle(int& InitializeModelHandle,const int beforeAnimationIndex,con
     // 前回のステートを保存
     previousStateName = initializePreviousStateName;
 
-
+    
 }
 
 /// <summary>
