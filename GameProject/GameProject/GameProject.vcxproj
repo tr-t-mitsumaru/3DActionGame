@@ -153,6 +153,7 @@
     <ClCompile Include="CollisionUtility.cpp" />
     <ClCompile Include="EffectManager.cpp" />
     <ClCompile Include="FadeInOut.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="FrameRateController.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClearScene.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="EffectData.h" />
     <ClInclude Include="EffectManager.h" />
     <ClInclude Include="FadeInOut.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="FrameRateController.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameClearScene.h" />

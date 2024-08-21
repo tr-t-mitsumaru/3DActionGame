@@ -2,6 +2,7 @@
 #include "GameSceneUI.h"
 #include"Player.h"
 #include"Boss.h"
+#include"Font.h"
 
 
 /// <summary>
@@ -15,6 +16,9 @@ GameSceneUI::GameSceneUI()
 {
     // インスタンスをもってくる
     imageDataManager = ImageDataManager::GetInstance();
+
+    // メモリの確保
+    font = new Font();
 
     // 画像のハンドルをもってくる
     hpGageHadle = imageDataManager->GetImageHandle(ImageDataManager::HpGage);
@@ -39,7 +43,8 @@ GameSceneUI::GameSceneUI()
 /// </summary>
 GameSceneUI::~GameSceneUI()
 {
-    // 処理なし
+    // メモリの開放
+    delete font;
 }
 
 /// <summary>
@@ -115,24 +120,8 @@ void GameSceneUI::Draw()
     // 画面の枠画像の描画
     DrawGraph(0, 0, frameHandle, TRUE);
 
-    DrawGraph(700, 90, hpBackGageHandle, TRUE);
-
-    DrawExtendGraph(700, 90, 700 + currentPlayerSubHpGageWidth, 90 + playerHpGageMaxHeight, subHpGageHandle, TRUE);
-
-    DrawExtendGraph(700, 90,700 + currentPlayerHpGageWidth,90 + playerHpGageMaxHeight, hpGageHadle, TRUE);
-
-    // HPバーのフレームを描画
-    DrawGraph(700, 90, hpFrameHandle, TRUE);
 
 
-    DrawGraph(600, 800, bossHpBackHandle, TRUE);
-
-    DrawExtendGraph(700, 800, 700 + currentBossSubHpGageWidth, 90 + bossHpGageMaxHeight, bossSubHpGageHandle, TRUE);
-
-    DrawExtendGraph(700, 800, 700 + currentBossHpGageWidth, 90 + bossHpGageMaxHeight, bossHpGageHandle, TRUE);
-
-    // HPバーのフレームを描画
-    DrawGraph(700, 800, bossHpFrameHandle, TRUE);
 
     // ブレンドモードをノーマルに戻す
     SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
@@ -154,4 +143,43 @@ void GameSceneUI::StartFeadIn()
 void GameSceneUI::StartFeadOut()
 {
     currentBlendState = FadingOut;
+}
+
+/// <summary>
+/// ボスに関するUIの描画
+/// </summary>
+void GameSceneUI::DrawPlayerUI()
+{
+    // プレイヤーのHPゲージの下地
+    DrawGraph(PlayerHpGageXPosition, PlayerHpGageYPosition, hpBackGageHandle, TRUE);
+
+    // 徐々に減っていくHPゲージ
+    DrawExtendGraph(PlayerHpGageXPosition, PlayerHpGageYPosition, PlayerHpGageXPosition + currentPlayerSubHpGageWidth, PlayerHpGageYPosition + playerHpGageMaxHeight, subHpGageHandle, TRUE);
+
+    // 即座に減るHPゲージ
+    DrawExtendGraph(PlayerHpGageXPosition, PlayerHpGageYPosition, PlayerHpGageXPosition + currentPlayerHpGageWidth, PlayerHpGageYPosition + playerHpGageMaxHeight, hpGageHadle, TRUE);
+
+    // HPバーのフレームを描画
+    DrawGraph(PlayerHpGageXPosition, PlayerHpGageYPosition, hpFrameHandle, TRUE);
+}
+
+/// <summary>
+/// プレイヤーに関するUIの描画
+/// </summary>
+void GameSceneUI::DrawBossUI()
+{
+    // HPゲージの下地
+    DrawGraph(BossHpGageXPosition, BossHpGageYPosition, bossHpBackHandle, TRUE);
+
+    // 徐々に減っていくHPゲージ
+    DrawExtendGraph(BossHpGageXPosition, BossHpGageYPosition, BossHpGageXPosition + currentBossSubHpGageWidth, BossHpGageYPosition + bossHpGageMaxHeight, bossSubHpGageHandle, TRUE);
+
+    // 即座に減るHPゲージ
+    DrawExtendGraph(BossHpGageXPosition, BossHpGageYPosition, BossHpGageXPosition + currentBossHpGageWidth, BossHpGageYPosition + bossHpGageMaxHeight, bossHpGageHandle, TRUE);
+
+    // HPバーのフレームを描画
+    DrawGraph(BossHpGageXPosition, BossHpGageYPosition, bossHpFrameHandle, TRUE);
+
+    // ボスの名前
+    DrawStringToHandle(BossNameStringXPosition, BossNameStringYPosition, "FIRE GOLEM", GetColor(210, 210, 210), font->GetBossNameHandle());
 }

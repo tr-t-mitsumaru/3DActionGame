@@ -2,6 +2,7 @@
 #pragma once
 
 class ImageDataManager;
+class Font;
 
 /// <summary>
 /// ゲーム中のUI
@@ -64,18 +65,27 @@ private:
 
     ////////         定数          ////////
 
-    static constexpr VECTOR StartHpGagePosition  = { 600.0f,-100.0f,0.0f };      // HPゲージの最初の座標
-    static constexpr VECTOR StartHpFramePosition = { 550.0f,-100.0f,0.0f };      // HPゲージフレームの最初の座標
-    static constexpr float  FeadInMax            =  255;                         // フェードインの最大値
-    static constexpr int    FeadInSpeed          =  4;                           // フェードインのスピード
-    static constexpr int    FeadOutSpeed         =  4;                           // フェードアウトのスピード
-    static constexpr float  LerpSpeed            = 0.01f;                        // Hpバーを減らす線形補間の速さ
+    static constexpr VECTOR StartHpGagePosition     = { 600.0f,-100.0f,0.0f };      // HPゲージの最初の座標
+    static constexpr VECTOR StartHpFramePosition    = { 550.0f,-100.0f,0.0f };      // HPゲージフレームの最初の座標
+    static constexpr float  FeadInMax               =  255;                         // フェードインの最大値
+    static constexpr int    FeadInSpeed             =  4;                           // フェードインのスピード
+    static constexpr int    FeadOutSpeed            =  4;                           // フェードアウトのスピード
+    static constexpr float  LerpSpeed               = 0.01f;                        // Hpバーを減らす線形補間の速さ
+    static constexpr int    PlayerHpGageXPosition   = 700;                          // プレイヤーのHPバーのX座標
+    static constexpr int    PlayerHpGageYPosition   = 90;                           // プレイヤーのHPバーのY座標
+    static constexpr int    BossHpGageXPosition     = 600;                          // ボスのHPバーのX座標
+    static constexpr int    BossHpGageYPosition     = 950;                          // ボスのHPバーのY座標
+    static constexpr int    BossNameStringXPosition = 800;                          // ボスの名前を表示するX座標
+    static constexpr int    BossNameStringYPosition = 900;                          // ボスの名前を表示するY座標
+
+
 
 
 
     ////////         変数          ////////
 
     ImageDataManager* imageDataManager;           // 画像管理クラスにアクセスするポインタ
+    Font*             font;                       // フォントをまとめたクラス
 
     // ハンドル
     int               frameHandle;                // 画面のフレーム
@@ -108,6 +118,15 @@ private:
     /// </summary>
     void UpdateBlendRate();
 
+    /// <summary>
+    /// ボスに関するUIの描画
+    /// </summary>
+    void DrawBossUI();
+
+    /// <summary>
+    /// プレイヤーに関するUIの描画
+    /// </summary>
+    void DrawPlayerUI();
 
 
 };
