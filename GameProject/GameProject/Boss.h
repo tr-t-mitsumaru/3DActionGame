@@ -80,7 +80,7 @@ public:
     /// <summary>
     /// 更新処理
     /// </summary>
-    void Update(const VECTOR targetPosition,const VECTOR cameraPosition);
+    void Update(const VECTOR bossTargetPosition,const VECTOR cameraPosition);
 
     /// <summary>
     /// 登場シーンでのアップデート

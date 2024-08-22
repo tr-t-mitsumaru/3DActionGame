@@ -52,9 +52,8 @@ public:
     enum LifeState
     {
         NoDamage = 0,   // ダメージを受けていない
-        Damaged = 1,    // ダメージを受けた
-        NoLife = 2,     // 体力が0
-
+        Damaged  = 1,   // ダメージを受けた
+        NoLife   = 2,   // 体力が0
     };
 
     //getter,setter
@@ -68,7 +67,7 @@ public:
     /// <summary>
     /// 更新処理
     /// </summary>
-    void Update(const VECTOR targetPosition,const VECTOR cameraPosition);
+    void Update(const VECTOR playerTargetPosition, const VECTOR cameraPosition);
 
     /// <summary>
     /// 登場シーンでの更新処理
