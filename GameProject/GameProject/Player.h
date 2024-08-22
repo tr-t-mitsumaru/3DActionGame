@@ -45,7 +45,7 @@ public:
     /// <summary>
     /// 更新処理
     /// </summary>
-    void Update(const VECTOR targetPosition);
+    void Update(const VECTOR playerTargetPosition);
 
     /// <summary>
     /// 描画

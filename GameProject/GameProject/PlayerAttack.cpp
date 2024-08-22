@@ -42,7 +42,7 @@ PlayerAttack::~PlayerAttack()
 /// </summary>
 /// <param name="modelDirection">モデルの向き</param>
 /// <param name="characterPosition">キャラクターの座標</param>
-void PlayerAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition)
+void PlayerAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition)
 {
  
     //ステートの切り替え処理を呼ぶ

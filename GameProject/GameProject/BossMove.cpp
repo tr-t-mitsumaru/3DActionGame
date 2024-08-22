@@ -29,7 +29,7 @@ BossMove::~BossMove()
 /// 更新処理
 /// </summary>
 /// <param name="position">プレイヤーモデルの向き</param>
-void BossMove::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition)
+void BossMove::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition)
 {
     //ステートの切り替え処理を呼ぶ
     ChangeState();

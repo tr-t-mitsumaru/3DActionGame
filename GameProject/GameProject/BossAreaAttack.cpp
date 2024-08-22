@@ -40,7 +40,7 @@ BossAreaAttack::~BossAreaAttack()
 /// 更新処理
 /// </summary>
 /// <param name="position">プレイヤーモデルの向き</param>
-void BossAreaAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition)
+void BossAreaAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition)
 {
     //ステートの切り替え処理を呼ぶ
     ChangeState();

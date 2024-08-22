@@ -19,7 +19,7 @@ public:
     /// 更新処理
     /// </summary>
     /// <param name="position">プレイヤーモデルの向き</param>
-    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition)override;
+    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition)override;
 
 private:
     /////////  定数  //////
