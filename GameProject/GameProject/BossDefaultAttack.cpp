@@ -37,7 +37,8 @@ BossDefaultAttack::BossDefaultAttack(int& InitializeModelHandle, const int befor
 /// </summary>
 BossDefaultAttack::~BossDefaultAttack()
 {
-    //処理なし
+    // エフェクトの停止
+    effectManager->StopEffect(effectData);
 }
 
 
@@ -45,7 +46,7 @@ BossDefaultAttack::~BossDefaultAttack()
 /// 更新処理
 /// </summary>
 /// <param name="position">プレイヤーモデルの向き</param>
-void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& position, const VECTOR targetPosition, VECTOR cameraPosition)
+void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition,const VECTOR bossTargetPosition, VECTOR cameraPosition)
 {
     //ステートの切り替え処理を呼ぶ
     ChangeState();
@@ -54,7 +55,7 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& position, const V
     UpdateAnimation();
 
     // 向く方向を計算
-    VECTOR direction = CalculateTargetDirection(targetPosition, position);
+    VECTOR direction = CalculateTargetDirection(bossTargetPosition, position);
 
     // 向きの変更
     modelDirection = direction;
@@ -161,7 +162,7 @@ void BossDefaultAttack::UpdateCollisionData(const VECTOR& modelDirection, const 
 void BossDefaultAttack::UpdateEffectData(const VECTOR modelDirection,const VECTOR characterPosition)
 {
     // エフェクトの座標を代入
-    effectData.position = VAdd(characterPosition, VGet(0.0f, 50.0f, 0.0f));
+    effectData.position = VAdd(characterPosition, VGet(0.0f, EffectOffsetPositionY, 0.0f));
 
     // モデルの向きからY軸の回転率を出す
     float angle = atan2(modelDirection.x, modelDirection.z);
