@@ -113,7 +113,7 @@ void BossShotAttack::CreateShotByAnimationTime(const VECTOR position, const VECT
         shotState == WaitLeftShot || shotState == WaitRightShot)
     {
         // 必要な情報を代入して弾を作成
-        shotManager->CreateShot(AssignInitializeShotData(position,targetPosition));
+        shotManager->SpawnShot(AssignInitializeShotData(position,targetPosition));
 
         // 弾を撃った状態を変更する
         if (shotState == WaitLeftShot)
