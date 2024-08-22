@@ -23,7 +23,7 @@ public:
     /// <param name="position">自身のモデルの向き</param>
     /// <param name="position">自身のキャラクターの座標</param>
     /// <param name="playerTargetPosition">敵対しているキャラの座標</param>
-    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition)override;
+    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)override;
 
     /// <summary>
     /// ステートの切り替え処理をまとめたもの

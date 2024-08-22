@@ -61,10 +61,10 @@ Boss::~Boss()
 /// <summary>
 /// 更新処理
 /// </summary>
-void Boss::Update(const VECTOR targetPosition)
+void Boss::Update(const VECTOR bossTargetPosition,const VECTOR cameraPosition)
 {
     //ステート毎のアップデートを行う
-    nowState->Update(modelDirection, position,targetPosition);
+    nowState->Update(modelDirection, position,bossTargetPosition,cameraPosition);
 
     //当たり判定に必要なデータの更新
     UpdateCollisionData();

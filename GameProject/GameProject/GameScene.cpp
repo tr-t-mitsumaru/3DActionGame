@@ -43,8 +43,8 @@ GameScene::~GameScene()
 void GameScene::Update()
 {
     //各クラスのアップデートを呼ぶ
-    boss->Update(player->GetPosition());
-    player->Update(boss->GetPosition());
+    boss->Update(player->GetPosition(),camera->GetPosition());
+    player->Update(boss->GetPosition(),camera->GetPosition());
     shotManager->Update();
     camera->Update(player->GetPosition());
     //当たり判定全体の更新処理を行う

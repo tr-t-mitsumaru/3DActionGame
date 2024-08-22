@@ -43,7 +43,7 @@ public:
     /// <summary>
     /// 更新処理
     /// </summary>
-    virtual void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition)abstract;
+    virtual void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)abstract;
 
 protected:
 

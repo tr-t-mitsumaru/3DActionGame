@@ -45,7 +45,7 @@ public:
     /// <summary>
     /// 更新処理
     /// </summary>
-    void Update(const VECTOR playerTargetPosition);
+    void Update(const VECTOR playerTargetPosition, const VECTOR cameraPosition);
 
     /// <summary>
     /// 描画

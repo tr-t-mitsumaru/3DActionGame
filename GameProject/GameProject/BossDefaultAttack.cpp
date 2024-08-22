@@ -39,7 +39,7 @@ BossDefaultAttack::~BossDefaultAttack()
 /// 更新処理
 /// </summary>
 /// <param name="position">プレイヤーモデルの向き</param>
-void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition,const VECTOR bossTargetPosition)
+void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition,const VECTOR bossTargetPosition, VECTOR cameraPosition)
 {
     //ステートの切り替え処理を呼ぶ
     ChangeState();
@@ -53,7 +53,7 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
         collisionData.collisionState = CollisionData::CollisionEnded;
     }
     //当たり判定に必要な情報の更新
-    UpdateCollisionData(modelDirection,characterPosition);
+    UpdateCollisionData(modelDirection,position);
 
     // 当たり判定が有効になった入ればCollisionManagerに送信
     if (collisionData.collisionState == CollisionData::NoCollision)

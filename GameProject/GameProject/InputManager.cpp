@@ -41,7 +41,6 @@ InputManager::InputManager()
     for (int i = 0; i < keyTag.size(); i++)
     {
         keyPushState.insert(make_pair(keyTag.at((KeyKinds)(i)), NotPush));
-
     }
 }
 
@@ -118,6 +117,57 @@ InputManager::KeyPushState InputManager::GetKeyPushState(const KeyKinds keyKinds
     }
 
     return keyPushState.at(keyTag.at(keyKinds));
+}
+
+/// <summary>
+/// アナログキーの入力状態を見る
+/// </summary>
+/// <param name="analogKeyState">アナログキーの種類</param>
+/// <returns>倒されているか</returns>
+bool InputManager::IsInputAnalogKey(const AnalogKeyState analogKeyState)
+{
+    // アナログキーの縦横の入力値を用意
+    int inputX = 0;
+    int inputY = 0;
+
+    // 入力されているか
+    bool isInput = false;
+
+    // それぞれの入力をチェック
+    GetJoypadAnalogInputRight(&inputX, &inputY, DX_INPUT_PAD1);
+
+    // どのアナログキーをチェックしたいのかをみてそれが倒されているかを見る
+    switch (analogKeyState)
+    {
+    case Right:
+        if (inputX > 0)
+        {
+            isInput = true;
+        }
+        break;
+    case Left:
+        if (inputX < 0)
+        {
+            isInput = true;
+        }
+        break;
+    case Up:
+        if (inputY < 0)
+        {
+            isInput = true;
+        }
+        break;
+    case Down:
+        if (inputY > 0)
+        {
+            isInput = true;
+        }
+        break;
+    default:
+        break;
+    }
+
+    return isInput;
 }
 
 

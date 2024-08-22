@@ -189,7 +189,7 @@ void CollisionManager::ResponseColisionIfDetected(CollisionData* const & collide
     {
     case Player:
         //エネミーと衝突した場合
-        if (target->hitObjectTag == Boss || BossDefaultAttack)
+        if (target->hitObjectTag == Boss || target->hitObjectTag == BossDefaultAttack)
         {
             //カプセル同士の当たり判定をおこなう
             if (IsHitCapsuleAndCapsule(*collider, *target))

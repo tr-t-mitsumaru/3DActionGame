@@ -30,7 +30,7 @@ PlayerDefense::~PlayerDefense()
 /// 更新処理
 /// </summary>
 /// <param name="position">プレイヤーモデルの向き</param>
-void PlayerDefense::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition)
+void PlayerDefense::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)
 {
 
     //ステートの切り替え処理を呼ぶ

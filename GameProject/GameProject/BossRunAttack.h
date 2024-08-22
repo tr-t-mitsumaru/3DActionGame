@@ -20,7 +20,7 @@ public:
     /// 更新処理
     /// </summary>
     /// <param name="position">プレイヤーモデルの向き</param>
-    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition)override;
+    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition, VECTOR cameraPosition)override;
 
 private:
 
@@ -28,7 +28,7 @@ private:
 
     static constexpr float InitializeAnimationSpeed     = 0.6f;    // アニメーションの初期速度
     static constexpr float CollisionStratAnimationRatio = 0.1f;    // 当たり判定を作成するアニメーションの再生率
-    static constexpr float OffsetCollisionPositonScale  = -30.0;   // 当たり判定をプレイヤーの向いている方向にどれだけ動かすか
+    static constexpr float OffsetCollisionPositonScale  = 0.0;   // 当たり判定をプレイヤーの向いている方向にどれだけ動かすか
     static const VECTOR    OffsetCollisionPosition;                // 当たり判定をプレイヤーの位置からどれだけずらすか
     static constexpr float CollisionRadius              = 60.0f;   // 当たり判定の半径
     static constexpr int   DamageAmount                 = 1;       // ダメージ量

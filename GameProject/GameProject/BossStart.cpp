@@ -34,7 +34,7 @@ BossStart::~BossStart()
 /// <param name="position">自身のモデルの向き</param>
 /// <param name="position">自身のキャラクターの座標</param>
 /// <param name="bossTargetPosition">敵対しているキャラの座標</param>
-void BossStart::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition)
+void BossStart::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition, VECTOR cameraPosition)
 {
 
 

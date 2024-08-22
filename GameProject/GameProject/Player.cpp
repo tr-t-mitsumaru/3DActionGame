@@ -64,10 +64,10 @@ Player::~Player()
 /// <summary>
 /// 更新処理
 /// </summary>
-void Player::Update(const VECTOR playerTargetPosition)
+void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPosition)
 {
     //ステート毎のアップデートを行う
-    nowState->Update(modelDirection,position,playerTargetPosition);
+    nowState->Update(modelDirection,position,playerTargetPosition,cameraPosition);
 
     // 移動
     position = VAdd(position, nowState->GetVelocity());

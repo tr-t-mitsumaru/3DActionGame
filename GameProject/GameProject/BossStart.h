@@ -22,7 +22,7 @@ public:
     /// <param name="position">自身のモデルの向き</param>
     /// <param name="position">自身のキャラクターの座標</param>
     /// <param name="bossTargetPosition">敵対しているキャラの座標</param>
-    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition)override;
+    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition, VECTOR cameraPosition)override;
 
 private:
 
