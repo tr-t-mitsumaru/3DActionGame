@@ -46,8 +46,8 @@ PlayerShotMagic::~PlayerShotMagic()
 /// </summary>
 /// <param name="position">自身のモデルの向き</param>
 /// <param name="position">自身のキャラクターの座標</param>
-/// <param name="targetPosition">敵対しているキャラの座標</param>
-void PlayerShotMagic::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)
+/// <param name="playerTargetPosition">敵対しているキャラの座標</param>
+void PlayerShotMagic::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)
 {
     //ステートの切り替え処理を呼ぶ
     ChangeState();
@@ -55,7 +55,7 @@ void PlayerShotMagic::Update(VECTOR& modelDirection, VECTOR& position,const VECT
     UpdateAnimation();
 
     // アニメーションの再生時間に合わせてショットを生成する
-    CreateShotByAnimationRatio(position, targetPosition, modelDirection);
+    CreateShotByAnimationRatio(position, playerTargetPosition, modelDirection);
 
     // エフェクトデータの更新
     UpdateEffectData(position, modelDirection);
@@ -113,7 +113,7 @@ void PlayerShotMagic::CreateShotByAnimationRatio(const VECTOR position, const VE
         modelDirection = initializeShotData.direction;
 
         // 必要な情報を代入して弾を作成
-        shotManager->CreateShot(initializeShotData);
+        shotManager->SpawnShot(initializeShotData);
 
         // ショットを売ったフラグをたてる
         isShotFired = true;

@@ -80,7 +80,7 @@ void ShotManager::DeleteInstance()
 /// 弾の生成
 /// </summary>
 /// <param name="initializeShotData">弾の初期化用のデータ</param>
-void ShotManager::CreateShot(InitializeShotData initializeShotData)
+void ShotManager::SpawnShot(InitializeShotData initializeShotData)
 {
     // 未使用の弾をオブジェクトプールから取得
     Shot* shot = shotObjectPool->GetInactiveShot();

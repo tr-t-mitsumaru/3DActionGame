@@ -49,12 +49,12 @@ Shot* ShotObjectPool::GetInactiveShot()
     if (HasInactiveShotInstance())
     {
         // 未使用のプールの先頭から要素を取得
-        Shot* bullet = inactiveShot.front();
+        Shot* shot = inactiveShot.front();
 
         // 移動させるので先頭要素は削除
         inactiveShot.pop_front();
 
-        return bullet;
+        return shot;
     }
     else
     {
