@@ -39,16 +39,16 @@ BossRunAttack::~BossRunAttack()
 /// 更新処理
 /// </summary>
 /// <param name="position">プレイヤーモデルの向き</param>
-void BossRunAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)
+void BossRunAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition, VECTOR cameraPosition)
 {
 
     if (currentPlayAnimationState == BlendEnd)
     {
         // 移動する時に必要な情報を初期化
-        InitializeRunPrameters(targetPosition, position);
-
-
+        InitializeRunPrameters(bossTargetPosition, position);
     }
+
+
     // 現在どれだけ進んだかを計算
     float currentDistance = VSize(VSub(position, startPosition));
 

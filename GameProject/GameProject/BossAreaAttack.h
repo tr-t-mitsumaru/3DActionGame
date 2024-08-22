@@ -23,8 +23,8 @@ public:
     /// </summary>
     /// <param name="position">自身のモデルの向き</param>
     /// <param name="position">自身のキャラクターの座標</param>
-    /// <param name="targetPosition">敵対しているキャラの座標</param>
-    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)override;
+    /// <param name="bossTargetPosition">敵対しているキャラの座標</param>
+    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition, VECTOR cameraPosition)override;
 
     /// <summary>
     /// 攻撃用のショットを作成する
@@ -44,7 +44,8 @@ private:
 
     static constexpr float InitializeAnimationSpeed = 0.6f;         // アニメーションの初期速度
     static constexpr float AnimationBlendSpeed      = 0.03f;        // アニメーションのブレンドスピード
-    static constexpr int   CreateShotNumber         = 50;           // 範囲攻撃で生成する弾の数
+    static constexpr int   SpawnShotCount           = 50;           // 範囲攻撃で生成する弾の数
+
     static constexpr float FullCircleRadian         = 2 * DX_PI_F;  // １回転分のラジアン
     static constexpr float ShotRadius               = 20.0f;        // 生成する弾の半径
     static constexpr int   ShotDamageAmount         = 15;           // 弾のダメージ量
