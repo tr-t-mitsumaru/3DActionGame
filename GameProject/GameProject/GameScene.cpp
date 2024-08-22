@@ -7,6 +7,7 @@
 #include"Player.h"
 #include"Boss.h"
 #include"CollisionManager.h"
+#include"ShotManager.h"
 
 
 
@@ -21,6 +22,7 @@ GameScene::GameScene()
     player = new Player();
     boss   = new Boss();
     collisionManager = CollisionManager::GetInstance();
+    shotManager = ShotManager::GetInstance();
 }
 
 /// <summary>
@@ -43,6 +45,7 @@ void GameScene::Update()
     //各クラスのアップデートを呼ぶ
     boss->Update();
     player->Update();
+    shotManager->Update();
     camera->Update(player->GetPosition());
     //当たり判定全体の更新処理を行う
     collisionManager->Update();
@@ -77,4 +80,5 @@ void GameScene::Draw()
     stage->Draw();
     player->Draw();
     boss->Draw();
+    shotManager->Draw();
 }

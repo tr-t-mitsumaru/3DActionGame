@@ -166,6 +166,9 @@
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerRolling.cpp" />
     <ClCompile Include="PlayerShotMagic.cpp" />
+    <ClCompile Include="Shot.cpp" />
+    <ClCompile Include="ShotManager.cpp" />
+    <ClCompile Include="ShotObjectPool.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="StateBase.cpp" />
@@ -194,6 +197,7 @@
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="ImageDataManager.h" />
+    <ClInclude Include="InitializeShotData.h" />
     <ClInclude Include="ModelDataManager.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Player.h" />
@@ -205,6 +209,9 @@
     <ClInclude Include="PlayerRolling.h" />
     <ClInclude Include="PlayerShotMagic.h" />
     <ClInclude Include="SceneBase.h" />
+    <ClInclude Include="Shot.h" />
+    <ClInclude Include="ShotManager.h" />
+    <ClInclude Include="ShotObjectPool.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StateBase.h" />

@@ -3,6 +3,7 @@
 #include"InputManager.h"
 #include"ModelDataManager.h"
 #include"CollisionManager.h"
+#include"ShotManager.h"
 
 //----------------------------//
 // WinMain関数.
@@ -34,6 +35,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     InputManager::CreateInstance();
     ModelDataManager::CreateInstance();
     CollisionManager::CreateInstance();
+    ShotManager::CreateInstance();
 
 
 
@@ -51,8 +53,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     //シーンマネージャーの解放
     delete game;
+
     //シングルトンクラスの削除
     InputManager::DeleteInstance();
+    ModelDataManager::DeleteInstance();
+    CollisionManager::DeleteInstance();
+    ShotManager::DeleteInstance();
 
 
     DxLib_End();                // ＤＸライブラリ使用の終了処理

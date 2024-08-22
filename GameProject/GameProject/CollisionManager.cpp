@@ -61,27 +61,21 @@ void CollisionManager::DeleteInstance()
 /// <returns>当たっているか</returns>
 bool CollisionManager::IsHitSphereAndCapsule(CollisionData sphere, CollisionData capsule)
 {
-    // カプセルの線分ベクトル
-    VECTOR capsuleLine = VSub(capsule.bottomPosition, capsule.upPosition);
-    // 線分の長さ
-    float lineLength = CalculationDistance(capsule.upPosition, capsule.bottomPosition);
+    bool isHited = false;
 
-    // 球体の中心からカプセルの始点へのベクトル
-    VECTOR toSphere = VSub(sphere.centerPosition, capsule.upPosition);
-    // 線分上の最近接点のパラメータ
-    float lineNearestPoint = VDot(toSphere, capsuleLine) / VDot(capsuleLine, capsuleLine);
+    //線分と球体との最短距離を出す
+    float distance = Segment_Point_MinLength(capsule.upPosition, capsule.bottomPosition, sphere.centerPosition);
 
-    // 線分上の最近接点が線分の範囲内に収まるように制限
-    if (lineNearestPoint < 0.0f) lineNearestPoint = 0.0f;
-    if (lineNearestPoint > 1.0f) lineNearestPoint = 1.0f;
+    // 半径の合計を出す
+    float radiusSum = capsule.radius + sphere.radius;
 
-    // 線分上の最近接点を計算
-    VECTOR closestPoint = VAdd(capsule.upPosition, VScale(capsuleLine, lineNearestPoint));
-    // 球体の中心から最近接点までの距離を計算
-    float distanceToSphere = CalculationDistance(sphere.centerPosition, closestPoint);
+    //半径より小さいかの確認
+    if (distance <= radiusSum)
+    {
+        isHited = true;
+    }
 
-    // 衝突判定（カプセルの半径と球体の半径の和と距離を比較）
-    return distanceToSphere <= (capsule.radius + sphere.radius);
+    return isHited;
 }
 
 /// <summary>
@@ -120,7 +114,7 @@ bool CollisionManager::IsHitCapsuleAndCapsule(const CollisionData collider, cons
 void CollisionManager::RegisterCollisionData(CollisionData* data)
 {
     //オブジェクトの追加
-    hitObjectList.emplace_back(data);
+    hitObjectList.push_back(data);
 }
 
 
@@ -203,11 +197,20 @@ void CollisionManager::ResponseColisionIfDetected(CollisionData* const & collide
                 //エネミーと当たった際の関数処理を呼ぶ
                 collider->onHit(*target);
             }
-            }
+        }
         else if (target->hitObjectTag == BossDefaultAttack)
         {
             //カプセル同士の当たり判定をおこなう
             if (IsHitCapsuleAndCapsule(*collider, *target))
+            {
+                //エネミーと当たった際の関数処理を呼ぶ
+                collider->onHit(*target);
+            }
+        }
+        else if (target->hitObjectTag == BossAreaAttack)
+        {
+            //カプセルと球体の当たり判定を行う
+            if (IsHitSphereAndCapsule(*target, *collider))
             {
                 //エネミーと当たった際の関数処理を呼ぶ
                 collider->onHit(*target);
@@ -240,7 +243,7 @@ void CollisionManager::ResponseColisionIfDetected(CollisionData* const & collide
         if (target->hitObjectTag == Boss)
         {
             //カプセルと球体の当たり判定を行う
-            if (IsHitSphereAndCapsule(*collider, *target))
+            if (IsHitCapsuleAndCapsule(*collider, *target))
             {
                 //エネミーと当たった際の関数処理を呼ぶ
                 collider->onHit(*target);
@@ -252,6 +255,19 @@ void CollisionManager::ResponseColisionIfDetected(CollisionData* const & collide
         if (target->hitObjectTag == Player)
         {
             //カプセルと球体の当たり判定を行う
+            if (IsHitCapsuleAndCapsule(*collider, *target))
+            {
+                //エネミーと当たった際の関数処理を呼ぶ
+                collider->onHit(*target);
+            }
+
+        }
+        break;
+    case BossAreaAttack:
+        //ボスの範囲攻撃がヒットした際の処理
+        if (target->hitObjectTag == Player)
+        {
+            //カプセルと球体の当たり判定を行う
             if (IsHitSphereAndCapsule(*collider, *target))
             {
                 //エネミーと当たった際の関数処理を呼ぶ
@@ -260,6 +276,7 @@ void CollisionManager::ResponseColisionIfDetected(CollisionData* const & collide
 
         }
         break;
+
     default:
         break;
     }

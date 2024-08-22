@@ -47,6 +47,11 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
     //アニメーションの再生時間のセット
     UpdateAnimation();
 
+    //アニメーションが終了していたら当たり判定を消す
+    if (currentPlayAnimationState == FirstRoopEnd)
+    {
+        collisionData.collisionState = CollisionData::CollisionEnded;
+    }
     //当たり判定に必要な情報の更新
     UpdateCollisionData(modelDirection,characterPosition);
 

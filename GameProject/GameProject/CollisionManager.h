@@ -18,10 +18,11 @@ public:
     /// </summary>
     enum HitObjectTag
     {
-        Player            = 0,    //プレイヤー
-        Boss              = 1,    //ボス
-        PlayerAttack      = 2,    //プレイヤーの攻撃
-        BossDefaultAttack = 3,    //ボスの通常攻撃
+        Player            = 0,    // プレイヤー
+        Boss              = 1,    // ボス
+        PlayerAttack      = 2,    // プレイヤーの攻撃
+        BossDefaultAttack = 3,    // ボスの通常攻撃
+        BossAreaAttack    = 4,    // ボスの範囲攻撃
     };
 
     //定数
@@ -35,7 +36,7 @@ public:
     /// <summary>
     /// インスタンスの削除
     /// </summary>
-    void DeleteInstance();
+    static void DeleteInstance();
 
     /// <summary>
     ///　コリジョンデータのポインタをもらってコリジョンリストに追加

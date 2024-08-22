@@ -24,14 +24,14 @@ private:
 
     ///////  定数  ///////
 
-    static constexpr float  InitializeAnimationSpeed = 0.5f;     //アニメーション速度
-    static constexpr float  CollisionCapsuleLineHalfLength = 50.0f;    //当たり判定のカプセルの半分の大きさ
-    static constexpr float  CollisionRadius = 35.0f;    //当たり判定の半径
-    static const     VECTOR OffsetPosition;                            //プレイヤーと攻撃の当たり判定座標がどれだけずれているか
-    static constexpr float  OffsetPositionScale = 20.0f;    //プレイヤーとどれだけ離すかの大きさ
-    static constexpr float  CollisionCapsuleAngle = 50;       //当たり判定のカプセルの角度
+    static constexpr float  InitializeAnimationSpeed               = 0.5f;     //アニメーション速度
+    static constexpr float  CollisionCapsuleLineHalfLength         = 50.0f;    //当たり判定のカプセルの半分の大きさ
+    static constexpr float  CollisionRadius                        = 35.0f;    //当たり判定の半径
+    static const     VECTOR OffsetPosition;                                    //プレイヤーと攻撃の当たり判定座標がどれだけずれているか
+    static constexpr float  OffsetPositionScale                    = 20.0f;    //プレイヤーとどれだけ離すかの大きさ
+    static constexpr float  CollisionCapsuleAngle                  = 50;       //当たり判定のカプセルの角度
     static constexpr float  InitializeCollisionStartAnimationRatio = 0.3f;     //当たり判定を始めるアニメーションの再生率
-    static constexpr int    DamageAmount = 1;                          //与えるダメージ量
+    static constexpr int    DamageAmount                           = 1;        //与えるダメージ量
 
     ///////  メンバ変数  ////////
 

@@ -1,20 +1,29 @@
-﻿#include"Boss.h"
+﻿#include"ShotManager.h"
+#include"InitializeShotData.h"
+#include"Boss.h"
 #include"BossAreaAttack.h"
 #include"BossShotAttack.h"
+#include"CollisionManager.h"
 
 ///<summary>
 ///コンストラクタ
 ///</summary>
 BossAreaAttack::BossAreaAttack(int& InitializeModelHandle, const int beforeAnimationIndex)
     :StateBase(InitializeModelHandle, Boss::GroundAttack, beforeAnimationIndex)
+    ,attackState(NoAttack)
 {
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
 
+    //インプットマネージャーのインスタンスをもってくる
     inputManager = InputManager::GetInstance();
 
     //コリジョンマネージャーのインスタンスをもってくる
     collisionManager = CollisionManager::GetInstance();
+
+    //ショットマネージャーのインスタンスをもってくる
+    shotManager = ShotManager::GetInstance();
+
 
 
 }
@@ -35,6 +44,14 @@ void BossAreaAttack::Update(VECTOR& modelDirection, VECTOR& position)
 {
     //ステートの切り替え処理を呼ぶ
     ChangeState();
+
+    if (attackState == NoAttack)
+    {
+        // 攻撃用のショットを作成する
+        CreateAttackShot(position);
+        attackState = StartAttack;
+
+    }
 
     //アニメーションの再生時間のセット
     UpdateAnimation();
@@ -61,4 +78,57 @@ void BossAreaAttack::ChangeState()
     {
         nextState = this;
     }
+}
+
+/// <summary>
+/// 攻撃用のショットを作成する
+/// </summary>
+void BossAreaAttack::CreateAttackShot(VECTOR characterPosition)
+{
+    // 作成する弾の数だけまわす
+    for (int i = 0; i < SpawnShotCount; i++)
+    {
+        // shotManagerを使用して弾の生成
+        shotManager->SpawnShot(InitializeShot(i, characterPosition));
+    }
+}
+
+
+/// <summary>
+/// 弾のデータを初期化
+/// </summary>
+/// <param name="index">何番目の弾かの添え字</param>
+/// <param name="characterPosition">基準となる座標</param>
+/// <returns>初期化用データ</returns>
+InitializeShotData BossAreaAttack::InitializeShot(const int index,const VECTOR characterPosition)
+{
+    //初期化用のデータを作成
+    InitializeShotData initializeShotData;
+
+    // 弾を生成する度に進む角度を変更する
+    float angle = FullCircleRadian * index / SpawnShotCount;
+
+    //回転用の行列を作成
+    MATRIX rotationMatrix = MGetRotY(angle);
+
+    //初期座標を代入
+    initializeShotData.position = characterPosition;
+
+    //移動方向を代入
+    initializeShotData.direction = VNorm(VTransform(VGet(1.0f, 0.0f, 0.0f), rotationMatrix));
+
+    //弾の半径を代入
+    initializeShotData.radius = ShotRadius;
+
+    //弾のダメージ量を代入
+    initializeShotData.damageAmount = ShotDamageAmount;
+
+    // 弾のスピードの代入
+    initializeShotData.speed = ShotSpeed;
+
+    // ショットを撃ったキャラのタグを代入
+    initializeShotData.shooterTag = CollisionManager::BossAreaAttack;
+
+    //作成したShotDataを返す
+    return initializeShotData;
 }

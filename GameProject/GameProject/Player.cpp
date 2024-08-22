@@ -205,6 +205,8 @@ void Player::UpdateCollisionData()
     collisionData.hitObjectTag = CollisionManager::Player;
     //当たった際の関数
     collisionData.onHit = std::bind(&Player::OnHit, this, std::placeholders::_1);
+    //ダメージ
+    collisionData.damageAmount = 0;
 }
 
 /// <summary>
@@ -226,6 +228,10 @@ void Player::OnHit(CollisionData collisionData)
         //敵の攻撃に当たったのでHPを減らす
         hp -= collisionData.damageAmount;
 
+        break;
+    case CollisionManager::BossAreaAttack:
+        //敵の攻撃に当たったのでHPを減らす
+        hp -= collisionData.damageAmount;
         break;
     default:
         break;

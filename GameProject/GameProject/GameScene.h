@@ -6,6 +6,7 @@ class Camera;
 class Player;
 class Boss;
 class CollisionManager;
+class ShotManager;
 
 
 /// <summary>
@@ -36,5 +37,7 @@ private:
     Player* player; //プレイヤー
     Boss*   boss;   //ボス
     CollisionManager* collisionManager; //コリジョンマネージャーのインスタンスにアクセスるポインタ
+    ShotManager*      shotManager;      // ショットマネージャーにアクセスするポインタ
+    
 };
 
