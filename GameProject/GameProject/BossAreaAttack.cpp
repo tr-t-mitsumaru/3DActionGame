@@ -40,7 +40,7 @@ BossAreaAttack::~BossAreaAttack()
 /// 更新処理
 /// </summary>
 /// <param name="position">プレイヤーモデルの向き</param>
-void BossAreaAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)
+void BossAreaAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition, VECTOR cameraPosition)
 {
     //ステートの切り替え処理を呼ぶ
     ChangeState();
@@ -82,10 +82,10 @@ void BossAreaAttack::ChangeState()
 void BossAreaAttack::CreateAttackShot(VECTOR characterPosition)
 {
     // 作成する弾の数だけまわす
-    for (int i = 0; i < CreateShotNumber; i++)
+    for (int i = 0; i < SpawnShotCount; i++)
     {
         // shotManagerを使用して弾の生成
-        shotManager->CreateShot(InitializeShot(i, characterPosition));
+        shotManager->SpawnShot(InitializeShot(i, characterPosition));
     }
 }
 
@@ -102,7 +102,7 @@ InitializeShotData BossAreaAttack::InitializeShot(const int index,const VECTOR c
     InitializeShotData initializeShotData;
 
     // 弾を生成する度に進む角度を変更する
-    float angle = FullCircleRadian * index / CreateShotNumber;
+    float angle = FullCircleRadian * index / SpawnShotCount;
 
     //回転用の行列を作成
     MATRIX rotationMatrix = MGetRotY(angle);

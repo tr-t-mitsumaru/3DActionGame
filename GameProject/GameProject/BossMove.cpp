@@ -30,7 +30,7 @@ BossMove::~BossMove()
 /// 更新処理
 /// </summary>
 /// <param name="position">プレイヤーモデルの向き</param>
-void BossMove::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)
+void BossMove::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition, VECTOR cameraPosition)
 {
     // フレームカウントを増やす
     moveFrameCount++;
@@ -39,7 +39,7 @@ void BossMove::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targ
     ChangeState();
 
     // 移動量を出す
-    VECTOR direction = CalculateTargetDirection(targetPosition, position);
+    VECTOR direction = CalculateTargetDirection(bossTargetPosition, position);
 
     // モデルの向きを反映させる
     modelDirection = direction;

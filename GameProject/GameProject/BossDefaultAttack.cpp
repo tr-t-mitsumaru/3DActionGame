@@ -40,7 +40,7 @@ BossDefaultAttack::~BossDefaultAttack()
 /// 更新処理
 /// </summary>
 /// <param name="position">プレイヤーモデルの向き</param>
-void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& position, const VECTOR targetPosition, VECTOR cameraPosition)
+void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition,const VECTOR bossTargetPosition, VECTOR cameraPosition)
 {
     //ステートの切り替え処理を呼ぶ
     ChangeState();
@@ -49,7 +49,7 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& position, const V
     UpdateAnimation();
 
     // 向く方向を計算
-    VECTOR direction = CalculateTargetDirection(targetPosition, position);
+    VECTOR direction = CalculateTargetDirection(bossTargetPosition, position);
 
     // 向きの変更
     modelDirection = direction;
