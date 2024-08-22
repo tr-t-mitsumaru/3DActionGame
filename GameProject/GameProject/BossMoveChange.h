@@ -1,8 +1,11 @@
 ﻿#pragma once
 #include"StateBase.h"
 #include"EffectData.h"
+#include"CollisionData.h"
 
 class EffectManager;
+class CollisionManager;
+class ImageDataManager;
 
 class BossMoveChange :public StateBase
 {
@@ -31,20 +34,39 @@ public:
     void Update(VECTOR& modelDirection, VECTOR& position, const VECTOR targetPosition, VECTOR cameraPosition)override;
 
 private:
+    /// <summary>
+    /// テクスチャの状態
+    /// </summary>
+    enum TextureState
+    {
+        Easy   = 0,   // 弱い状態のボスのテクスチャ
+        Normal = 1,   // 普通くらいの強さのボスのテクスチャ
+        Hard   = 2,   // 強い状態のボスのテクスチャ
+    };
 
     ///////   定数       ////////
 
-    static constexpr float InitializeAnimationSpeed = 0.6f;                    // 初期のアニメーションスピード
-    static constexpr float AnimationBlendSpeed      = 0.03f;                   // アニメーションのブレンドスピード
-    static constexpr VECTOR EffectDefaultScale      = { 40.0f,40.0f,40.0f };   // エフェクトの初期サイズ
-    static constexpr float EffectPlaySpeed          = 1.0f;                    // エフェクトの再生速度
-    static constexpr float EffectPlayAnimationRatio = 0.45f;                   // エフェクトを再生させるアニメーションの再生率
+    static constexpr float InitializeAnimationSpeed               = 0.6f;                    // 初期のアニメーションスピード
+    static constexpr float AnimationBlendSpeed                    = 0.03f;                   // アニメーションのブレンドスピード
+    static constexpr VECTOR EffectDefaultScale                    = { 40.0f,40.0f,40.0f };   // エフェクトの初期サイズ
+    static constexpr float EffectPlaySpeed                        = 1.0f;                    // エフェクトの再生速度
+    static constexpr float EffectPlayAnimationRatio               = 0.45f;                   // エフェクトを再生させるアニメーションの再生率
+    static constexpr float ChangeTexturePlayAnimationRatio        = 0.45f;                   // テクスチャを変更するアニメーションの再生率
+    static constexpr float CollisionRadius                        = 50.0f;                   // 当たり判定の半径サイズ
+    static constexpr int   DamageAmount                           = 70;                      // ダメージ量
+    static constexpr float InitializeCollisionStartAnimationRatio = 0.45f;                   // 当たり判定を作成するアニメーションの再生率
 
     ///////  メンバ変数  ////////
 
-    EffectManager* effectManager;   // エフェクトの管理クラス
-    EffectData     effectData;      // エフェクトの再生に必要なデータをまとめたもの
-    bool           isPlaedEffect;   // エフェクトを再生したかどうか
+    EffectManager*    effectManager;        // エフェクトの管理クラス
+    EffectData        effectData;           // エフェクトの再生に必要なデータをまとめたもの
+    CollisionManager* collisionManager;     // 当たり判定の管理クラス
+    int               secondModelTexture;   // 2回目のモデルのテクスチャ
+    int               thirdModelTexture;    // 3回目のモデルテクスチャ
+    CollisionData     collisionData;        // 当たり判定の更新に必要な情報
+    bool              isPlaedEffect;        // エフェクトを再生したかどうか
+    bool              isChangedTexture;     // テクスチャを変更したか
+
 
     ///////  メンバ関数  //////
 
@@ -60,9 +82,37 @@ private:
     void UpdateEffectData(const VECTOR characterPosition);
 
     /// <summary>
+    /// 座標などを当たり判定に必要なデータに更新
+    /// </summary>
+    /// <param name="characterPositon">自身のポジション</param>
+    void UpdateCollisionData(const VECTOR characterPositon);
+
+    /// <summary>
+    /// アニメーションの再生率に合わせて当たり判定を作成する
+    /// </summary>
+    void CreateCollisionByAnimationTime();
+
+    /// <summary>
     /// アニメーションの再生率に合わせてエフェクトを再生する
     /// </summary>
     void PlayEffectByAnimationTime();
+
+    /// <summary>
+    /// 当たった時の処理
+    /// </summary>
+    void OnHit(CollisionData collisionData);
+
+    /// <summary>
+    /// モデルのテクスチャを変更する
+    /// </summary>
+    void ChangeModelTexture();
+
+#ifdef _DEBUG
+    /// <summary>
+    /// 当たり判定を描画する(デバッグ用)
+    /// </summary>
+    void DrawCollision() override;
+#endif 
 
 };
 

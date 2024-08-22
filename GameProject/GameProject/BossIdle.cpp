@@ -15,11 +15,12 @@
 ///</summary>
 BossIdle::BossIdle(int& InitializeModelHandle,const int beforeAnimationIndex,const NextStateList initializePreviousStateName, const bool beforeIsChangintMove)
     :StateBase(InitializeModelHandle,Boss::Idle,beforeAnimationIndex)
+    ,isIdleWaitCountInitialzie(false)
+    ,nextStateName(Idle)
+    ,idleWaitCount(0)
 {
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
-    //インプットマネージャーのインスタンスをもってくる
-    inputManager = InputManager::GetInstance();
 
     // 前回のステートを保存
     previousStateName = initializePreviousStateName;
@@ -43,11 +44,21 @@ BossIdle::~BossIdle()
 /// <param name="targetPosition">敵対している相手の座標</param>
 void BossIdle::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)
 {
+    // 体力に合わせて静止状態で止めておく時間を変更して初期化する
+    InitializeIdleWaitCount();
+
     // ターゲットとの距離を出す
     float targetDistance = VSize(VSub(targetPosition,position));
 
-    // どの行動に移るかの選択
-    SelectActionPattern(targetDistance);
+    // カウントを増やす
+    idleWaitCount++;
+
+    // 静止状態が一定のカウントを超えたら次の行動に移る
+    if (idleWaitCount >= idleWaitCountLimit)
+    {
+        // どの行動に移るかの選択
+        SelectActionPattern(targetDistance);
+    }
 
     //ステートの切り替え処理を呼ぶ
     ChangeState();
@@ -188,4 +199,40 @@ void BossIdle::SelectActionPattern(const float targetDistance)
 
 
     printfDx("%f\n", targetDistance);
+}
+
+/// <summary>
+/// 体力に合わせて静止状態にしておくカウントを変えて初期化
+/// </summary>
+void BossIdle::InitializeIdleWaitCount()
+{
+    if (!isIdleWaitCountInitialzie)
+    {
+        switch (currentHpState)
+        {
+            // 体力が多い状態での初期化
+        case Boss::High:
+
+            idleWaitCountLimit = EasyIdleWaitCountLimit;
+
+            break;
+            // 体力が通常状態での初期化
+        case Boss::Middle:
+
+            idleWaitCountLimit = NormalIdleWaitCountLimit;
+            break;
+            // 体力が少ない状態での初期化
+        case Boss::Low:
+
+            idleWaitCountLimit = HardIdleWaitCountLimit;
+            break;
+        default:
+
+
+            break;
+        }
+
+        isIdleWaitCountInitialzie = true;
+    }
+
 }

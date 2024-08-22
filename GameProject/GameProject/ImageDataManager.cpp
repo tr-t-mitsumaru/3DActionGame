@@ -19,6 +19,9 @@ ImageDataManager::ImageDataManager()
     imageHandle.insert(make_pair(BossHpFrame, LoadGraph("UI/BossHpFrame.png")));
     imageHandle.insert(make_pair(BossHpBack, LoadGraph("UI/BossHpBack.png")));
     imageHandle.insert(make_pair(BossHpGageSub, LoadGraph("UI/BossHpGageSub.png")));
+    imageHandle.insert(make_pair(BossSecondTexture, LoadGraph("Model/GolemBlackLight.jpg")));
+    imageHandle.insert(make_pair(BossThirdTexture, LoadGraph("Model/bossThirdTexture.jpg")));
+
 
 }
 

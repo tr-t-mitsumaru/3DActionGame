@@ -207,7 +207,8 @@ void CollisionManager::ResponseColisionIfDetected(CollisionData* const & collide
                 collider->onHit(*target);
             }
         }
-        else if (target->hitObjectTag == BossAreaAttack || target->hitObjectTag == BossShot || target->hitObjectTag == BossRunAttack)
+        else if (target->hitObjectTag == BossAreaAttack || target->hitObjectTag == BossShot || target->hitObjectTag == BossRunAttack
+            || target->hitObjectTag == BossIntimidation)
         {
             //カプセルと球体の当たり判定を行う
             if (IsHitSphereAndCapsule(*target, *collider))
@@ -324,7 +325,19 @@ void CollisionManager::ResponseColisionIfDetected(CollisionData* const & collide
             }
 
         }
-
+        break;
+    case BossIntimidation:
+        // ボスの威嚇攻撃がヒットした際の処理
+        if (target->hitObjectTag == Player)
+        {
+            //カプセルと球体の当たり判定を行う
+            if (IsHitSphereAndCapsule(*collider,*target))
+            {
+                // 当たった際の関数を呼ぶ
+                collider->onHit(*target);
+            }
+        }
+        break;
     default:
         break;
     }

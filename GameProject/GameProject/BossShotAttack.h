@@ -46,29 +46,43 @@ private:
 
     static constexpr float InitializeAnimationSpeed = 0.5f;    //アニメーションの初期速度
     static constexpr float ShotCreateAnimationRatio = 0.35f;   // ショットを作成するアニメーションの再生率
-    static constexpr float ShotSpeed                = 8.0f;    // 弾のスピード
-    static constexpr float ShotRadius               = 30.0f;   // 弾の半径
-    static constexpr int   ShotDamageAmount         = 70;      // ショットが与えるダメージ
-    static constexpr float AnimationBlendSpeed      = 0.01f;   // アニメーションのブレンドスピード
-    static constexpr float EffectDefaultScale       = 30.0f;   // エフェクトのサイズ
     static constexpr float EffectPlaySpeed          = 1.0f;    // エフェクトの再生速度
 
-    static constexpr int   EasyAnimationBlendSpeed   = 0.008f;  // 弱い時のアニメーションのブレンドスピード
-    static constexpr int   NormalAnimationBlendSpeed = 0.01f;   // 通常時のアニメーションのブレンドスピード
-    static constexpr int   HardAnimationBlendSpeed   = 0.03f;   // 強い時のアニメーションのブレンドスピード
+    static constexpr float EasyAnimationBlendSpeed   = 0.008f;  // 弱い時のアニメーションのブレンドスピード
+    static constexpr float NormalAnimationBlendSpeed = 0.01f;   // 通常時のアニメーションのブレンドスピード
+    static constexpr float HardAnimationBlendSpeed   = 0.03f;   // 強い時のアニメーションのブレンドスピード
+    static constexpr float EasyShotSpeed             = 6.0f;    // 弱い時の弾のスピード
+    static constexpr float NormalShotSpeed           = 7.0f;    // 通常時の弾のスピード
+    static constexpr float HardShotSpeed             = 9.0f;    // 強い時の弾のスピード
+    static constexpr float EasyShotRadius            = 15.0f;   // 弱い時の弾の大きさ
+    static constexpr float NormalShotRadius          = 25.0f;   // 通常時の弾の大きさ
+    static constexpr float HardShotRadius            = 40.0f;   // 強い時の弾の大きさ
+    static constexpr int   EasyShotDamageAmount      = 40;      // 弱い時の弾のダメージ
+    static constexpr int   NormalShotDamageAmount    = 60;      // 通常時の弾のダメージ
+    static constexpr int   HardShotDamageAmount      = 80;      // 強い時の弾のダメージ
+    static constexpr float EasyEffectDefaultScale    = 15.0f;   // 弱い時のエフェクトの大きさ
+    static constexpr float NormalEffectDefaultScale  = 25.0f;   // 通常時のエフェクトの大きさ
+    static constexpr float HardEffectDefaultScale    = 40.0f;   // 強い時のエフェクトの大きさ
+
+
+
+
 
 
     
 
     ///////  メンバ変数  ////////
 
-    //ToDo
-    //AIを作成したら入力は必要ないので削除
-    InputManager* inputManager;      //入力管理クラス
 
-    ShotManager*   shotManager;        // ショット管理クラスのポインタ
-    bool           isAnimationSwitch;  // アニメーションを切り替えたかのフラグ
-    ShotState      shotState;          // 弾の撃っている状態
+    ShotManager*   shotManager;                   // ショット管理クラスのポインタ
+    bool           isAnimationSwitch;             // アニメーションを切り替えたかのフラグ
+    ShotState      shotState;                     // 弾の撃っている状態
+    bool           isAttackParameterInitialize;   // 攻撃に使うパラメーターを初期化したか
+    float          animationBlendSpeed;           // 前のアニメーションとブレンドする時間
+    float          shotSpeed;                     // 弾のスピード
+    float          shotRadius;                    // 弾の半径
+    int            shotDamageAmount;              // 弾のダメージ
+    VECTOR         effectScale;                   // エフェクトのサイズ
 
     ///////  メンバ関数  //////
 
@@ -92,4 +106,9 @@ private:
     /// 弾の作成に必要な情報を
     /// </summary>
     InitializeShotData AssignInitializeShotData(const VECTOR position,const VECTOR targetPosition);
+
+    /// <summary>
+    /// 攻撃に必要なパラメータの初期化
+    /// </summary>
+    void InitializeAttackParameter();
 };

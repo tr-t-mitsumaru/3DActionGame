@@ -133,7 +133,7 @@ InitializeShotData BossAreaAttack::InitializeShot(const int index,const VECTOR c
     initializeShotData.effectRotationRate = VGet(0, 0, 0);
 
     // エフェクトのサイズを設定
-    initializeShotData.effectScalingRate = VGet(EffectDefaultScale, EffectDefaultScale, EffectDefaultScale);
+    initializeShotData.effectScalingRate = effectScale;
 
     // エフェクトの再生速度の設定
     initializeShotData.effectPlaySpeed = EffectPlaySpeed;
@@ -175,6 +175,7 @@ void BossAreaAttack::InitializeAttackParameter()
             shotSpeed = EasyShotSpeed;
             shotDamageAmount = EasyShotDamageAmount;
             animationSpeed = EasyAnimationSpeed;
+            effectScale = VGet(EasyEffectScale,EasyEffectScale,EasyEffectScale);
             break;
             // 体力が通常状態での初期化
         case Boss::Middle:
@@ -184,6 +185,7 @@ void BossAreaAttack::InitializeAttackParameter()
             shotSpeed = NormalShotSpeed;
             shotDamageAmount = NormalShotDamageAmount;
             animationSpeed = NormalAnimationSpeed;
+            effectScale = VGet(NormalEffectScale,NormalEffectScale,NormalEffectScale);
 
             break;
             // 体力が少ない状態での初期化
@@ -194,6 +196,7 @@ void BossAreaAttack::InitializeAttackParameter()
             shotSpeed = HardShotSpeed;
             shotDamageAmount = HardShotDamageAmount;
             animationSpeed = HardAnimationSpeed;
+            effectScale = VGet(HardEffectScale, HardEffectScale, HardEffectScale);
             break;
         default:
 

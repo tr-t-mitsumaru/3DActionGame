@@ -354,6 +354,8 @@ void Player::OnHit(CollisionData collisionData)
         break;
     case CollisionManager::BossDefaultAttack:
 
+    case CollisionManager::BossIntimidation:
+
     case CollisionManager::BossRunAttack:
         // 1フレームで複数のダメージを受けないようにする
         if (nowState->GetLifeState() == NoDamage)

@@ -26,6 +26,7 @@ public:
         BossShot          = 5,    // ボスの弾を撃つ攻撃
         BossRunAttack     = 6,    // ボスの突進攻撃
         PlayerShot        = 7,    // プレイヤーのショット
+        BossIntimidation  = 8,    // ボスの威嚇
     };
 
     //定数

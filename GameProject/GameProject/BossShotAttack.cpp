@@ -11,12 +11,10 @@ BossShotAttack::BossShotAttack(int& InitializeModelHandle, const int beforeAnima
     :StateBase(InitializeModelHandle, Boss::LeftShot, beforeAnimationIndex)
     ,isAnimationSwitch(false)
     ,shotState(WaitLeftShot)
+    ,isAttackParameterInitialize(false)
 {
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
-
-    //インプットマネージャーのインスタンスをもってくる
-    inputManager = InputManager::GetInstance();
 
     // ショットマネージャーのインスタンスをもってくる
     shotManager = ShotManager::GetInstance();
@@ -37,6 +35,9 @@ BossShotAttack::~BossShotAttack()
 /// <param name="position">プレイヤーモデルの向き</param>
 void BossShotAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)
 {
+    // 体力によって攻撃に必要なパラメーターを初期化
+    InitializeAttackParameter();
+
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
@@ -47,7 +48,7 @@ void BossShotAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTO
     SwitchAnimation();
 
     //アニメーションの再生時間のセット
-    UpdateAnimation(AnimationBlendSpeed);
+    UpdateAnimation(animationBlendSpeed);
 
 
 
@@ -156,16 +157,16 @@ InitializeShotData BossShotAttack::AssignInitializeShotData(const VECTOR positio
     initializeShotData.direction = direction;
 
     // 速度
-    initializeShotData.speed = ShotSpeed;
+    initializeShotData.speed = shotSpeed;
 
     // 弾の半径
-    initializeShotData.radius = ShotRadius;
+    initializeShotData.radius = shotRadius;
 
     // 弾の種類
     initializeShotData.shooterTag = CollisionManager::BossShot;
 
     // 弾のダメージ
-    initializeShotData.damageAmount = ShotDamageAmount;
+    initializeShotData.damageAmount = shotDamageAmount;
 
     // ボスのショット攻撃で初期化する
     initializeShotData.effectTag = EffectManager::BossShot;
@@ -174,7 +175,7 @@ InitializeShotData BossShotAttack::AssignInitializeShotData(const VECTOR positio
     initializeShotData.effectRotationRate = VGet(0, 0, 0);
 
     // エフェクトのサイズを設定
-    initializeShotData.effectScalingRate = VGet(EffectDefaultScale, EffectDefaultScale, EffectDefaultScale);
+    initializeShotData.effectScalingRate = effectScale;
 
     // エフェクトの再生速度の設定
     initializeShotData.effectPlaySpeed = EffectPlaySpeed;
@@ -182,4 +183,51 @@ InitializeShotData BossShotAttack::AssignInitializeShotData(const VECTOR positio
     // 初期化したデータを返す
     return initializeShotData;
     
+}
+
+/// <summary>
+/// 攻撃に必要なパラメータの初期化
+/// </summary>
+void BossShotAttack::InitializeAttackParameter()
+{
+    if (!isAttackParameterInitialize)
+    {
+        switch (currentHpState)
+        {
+            // 体力が多い状態での初期化
+        case Boss::High:
+
+            animationBlendSpeed = EasyAnimationBlendSpeed;
+            shotSpeed           = EasyShotSpeed;
+            shotRadius          = EasyShotRadius;
+            shotDamageAmount    = EasyShotDamageAmount;
+            effectScale         = VGet(EasyEffectDefaultScale, EasyEffectDefaultScale, EasyEffectDefaultScale);
+
+            break;
+            // 体力が通常状態での初期化
+        case Boss::Middle:
+
+            animationBlendSpeed = NormalAnimationBlendSpeed;
+            shotSpeed           = NormalShotSpeed;
+            shotRadius          = NormalShotRadius;
+            shotDamageAmount    = NormalShotDamageAmount;
+            effectScale         = VGet(NormalEffectDefaultScale, NormalEffectDefaultScale, NormalEffectDefaultScale);
+            break;
+            // 体力が少ない状態での初期化
+        case Boss::Low:
+
+            animationBlendSpeed = HardAnimationBlendSpeed;
+            shotSpeed           = HardShotSpeed;
+            shotRadius          = HardShotRadius;
+            shotDamageAmount    = HardShotDamageAmount;
+            effectScale         = VGet(HardEffectDefaultScale, HardEffectDefaultScale, HardEffectDefaultScale);
+            break;
+        default:
+
+
+            break;
+        }
+
+        isAttackParameterInitialize = true;
+    }
 }

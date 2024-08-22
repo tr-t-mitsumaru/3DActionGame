@@ -46,8 +46,8 @@ private:
     static constexpr float EasyAnimationBlendSpeed   = 0.02f;        // 弱い時のアニメーションのブレンドスピード
     static constexpr float NormalAnimationBlendSpeed = 0.04f;        // 通常状態でのアニメーションのブレンドスピード
     static constexpr float HardAnimationBlendSpeed   = 0.07f;        // 強い時のアニメーションブレンドスピード
-    static constexpr float EasyShotRadius            = 12.0f;        // 弱い時の弾の大きさ
-    static constexpr float NormalShotRadius          = 18.0f;        // 普通の時の弾の大きさ
+    static constexpr float EasyShotRadius            = 15.0f;        // 弱い時の弾の大きさ
+    static constexpr float NormalShotRadius          = 20.0f;        // 普通の時の弾の大きさ
     static constexpr float HardShotRadius            = 24.0f;        // 強い時の弾の大きさ
     static constexpr float EasyShotSpeed             = 3.5f;         // 弱い時の弾の速度
     static constexpr float NormalShotSpeed           = 5.0f;         // 普通の時の弾の速度
@@ -58,13 +58,16 @@ private:
     static constexpr float EasyAnimationSpeed        = 0.4f;         // 弱い時のアニメーションの速さ
     static constexpr float NormalAnimationSpeed      = 0.6f;         // 普通の時のアニメーションの速さ
     static constexpr float HardAnimationSpeed        = 0.8f;         // 強い時のアニメーションの速さ
+    static constexpr float EasyEffectScale           = 15.0f;        // 弱い時のエフェクトの大きさ
+    static constexpr float NormalEffectScale         = 20.0f;        // 通常時のエフェクトの大きさ
+    static constexpr float HardEffectScale           = 25.0f;        // 強い時のエフェクトの大きさ
+
 
 
     static constexpr float InitializeAnimationSpeed = 0.6f;          // アニメーションの初期速度
     static constexpr int   CreateShotNumber          = 50;           // 範囲攻撃で生成する弾の数
     static constexpr float FullCircleRadian          = 2 * DX_PI_F;  // １回転分のラジアン
     static constexpr float ShotCreateAnimationRatio  = 0.5f;         // ショットを撃つアニメーションの再生率
-    static constexpr float EffectDefaultScale        = 25.0f;        // エフェクトの初期スケール
     static constexpr float EffectPlaySpeed           = 1.0f;         // エフェクトの再生スピード
 
     ///////  メンバ変数  ////////
@@ -84,6 +87,7 @@ private:
     float        animationBlendSpeed;         // アニメーションのブレンドスピード
     float        shotRadius;                  // 生成する弾のサイズ
     int          shotDamageAmount;            // 弾のダメージ
+    VECTOR       effectScale;                 // エフェクトのサイズ
 
     ///////  メンバ関数  //////
 

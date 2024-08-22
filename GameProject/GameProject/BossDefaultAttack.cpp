@@ -19,9 +19,6 @@ BossDefaultAttack::BossDefaultAttack(int& InitializeModelHandle, const int befor
     ,isChangedAnimationSpeed(false)
 {
 
-    //インプットマネージャーをもってくる
-    inputManager = InputManager::GetInstance();
-
     // コリジョンマネージャーのインスタンスをもってくる
     collisionManager = CollisionManager::GetInstance();
 

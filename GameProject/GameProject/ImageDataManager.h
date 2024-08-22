@@ -12,15 +12,17 @@ public:
     /// </summary>
     enum ImageTag
     {
-        HpGage        = 0,
-        HpFrame       = 1,
-        Frame         = 2,
-        HpBack        = 3,
-        HpGageSub     = 4,
-        BossHpGage    = 5,
-        BossHpFrame   = 6,
-        BossHpBack    = 7,
-        BossHpGageSub = 8,
+        HpGage            = 0,
+        HpFrame           = 1,
+        Frame             = 2,
+        HpBack            = 3,
+        HpGageSub         = 4,
+        BossHpGage        = 5,
+        BossHpFrame       = 6,
+        BossHpBack        = 7,
+        BossHpGageSub     = 8,
+        BossSecondTexture = 9,
+        BossThirdTexture  = 10,
     };
 
     /// <summary>
