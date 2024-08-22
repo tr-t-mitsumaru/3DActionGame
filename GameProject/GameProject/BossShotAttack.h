@@ -23,7 +23,7 @@ public:
     /// 更新処理
     /// </summary>
     /// <param name="position">プレイヤーモデルの向き</param>
-    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)override;
+    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition, VECTOR cameraPosition)override;
 
 private:
 
@@ -79,10 +79,10 @@ private:
     /// アニメーションの再生率によってショットを作成
     /// </summary>
     /// <param name="position">自身の座標</param>
-    void CreateShotByAnimationTime(const VECTOR position, const VECTOR targetPosition, VECTOR& modelDirection);
+    void SpawnShotByAnimationTime(const VECTOR position, const VECTOR bossTargetPosition, VECTOR& modelDirection);
 
     /// <summary>
     /// 弾の作成に必要な情報を
     /// </summary>
-    InitializeShotData AssignInitializeShotData(const VECTOR position,const VECTOR targetPosition);
+    InitializeShotData AssignInitializeShotData(const VECTOR position,const VECTOR bossTargetPosition);
 };

@@ -39,11 +39,11 @@ BossIdle::~BossIdle()
 /// </summary>
 /// <param name="position">プレイヤーモデルの向き</param>
 /// <param name="position">自身のキャラクターの座標</param>
-/// <param name="targetPosition">敵対している相手の座標</param>
-void BossIdle::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)
+/// <param name="bossTargetPosition">敵対している相手の座標</param>
+void BossIdle::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition, VECTOR cameraPosition)
 {
     // ターゲットとの距離を出す
-    float targetDistance = VSize(VSub(targetPosition,position));
+    float targetDistance = VSize(VSub(bossTargetPosition,position));
 
     // どの行動に移るかの選択
     SelectActionPattern(targetDistance);
