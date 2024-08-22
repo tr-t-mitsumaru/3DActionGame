@@ -56,8 +56,8 @@ public:
     enum LifeState
     {
         NoDamage = 0,   // ダメージを受けていない
-        Damaged = 1,   // ダメージを受けた
-        NoLife = 2,   // 体力が0
+        Damaged  = 1,   // ダメージを受けた
+        NoLife   = 2,   // 体力が0
 
     };
 

@@ -5,8 +5,8 @@
 /// <summary>
 /// コンストラクタ
 /// </summary>
-PlayerDead::PlayerDead(int InitalModelHandle, int beforeAnimationIndex)
-    :StateBase(InitalModelHandle, Player::Death, beforeAnimationIndex)
+PlayerDead::PlayerDead(int initalModelHandle, int beforeAnimationIndex)
+    :StateBase(initalModelHandle, Player::Death, beforeAnimationIndex)
 {
     // 現在のステートを入れる
     nowStateTag = Player::DeadState;
