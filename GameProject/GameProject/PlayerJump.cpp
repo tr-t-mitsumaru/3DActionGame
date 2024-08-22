@@ -42,8 +42,8 @@ PlayerJump::~PlayerJump()
 /// </summary>
 /// <param name="position">自身のモデルの向き</param>
 /// <param name="position">自身のキャラクターの座標</param>
-/// <param name="targetPosition">敵対しているキャラの座標</param>
-void PlayerJump::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)
+/// <param name="playerTargetPosition">敵対しているキャラの座標</param>
+void PlayerJump::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)
 {
     //落下速度を徐々に上げていく
     falllSpeed -= Gravity;

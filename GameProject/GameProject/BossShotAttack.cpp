@@ -33,13 +33,13 @@ BossShotAttack::~BossShotAttack()
 /// 更新処理
 /// </summary>
 /// <param name="position">プレイヤーモデルの向き</param>
-void BossShotAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)
+void BossShotAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition, VECTOR cameraPosition)
 {
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
     // アニメーションの再生率を見て弾を作成する
-    CreateShotByAnimationTime(position, targetPosition,modelDirection);
+    SpawnShotByAnimationTime(position, bossTargetPosition, modelDirection);
 
     // アニメーションの切り替え
     SwitchAnimation();
@@ -107,20 +107,20 @@ void BossShotAttack::SwitchAnimation()
 /// アニメーションの再生率によってショットを作成
 /// </summary>
 /// <param name="position">自身の座標</param>
-void BossShotAttack::CreateShotByAnimationTime(const VECTOR position, const VECTOR targetPosition,VECTOR& modelDirection)
+void BossShotAttack::SpawnShotByAnimationTime(const VECTOR position, const VECTOR bossTargetPosition, VECTOR & modelDirection)
 {
     // アニメーションの再生率が規定値を超えたら
     if (animationNowTime / animationLimitTime >= ShotCreateAnimationRatio &&
         shotState == WaitLeftShot || shotState == WaitRightShot)
     {
         // 初期化用のデータを作成
-        InitializeShotData initializeShotData = AssignInitializeShotData(position, targetPosition);
+        InitializeShotData initializeShotData = AssignInitializeShotData(position, bossTargetPosition);
 
         // 弾を撃った方向にモデルを回転させる
         modelDirection = initializeShotData.direction;
 
         // 必要な情報を代入して弾を作成
-        shotManager->CreateShot(initializeShotData);
+        shotManager->SpawnShot(initializeShotData);
 
         // 弾を撃った状態を変更する
         if (shotState == WaitLeftShot)
@@ -138,13 +138,13 @@ void BossShotAttack::CreateShotByAnimationTime(const VECTOR position, const VECT
 /// <summary>
 /// ショットの初期化用データを代入
 /// </summary>
-InitializeShotData BossShotAttack::AssignInitializeShotData(const VECTOR position,const VECTOR targetPosition)
+InitializeShotData BossShotAttack::AssignInitializeShotData(const VECTOR position,const VECTOR bossTargetPosition)
 {
     // 初期化用のデータを作成
     InitializeShotData initializeShotData;
 
     // 自身とターゲットのポジションから移動方向を作成
-    VECTOR direction = VSub(targetPosition, position);
+    VECTOR direction = VSub(bossTargetPosition, position);
     direction = VNorm(direction);
 
     // 座標
