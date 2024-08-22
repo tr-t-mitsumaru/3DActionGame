@@ -34,6 +34,12 @@ public:
         Standing     = 13,   //立つ動作
         Walk         = 14    //歩き
     };
+
+    ///////  ゲッター  ///////
+
+    // 座標を渡す
+    const VECTOR GetPosition() const { return position; }
+
     //コンストラクタ
     Boss();
     //デストラクタ
@@ -42,7 +48,7 @@ public:
     /// <summary>
     /// 更新処理
     /// </summary>
-    void Update();
+    void Update(const VECTOR targetPosition,const VECTOR cameraPosition);
 
     /// <summary>
     /// 描画

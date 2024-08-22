@@ -20,8 +20,10 @@ public:
     /// <summary>
     /// 更新処理
     /// </summary>
-    /// <param name="position">プレイヤーモデルの向き</param>
-    void Update(VECTOR& modelDirection, VECTOR& position)override;
+    /// <param name="position">自身のモデルの向き</param>
+    /// <param name="position">自身のキャラクターの座標</param>
+    /// <param name="targetPosition">敵対しているキャラの座標</param>
+    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)override;
 
     /// <summary>
     /// ステートの切り替え処理をまとめたもの
@@ -29,11 +31,18 @@ public:
     void ChangeState()override;
 private:
     static constexpr float MoveSpeed = 1.3f;   //移動量
+
+
     /// <summary>
-    /// 移動方向の選択
+    /// 移動方向の設定
     /// </summary>
-    VECTOR DecisionDirection();
-    //メンバ変数
+    /// <param name="cameraPosition">カメラの座標</param>
+    /// <param name="characterPosition">自身の座標</param>
+    /// <returns>設定された座標</returns>
+    VECTOR DecisionDirection(const VECTOR cameraPosition, const VECTOR characterPosition);
+
+    ///////  メンバ変数  ///////
+
     InputManager* inputManager;              //インプットマネージャーにアクセスするためのポインタ
 
     bool isGround;                           //接地しているか

@@ -37,6 +37,14 @@ public:
         Push        = 2,  //押されている
     };
 
+    enum AnalogKeyState
+    {
+        AnalogRight      = 1,     //右
+        AnalogLeft       = 2,     //左
+        AnalogUp         = 3,     //上
+        AnalogDown       = 4,     //下
+    };
+
     //定数
     static constexpr int MoveKeyIndex = 0x0000000f;   //移動キーのどれかがおされているかの指標
 
@@ -63,19 +71,27 @@ public:
      KeyPushState GetKeyPushState(const KeyKinds keyKinds);
 
 
+    /// <summary>
+    /// アナログキーの入力状態を見る
+    /// </summary>
+    /// <param name="analogKeyState">アナログキーの種類</param>
+    /// <returns>倒されているか</returns>
+     bool IsInputAnalogKey(const AnalogKeyState analogKeyState);
+
+
 private:
     //コンストラクタ
     InputManager();
     //デストラクタ
     ~InputManager();
 
-    //自身のポインタ
-    static InputManager* inputManager;
+    ///////  変数 ///////
 
-
-    map<KeyKinds, int> keyTag;                //キーの種類からDxライブラリで使う番号に変換用
-    map<int, KeyKinds> reverseKeyTag;         //キータグの要素とキーを入れ替えたもの
-
-    map<int,KeyPushState>  keyPushState;     //キーが離されたか
+    static InputManager*   inputManager;          // 自身のポインタ
+    map<KeyKinds, int>     keyTag;                // キーの種類からDxライブラリで使う番号に変換用
+    map<int, KeyKinds>     reverseKeyTag;         // キータグの要素とキーを入れ替えたもの
+    map<int,KeyPushState>  keyPushState;          // キーが離されたか
+    int                    rightAnalogKeyX;       // 右のアナログキーの横方向の状態
+    int                    rightAnalogKeyY;       // 右のアナログキーの縦方向の状態
 };
 

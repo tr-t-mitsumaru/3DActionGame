@@ -10,6 +10,9 @@ Camera::Camera()
     ,position(VGet(0,0,0))
     ,targetPosition(VGet(0,0,0))
 {
+    // インプットマネージャーのポインタを取得
+    inputManager = InputManager::GetInstance();
+
     //カメラの初期水平角度は180度
     angleHorizontal = DX_PI_F;
 
@@ -39,7 +42,53 @@ Camera::~Camera()
 /// </summary>
 void Camera::Update(VECTOR playerPosition)
 {
+    // 「←」ボタンが押されていたら水平角度をマイナスする
+    if (inputManager->IsInputAnalogKey(InputManager::AnalogLeft))
+    {
+        angleHorizontal -= AngleSpeed;
 
+        // －１８０度以下になったら角度値が大きくなりすぎないように３６０度を足す
+        if (angleHorizontal < -DX_PI_F)
+        {
+            angleHorizontal += DX_TWO_PI_F;
+        }
+    }
+
+    // 「→」ボタンが押されていたら水平角度をプラスする
+    if (inputManager->IsInputAnalogKey(InputManager::AnalogRight))
+    {
+        angleHorizontal += AngleSpeed;
+
+        // １８０度以上になったら角度値が大きくなりすぎないように３６０度を引く
+        if (angleHorizontal > DX_PI_F)
+        {
+            angleHorizontal -= DX_TWO_PI_F;
+        }
+    }
+
+    // 「↑」ボタンが押されていたら垂直角度をマイナスする
+    if (inputManager->IsInputAnalogKey(InputManager::AnalogUp))
+    {
+        angleVertical -= AngleSpeed;
+
+        // ある一定角度以下にはならないようにする
+        if (angleVertical < -DX_PI_F * 0.5f + 0.6f)
+        {
+            angleVertical = -DX_PI_F * 0.5f + 0.6f;
+        }
+    }
+
+    // 「↓」ボタンが押されていたら垂直角度をプラスする
+    if (inputManager->IsInputAnalogKey(InputManager::AnalogDown))
+    {
+        angleVertical += AngleSpeed;
+
+        // ある一定角度以上にはならないようにする
+        if (angleVertical > DX_PI_F * 0.5f - 0.6f)
+        {
+            angleVertical = DX_PI_F * 0.5f - 0.6f;
+        }
+    }
     // カメラの注視点はプレイヤー座標から規定値分高い座標
     targetPosition = VAdd(playerPosition, VGet(0.0f, CameraTargetPlayerHeight, 0.0f));
 

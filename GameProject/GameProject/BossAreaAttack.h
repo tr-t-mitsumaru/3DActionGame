@@ -21,8 +21,10 @@ public:
     /// <summary>
     /// 更新処理
     /// </summary>
-    /// <param name="position">プレイヤーモデルの向き</param>
-    void Update(VECTOR& modelDirection, VECTOR& position)override;
+    /// <param name="position">自身のモデルの向き</param>
+    /// <param name="position">自身のキャラクターの座標</param>
+    /// <param name="targetPosition">敵対しているキャラの座標</param>
+    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)override;
 
     /// <summary>
     /// 攻撃用のショットを作成する
@@ -46,6 +48,7 @@ private:
     static constexpr float ShotRadius               = 5.0f;         // 生成する弾の半径
     static constexpr int   ShotDamageAmount         = 1;            // 弾のダメージ量
     static constexpr float ShotSpeed                = 3.0f;         // 弾のスピード
+    static constexpr float ShotCreateAnimationRatio = 0.5f;         // ショットを撃つアニメーションの再生率
 
     ///////  メンバ変数  ////////
 
@@ -74,5 +77,12 @@ private:
     /// <param name="characterPosition">基準となる座標</param>
     /// <returns>初期化用データ</returns>
     InitializeShotData InitializeShot(const int index, const VECTOR characterPosition);
+
+
+    /// <summary>
+    /// アニメーションの再生率によってショットを作成
+    /// </summary>
+    /// <param name="position">自身の座標</param>
+    void CreateShotByAnimationTime(const VECTOR position);
 
 };

@@ -23,6 +23,8 @@ public:
         PlayerAttack      = 2,    // プレイヤーの攻撃
         BossDefaultAttack = 3,    // ボスの通常攻撃
         BossAreaAttack    = 4,    // ボスの範囲攻撃
+        BossShot          = 5,    // ボスの弾を撃つ攻撃
+        BossRunAttack     = 6,    // ボスの突進攻撃
     };
 
     //定数
@@ -108,6 +110,8 @@ private:
     /// <param name="target">目標の情報</param>
     /// <returns>当たったか</returns>
     bool IsHitCapsuleAndCapsule(const CollisionData  collider,const CollisionData target);
+
+  
 
 };
 

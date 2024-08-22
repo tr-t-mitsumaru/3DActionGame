@@ -43,7 +43,7 @@ public:
     /// <summary>
     /// 更新処理
     /// </summary>
-    virtual void Update(VECTOR& modelDirection,VECTOR& position)abstract;
+    virtual void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)abstract;
 
 protected:
 
@@ -66,6 +66,11 @@ protected:
     VECTOR             velocity;                  //速度やベクトルを含んだ値
     AnimationPlayState currentPlayAnimationState; //アニメーションの再生状態
     float              animationSpeed;            //派生クラスで代入する
+    float animationLimitTime;                     //再生中のアニメーションの総再生時間
+    float animationNowTime;                       //再生中のアニメーションの現在の経過時間
+    int   animationIndex;                         //現在のアニメーションのインデックス
+    int   beforeAnimationIndex;                   //前回のアニメーションのインデックス
+    float animationBlendRate;                     //前回のアニメーションと現在のアニメーションでのブレンド率
 
     ///////  ゲッター  ///////
 
@@ -110,11 +115,6 @@ private:
 
     ///////  メンバ変数  ////////
 
-    float animationLimitTime;     //再生中のアニメーションの総再生時間
-    float animationNowTime;       //再生中のアニメーションの現在の経過時間
-    int   animationIndex;         //現在のアニメーションのインデックス
-    int   beforeAnimationIndex;   //前回のアニメーションのインデックス
-    float animationBlendRate;     //前回のアニメーションと現在のアニメーションでのブレンド率
 
 
 

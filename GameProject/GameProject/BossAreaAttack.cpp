@@ -40,18 +40,13 @@ BossAreaAttack::~BossAreaAttack()
 /// 更新処理
 /// </summary>
 /// <param name="position">プレイヤーモデルの向き</param>
-void BossAreaAttack::Update(VECTOR& modelDirection, VECTOR& position)
+void BossAreaAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)
 {
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
-    if (attackState == NoAttack)
-    {
-        // 攻撃用のショットを作成する
-        CreateAttackShot(position);
-        attackState = StartAttack;
-
-    }
+    // アニメーションの再生率に合わせて弾を作成する
+    CreateShotByAnimationTime(position);
 
     //アニメーションの再生時間のセット
     UpdateAnimation();
@@ -83,6 +78,7 @@ void BossAreaAttack::ChangeState()
 /// <summary>
 /// 攻撃用のショットを作成する
 /// </summary>
+/// <param name="characterPosition">自身の座標</param>
 void BossAreaAttack::CreateAttackShot(VECTOR characterPosition)
 {
     // 作成する弾の数だけまわす
@@ -131,4 +127,20 @@ InitializeShotData BossAreaAttack::InitializeShot(const int index,const VECTOR c
 
     //作成したShotDataを返す
     return initializeShotData;
+}
+
+/// <summary>
+/// アニメーションの再生率によってショットを作成
+/// </summary>
+/// <param name="position">自身の座標</param>
+void BossAreaAttack::CreateShotByAnimationTime(const VECTOR position)
+{
+    // アニメーションの再生率が規定値を超えたら
+    if (animationNowTime / animationLimitTime >= ShotCreateAnimationRatio &&
+        attackState == NoAttack)
+    {
+        // 弾を作成
+        CreateAttackShot(position);
+        attackState = StartAttack;
+    }
 }

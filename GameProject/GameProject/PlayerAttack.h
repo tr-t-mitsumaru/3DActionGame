@@ -20,7 +20,7 @@ public:
     /// </summary>
     /// <param name="modelDirection">モデルの向き</param>
     /// <param name="characterPosition">キャラクターの座標</param>
-    void Update(VECTOR& modelDirection, VECTOR& characterPosition)override;
+    void Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)override;
 
     /// <summary>
     /// ステートの切り替え処理をまとめたもの

@@ -42,7 +42,7 @@ PlayerAttack::~PlayerAttack()
 /// </summary>
 /// <param name="modelDirection">モデルの向き</param>
 /// <param name="characterPosition">キャラクターの座標</param>
-void PlayerAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition)
+void PlayerAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR targetPosition,VECTOR cameraPosition)
 {
  
     //ステートの切り替え処理を呼ぶ
@@ -57,7 +57,7 @@ void PlayerAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition)
     }
 
     //当たり判定に必要な情報の更新
-    UpdateCollisionData(modelDirection,characterPosition);
+    UpdateCollisionData(modelDirection,position);
 
     // 当たり判定が有効になった入ればCollisionManagerに送信
     if (collisionData.collisionState == CollisionData::NoCollision)

@@ -64,10 +64,10 @@ Player::~Player()
 /// <summary>
 /// 更新処理
 /// </summary>
-void Player::Update()
+void Player::Update(const VECTOR targetPosition,const VECTOR cameraPosition)
 {
     //ステート毎のアップデートを行う
-    nowState->Update(modelDirection,position);
+    nowState->Update(modelDirection,position,targetPosition,cameraPosition);
 
     // 移動
     position = VAdd(position, nowState->GetVelocity());
@@ -225,10 +225,10 @@ void Player::OnHit(CollisionData collisionData)
         break;
     case CollisionManager::BossDefaultAttack:
 
-        //敵の攻撃に当たったのでHPを減らす
-        hp -= collisionData.damageAmount;
+    case CollisionManager::BossRunAttack:
 
-        break;
+    case CollisionManager::BossShot:
+
     case CollisionManager::BossAreaAttack:
         //敵の攻撃に当たったのでHPを減らす
         hp -= collisionData.damageAmount;
