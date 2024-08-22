@@ -27,7 +27,7 @@ public:
     /// 弾の生成
     /// </summary>
     /// <param name="initializeShotData">弾の初期化用のデータ</param>
-    void CreateShot(InitializeShotData initializeShotData);
+    void SpawnShot(InitializeShotData initializeShotData);
 
     /// <summary>
     /// 弾の削除

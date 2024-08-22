@@ -41,7 +41,7 @@ private:
     ///////  定数  ///////
 
     static constexpr float InitializeAnimationSpeed = 0.3f;         // アニメーションの初期速度
-    static constexpr int   CreateShotNumber         = 50;           // 範囲攻撃で生成する弾の数
+    static constexpr int   SpawnShotCount           = 50;           // 範囲攻撃で生成する弾の数
     static constexpr float FullCircleRadian         = 2 * DX_PI_F;  // １回転分のラジアン
     static constexpr float ShotRadius               = 5.0f;         // 生成する弾の半径
     static constexpr int   ShotDamageAmount         = 1;            // 弾のダメージ量
