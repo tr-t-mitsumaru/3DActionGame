@@ -82,10 +82,10 @@ Boss::~Boss()
 /// <summary>
 /// 更新処理
 /// </summary>
-void Boss::Update(const VECTOR targetPosition,const VECTOR cameraPosition)
+void Boss::Update(const VECTOR bossTargetPosition,const VECTOR cameraPosition)
 {
     //ステート毎のアップデートを行う
-    nowState->Update(modelDirection, position,targetPosition,cameraPosition);
+    nowState->Update(modelDirection, position,bossTargetPosition,cameraPosition);
 
     // 移動処理
     position = VAdd(position, nowState->GetVelocity());
