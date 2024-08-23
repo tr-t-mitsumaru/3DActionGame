@@ -11,8 +11,8 @@
 GameSceneUI::GameSceneUI()
     :uiBlendOpacity(0)
     ,currentBlendState(Opaque)
-    ,playerDisplayHp(Player::MaxHp)
-    ,bossDisplayHp(Boss::MaxHp)
+    ,playerDisplayHp(0)
+    ,bossDisplayHp(0)
 {
     // インスタンスをもってくる
     imageDataManager = ImageDataManager::GetInstance();
