@@ -1,6 +1,10 @@
 ﻿#pragma once
 #include"SceneBase.h"
 
+class Camera;
+class TitleSceneUI;
+class EffectManager;
+
 
 /// <summary>
 /// タイトル用のシーン
@@ -22,5 +26,10 @@ public:
     /// </summary>
     void Draw() override;
 private:
-    
+
+    ///////       変数       ///////
+
+    Camera*        camera;           // カメラ
+    TitleSceneUI*  titleSceneUI;     // UI
+    EffectManager* effectManager;    // エフェクト管理クラス
 };

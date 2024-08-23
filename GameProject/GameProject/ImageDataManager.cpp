@@ -21,6 +21,8 @@ ImageDataManager::ImageDataManager()
     imageHandle.insert(make_pair(BossHpGageSub, LoadGraph("UI/BossHpGageSub.png")));
     imageHandle.insert(make_pair(BossSecondTexture, LoadGraph("Model/GolemBlackLight.jpg")));
     imageHandle.insert(make_pair(BossThirdTexture, LoadGraph("Model/bossThirdTexture.jpg")));
+    imageHandle.insert(make_pair(TitleStartString, LoadGraph("UI/startString.png")));
+
 
 
 }

@@ -23,6 +23,7 @@ public:
     static float ConvertRadian(const int angle);
 
 
+
     static constexpr float ErrorValue = 0.000001f;  //float型で許容する誤差の値
 
 

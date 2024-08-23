@@ -23,6 +23,7 @@ public:
         BossHpGageSub     = 8,
         BossSecondTexture = 9,
         BossThirdTexture  = 10,
+        TitleStartString  = 11,
     };
 
     /// <summary>

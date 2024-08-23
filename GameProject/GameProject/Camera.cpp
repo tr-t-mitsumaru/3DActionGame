@@ -30,6 +30,7 @@ Camera::Camera()
     ,shakeOffset(0.0f)
     ,isShaked(false)
     ,shakeOffsetAdjustment(ShakeSpeed)
+    ,movingForward(false)
 {
     // インプットマネージャーのポインタを取得
     inputManager = InputManager::GetInstance();
@@ -45,6 +46,11 @@ Camera::Camera()
 
     // カメラに位置を反映.
     SetCameraPositionAndTarget_UpVecY(position, targetPosition);
+
+    // 座標を設定
+    titlePosition = InitializeTitlePosition;
+    titleTargetPosition = InitializeTitleTargetPosition;
+
 }
 
 /// <summary>
@@ -53,6 +59,22 @@ Camera::Camera()
 Camera::~Camera()
 {
     //処理なし
+}
+
+/// <summary>
+/// タイトルシーンでの更新処理
+/// </summary>
+void Camera::UpdateTitleScene()
+{
+    // 前に進むフラグがたっていれば移動を始める
+    if (movingForward)
+    {
+        titlePosition.z -= MovingForwardSpeed;
+        titleTargetPosition.z -= MovingForwardSpeed;
+    }
+
+    // 座標を反映させる
+    SetCameraPositionAndTarget_UpVecY(titlePosition, titleTargetPosition);
 }
 
 
@@ -259,3 +281,12 @@ void Camera::StopCameraShake()
 {
     isShaked = false;
  }
+
+/// <summary>
+/// 前に動き始める
+/// </summary>
+void Camera::StartMovingForward()
+{
+    // フラグを切り替える
+    movingForward = true;
+}

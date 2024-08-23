@@ -32,6 +32,11 @@ public:
     const StartCameraState GetStartCameraState() const { return currentStartCameraState; }
 
     /// <summary>
+    /// タイトルシーンでの更新処理
+    /// </summary>
+    void UpdateTitleScene();
+
+    /// <summary>
     /// ゲームが開始した直後の更新処理
     /// </summary>
     void UpdateStartScene(const float playerBossDistance, const VECTOR bossPosition, const VECTOR playerPosition);
@@ -61,6 +66,11 @@ public:
     /// カメラの揺らしを停止する
     /// </summary>
     void StopCameraShake();
+
+    /// <summary>
+    /// 前に動き始める
+    /// </summary>
+    void StartMovingForward();
 private:
 
 
@@ -80,6 +90,12 @@ private:
     static constexpr float   ShakeOffsetLimit         = 4.0f;    // 画面を揺らす量の上限
     static constexpr float   ShakeSpeed               = 0.5f;    // 画面を揺らすスピード
 
+    // タイトルシーン
+    static constexpr VECTOR  InitializeTitlePosition       = { 0,5.4f,11.0f };    // タイトルシーンでの座標
+    static constexpr VECTOR  InitializeTitleTargetPosition = { 0.0f,5.4f,0.0f };  // タイトルシーンでの注視点
+    static constexpr float   MovingForwardSpeed            = 0.08f;               // カメラが前に進むスピード
+
+
     VECTOR           position;                // 座標
     VECTOR           targetPosition;          // 注視店の座標
     float            angleVertical;           // カメラの垂直角度
@@ -89,6 +105,9 @@ private:
     float            shakeOffset;             // カメラを揺らしたときのずらした値の保存
     float            shakeOffsetAdjustment;   // 画面のずらす量を調整するための値
     bool             isShaked;                // 画面を揺らしているか
+    bool             movingForward;           // 前に進んでいるか
+    VECTOR           titlePosition;           // タイトル画面で使用する座標
+    VECTOR           titleTargetPosition;     // タイトル画面でのカメラの注視点
 
     /// <summary>
     /// カメラを揺らす

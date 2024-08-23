@@ -64,6 +64,9 @@
     <Filter Include="ソース ファイル\Utility">
       <UniqueIdentifier>{cf301039-2512-4a11-a3b7-e157bb396d8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Shot">
+      <UniqueIdentifier>{5ddfc1b4-6869-42c6-968a-c63731cc270f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -168,31 +171,37 @@
     <ClCompile Include="BossRunAttack.cpp">
       <Filter>ソース ファイル\State\BossState</Filter>
     </ClCompile>
-    <ClCompile Include="BossDead.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Shot.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ShotManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ShotObjectPool.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerHit.cpp">
       <Filter>ソース ファイル\State\PlayerState</Filter>
     </ClCompile>
     <ClCompile Include="PlayerDead.cpp">
       <Filter>ソース ファイル\State\PlayerState</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionUtility.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="GameSceneUI.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="BossDead.cpp">
+      <Filter>ソース ファイル\State\BossState</Filter>
+    </ClCompile>
+    <ClCompile Include="BossMoveChange.cpp">
+      <Filter>ソース ファイル\State\BossState</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionUtility.cpp">
+      <Filter>ソース ファイル\Colision</Filter>
+    </ClCompile>
+    <ClCompile Include="Shot.cpp">
+      <Filter>ソース ファイル\Shot</Filter>
+    </ClCompile>
+    <ClCompile Include="ShotObjectPool.cpp">
+      <Filter>ソース ファイル\Shot</Filter>
+    </ClCompile>
+    <ClCompile Include="ShotManager.cpp">
+      <Filter>ソース ファイル\Shot</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleSceneUI.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
   </ItemGroup>
@@ -302,29 +311,11 @@
     <ClInclude Include="BossRunAttack.h">
       <Filter>ソース ファイル\State\BossState</Filter>
     </ClInclude>
-    <ClInclude Include="BossDead.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="InitializeShotData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Shot.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ShotManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ShotObjectPool.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerHit.h">
       <Filter>ソース ファイル\State\PlayerState</Filter>
     </ClInclude>
     <ClInclude Include="PlayerDead.h">
       <Filter>ソース ファイル\State\PlayerState</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionUtility.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="EffectData.h">
       <Filter>ソース ファイル\Effect</Filter>
@@ -333,6 +324,30 @@
       <Filter>ソース ファイル\UI</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="BossDead.h">
+      <Filter>ソース ファイル\State\BossState</Filter>
+    </ClInclude>
+    <ClInclude Include="BossMoveChange.h">
+      <Filter>ソース ファイル\State\BossState</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionUtility.h">
+      <Filter>ソース ファイル\Colision</Filter>
+    </ClInclude>
+    <ClInclude Include="Shot.h">
+      <Filter>ソース ファイル\Shot</Filter>
+    </ClInclude>
+    <ClInclude Include="ShotManager.h">
+      <Filter>ソース ファイル\Shot</Filter>
+    </ClInclude>
+    <ClInclude Include="ShotObjectPool.h">
+      <Filter>ソース ファイル\Shot</Filter>
+    </ClInclude>
+    <ClInclude Include="InitializeShotData.h">
+      <Filter>ソース ファイル\Shot</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleSceneUI.h">
       <Filter>ソース ファイル\UI</Filter>
     </ClInclude>
   </ItemGroup>

@@ -14,9 +14,12 @@ public:
     /// </summary>
     enum ModelTag
     {
-        Player = 0,
-        Boss   = 1,
-        Stage  = 2
+        Player     = 0,
+        Boss       = 1,
+        Stage      = 2,
+        TitleStage = 3,
+        Door       = 4,
+        Board      = 5,
     };
 
     /// <summary>

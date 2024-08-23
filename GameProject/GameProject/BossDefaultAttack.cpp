@@ -97,8 +97,6 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
 /// </summary>
 void BossDefaultAttack::ChangeState()
 {
-    //ToDo
-    //BossのAIを作るまではボタンでステートが遷移するようにしている
     if (currentPlayAnimationState == FirstRoopEnd)
     {
         //ボスの移動ステートに移行

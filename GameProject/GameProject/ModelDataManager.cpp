@@ -13,6 +13,9 @@ ModelDataManager::ModelDataManager()
     modelHandle.insert(make_pair(Player, MV1LoadModel("Model/PlayerModel6.mv1")));
     modelHandle.insert(make_pair(Boss, MV1LoadModel("Model/BossModel.mv1")));
     modelHandle.insert(make_pair(Stage, MV1LoadModel("Model/stage.mv1")));
+    modelHandle.insert(make_pair(TitleStage, MV1LoadModel("Model/titleMap.mv1")));
+    modelHandle.insert(make_pair(Door, MV1LoadModel("Model/Door.mv1")));
+    modelHandle.insert(make_pair(Board, MV1LoadModel("Model/borad.mv1")));
 }
 
 /// <summary>
