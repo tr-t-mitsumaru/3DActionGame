@@ -1,4 +1,5 @@
 ﻿#include"DxLib.h"
+#include"GameClearSceneUI.h"
 #include "GameClearScene.h"
 #include"TitleScene.h"
 
@@ -7,7 +8,8 @@
 /// </summary>
 GameClearScene::GameClearScene()
 {
-    //処理なし
+    // メモリを確保
+    gameClearSceneUI = new GameClearSceneUI();
 }
 
 /// <summary>
@@ -15,7 +17,8 @@ GameClearScene::GameClearScene()
 /// </summary>
 GameClearScene::~GameClearScene()
 {
-    //処理なし
+    // メモリの開放
+    delete gameClearSceneUI;
 }
 
 /// <summary>
@@ -23,6 +26,9 @@ GameClearScene::~GameClearScene()
 /// </summary>
 void GameClearScene::Update()
 {
+    // UIの更新
+    gameClearSceneUI->Update();
+
     //デバッグ時だけキー入力でシーン遷移するように
 #ifdef _DEBUG
 
@@ -43,9 +49,8 @@ void GameClearScene::Update()
 /// </summary>
 void GameClearScene::Draw()
 {
-#ifdef _DEBUG
-    DrawString(500, 500, "クリアシーン", GetColor(255, 255, 255));
-#endif
+    // UIの描画
+    gameClearSceneUI->Draw();
 
 }
 

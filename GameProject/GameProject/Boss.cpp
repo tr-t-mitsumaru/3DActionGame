@@ -146,11 +146,6 @@ void Boss::Draw()
     MV1DrawModel(modelHandle);
 
 #ifdef _DEBUG
-    //当たり判定が正しいかの確認用の描画
-    DrawCapsule3D(collisionData.bottomPosition, collisionData.upPosition, collisionData.radius, 64, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
-
-    //ステートの当たり判定を描画する
-    nowState->DrawCollision();
 
     DrawFormatString(50, 250, GetColor(255, 255, 255), "HP : %d", hp);
 #endif

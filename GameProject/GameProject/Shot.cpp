@@ -207,6 +207,5 @@ void Shot::SetInactive()
 void Shot::Draw()
 {
 #ifdef _DEBUG
-    DrawSphere3D(collisionData.centerPosition, collisionData.radius, 16, GetColor(255, 0, 0), GetColor(255, 0, 0), FALSE);
 #endif 
 }

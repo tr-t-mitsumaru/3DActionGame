@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include"SceneBase.h"
 
+class GameClearSceneUI;
+
 /// <summary>
 /// クリアシーン
 /// </summary>
@@ -23,6 +25,9 @@ public:
     void Draw()override;
 private:
 
+    ///////       変数        ////////
+
+    GameClearSceneUI* gameClearSceneUI;     // UI
 
 };
 

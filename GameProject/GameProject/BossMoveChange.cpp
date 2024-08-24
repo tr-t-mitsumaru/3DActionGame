@@ -60,7 +60,7 @@ void BossMoveChange::Update(VECTOR& modelDirection, VECTOR& position, const VECT
     // アニメーションの再生が終わったら当たり判定を消す
     if (currentPlayAnimationState == FirstRoopEnd)
     {
-        collisionData.collisionState == CollisionData::CollisionEnded;
+        collisionData.collisionState = CollisionData::CollisionEnded;
     }
 
     //当たり判定に必要な情報の更新

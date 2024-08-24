@@ -158,6 +158,7 @@
     <ClCompile Include="FrameRateController.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClearScene.cpp" />
+    <ClCompile Include="GameClearSceneUI.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameSceneUI.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="FrameRateController.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameClearScene.h" />
+    <ClInclude Include="GameClearSceneUI.h" />
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameSceneUI.h" />

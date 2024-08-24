@@ -22,7 +22,17 @@ ImageDataManager::ImageDataManager()
     imageHandle.insert(make_pair(BossSecondTexture, LoadGraph("Model/GolemBlackLight.jpg")));
     imageHandle.insert(make_pair(BossThirdTexture, LoadGraph("Model/bossThirdTexture.jpg")));
     imageHandle.insert(make_pair(TitleStartString, LoadGraph("UI/startString.png")));
+    imageHandle.insert(make_pair(ClearSceneBack, LoadGraph("UI/board.png")));
+    imageHandle.insert(make_pair(ClearLogo, LoadGraph("UI/ClearLogo.png")));
+    imageHandle.insert(make_pair(ReturnTitleText, LoadGraph("UI/ReturnTitleText.png")));
 
+
+
+    // 分割画像のロード
+    divisionImageHandle[ClearSceneScroll] = new int[ScrollImageAllDivision];
+    LoadDivGraph("UI/ScrollResize2_.png", ScrollImageAllDivision, ScrollImageXDivision, ScrollImageYDivision, ScrollImageWidth, ScrollImageHeight, divisionImageHandle[ClearSceneScroll]);
+
+   
 
 
 }
@@ -34,6 +44,12 @@ ImageDataManager::~ImageDataManager()
 {
     // 画像の初期化
     InitGraph();
+
+    // divisionImageHandle の解放
+    for (auto& pair : divisionImageHandle) {
+        delete[] pair.second;
+        pair.second = nullptr;
+    }
 }
 
 /// <summary>
@@ -68,5 +84,17 @@ const int ImageDataManager::GetImageHandle(ImageTag imageTag)
 {
     return imageHandle.at(imageTag);
 }
+
+/// <summary>
+/// 指定された分割画像のハンドルを渡す
+/// </summary>
+/// <param name="imageTag">imageタグ</param>
+/// <returns>指定されたタグのハンドル</returns>
+int* ImageDataManager::GetDibisionImageHandle(ImageTag imageTag)
+{
+    return divisionImageHandle.at(imageTag);
+}
+
+
 
 

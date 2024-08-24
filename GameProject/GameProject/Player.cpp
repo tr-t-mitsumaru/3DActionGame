@@ -216,15 +216,6 @@ void Player::Draw()
     MV1DrawModel(modelHandle);
 
 #ifdef _DEBUG
-    //当たり判定が正しいかの確認用の描画
-
-    if (collisionData.collisionState == CollisionData::CollisionActive)
-    {
-        DrawCapsule3D(collisionData.upPosition, collisionData.bottomPosition, collisionData.radius, 64, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
-    }
-
-    //ステートの当たり判定を描画する
-    nowState->DrawCollision();
 
     //プレイヤーの座標の表示
     DrawFormatString(50, 150, GetColor(255, 255, 255), "x %f  y %f  z %f", position.x, position.y, position.z);
