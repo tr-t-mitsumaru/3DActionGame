@@ -13,6 +13,7 @@ GameSceneUI::GameSceneUI()
     ,currentBlendState(Opaque)
     ,playerDisplayHp(0)
     ,bossDisplayHp(0)
+    ,endedGameOvetUpdate(false)
 {
     // インスタンスをもってくる
     imageDataManager = ImageDataManager::GetInstance();
@@ -30,6 +31,8 @@ GameSceneUI::GameSceneUI()
     bossHpFrameHandle = imageDataManager->GetImageHandle(ImageDataManager::BossHpFrame);
     bossHpGageHandle = imageDataManager->GetImageHandle(ImageDataManager::BossHpGage);
     bossSubHpGageHandle = imageDataManager->GetImageHandle(ImageDataManager::BossHpGageSub);
+    gameOvetTextImage = imageDataManager->GetImageHandle(ImageDataManager::GameOverText);
+
 
     // 画像のサイズを取る
     GetGraphSize(hpGageHadle, &playerHpGageMaxWidth, &playerHpGageMaxHeight);
@@ -54,6 +57,12 @@ void GameSceneUI::Update(const int playerHp,const int bossHp)
 {
     // ブレンド率の更新
     UpdateBlendRate();
+
+    // ゲームオーバーテキストの更新
+    UpdateGameOvetTextBlendRate();
+
+    // ゲームオーバーテキストを描画する時間の更新
+    UpdateGameOverTextDisplayCount();
 
     // 描画するプレイヤーのHPバーの計算
     playerDisplayHp += ((float)playerHp - playerDisplayHp) * LerpSpeed;
@@ -129,6 +138,15 @@ void GameSceneUI::Draw()
     // ブレンドモードをノーマルに戻す
     SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, gameOverTextBlendRate);
+
+    DrawGraph(0, 0, gameOvetTextImage, TRUE);
+
+    // ブレンドモードをノーマルに戻す
+    SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
+    
+
+
 
 }
 
@@ -185,4 +203,48 @@ void GameSceneUI::DrawBossUI()
 
     // ボスの名前
     DrawStringToHandle(BossNameStringXPosition, BossNameStringYPosition, "FIRE GOLEM", GetColor(210, 210, 210), font->GetBossNameHandle());
+}
+
+
+/// <summary>
+/// ゲームオーバーテキストの描画を開始させる
+/// </summary>
+void GameSceneUI::StartGameOverTextDraw()
+{
+    currentGameOvetTextBlendState = FadingIn;
+}
+
+
+/// <summary>
+/// ゲームオーバーテキストのブレンド率を更新
+/// </summary>
+void GameSceneUI::UpdateGameOvetTextBlendRate()
+{
+    // だんだん不透明にしていく
+    if (currentGameOvetTextBlendState == FadingIn)
+    {
+        gameOverTextBlendRate += FeadInSpeed;
+
+        // 完全に不透明になったらステートを変更 
+        if (gameOverTextBlendRate >= FeadInMax)
+        {
+            gameOverTextBlendRate = FeadInMax;
+            currentGameOvetTextBlendState = Opaque;
+        }
+    }
+}
+
+/// <summary>
+/// ゲームオーバテキストを描画するカウントの更新
+/// </summary>
+void GameSceneUI::UpdateGameOverTextDisplayCount()
+{
+    if (currentGameOvetTextBlendState == Opaque)
+    {
+        gameOvetTextDisplayCount++;
+        if (gameOvetTextDisplayCount >= GameOvetTextDisplayCountLimit)
+        {
+            endedGameOvetUpdate = true;
+        }
+    }
 }

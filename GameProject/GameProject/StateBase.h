@@ -17,6 +17,19 @@ public:
     //デストラクタ
     virtual ~StateBase();
 
+
+    ///////  enum  //////
+
+    //アニメーションの再生状態
+    enum AnimationPlayState
+    {
+        BlendStart = 0,    //前のアニメーションとのブレンドを開始
+        BlendEnd = 1,    //前のアニメーションとのブレンドの終了
+        FirstRoop = 2,    //ファーストループの再生中
+        FirstRoopEnd = 3,    //ファーストループの再生終了
+        Stop = 4,    //停止中
+    };
+
     
 
     /////          ゲッター           ////
@@ -32,6 +45,9 @@ public:
 
     // アニメーションの総再生時間を返す
     const float GetAnimationLimitTime() const { return animationLimitTime; }
+
+    // 現在のアニメーションの状態を返す
+    const AnimationPlayState GetCurrentAnimationPlayState() const { return currentPlayAnimationState; }
 
     // 体力の状態を返す
     const Player::LifeState GetLifeState() const { return lifeState; }
@@ -85,17 +101,6 @@ public:
 
 protected:
 
-    ///////  enum  //////
-
-    //アニメーションの再生状態
-    enum AnimationPlayState
-    {
-        BlendStart   = 0,    //前のアニメーションとのブレンドを開始
-        BlendEnd     = 1,    //前のアニメーションとのブレンドの終了
-        FirstRoop    = 2,    //ファーストループの再生中
-        FirstRoopEnd = 3,    //ファーストループの再生終了
-        Stop         = 4,    //停止中
-    };
 
     ///////  メンバ変数  ////////
 

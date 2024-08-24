@@ -105,6 +105,11 @@ void GameScene::Update()
             gameSceneUI->StartFeadIn();
         }
         player->Update(boss->GetPosition(),camera->GetPosition());
+        if (player->GetEndedDeadMove())
+        {
+            gameSceneUI->StartGameOverTextDraw();
+        }
+
         boss->Update(player->GetPosition(), camera->GetPosition());
         camera->UpdatePlayerCamera(player->GetPosition());
         gameSceneUI->Update(player->GetHp(),boss->GetHp());
@@ -127,8 +132,8 @@ void GameScene::Update()
     {
         nextScene = new GameClearScene();
     }
-    //Yキーが離されていればゲームオーバーシーンに以降
-    else if (inputManager->GetKeyPushState(InputManager::Y) == InputManager::JustRelease)
+    // UIのゲームオーバー時の更新が終わっていればシーンを切り替え
+    else if (gameSceneUI->GetEndedGameOvetUpdate())
     {
         nextScene = new GameOverScene();
     }

@@ -207,6 +207,9 @@
     <ClCompile Include="GameClearSceneUI.cpp">
       <Filter>ソース ファイル\UI</Filter>
     </ClCompile>
+    <ClCompile Include="GameOverSceneUI.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -354,6 +357,9 @@
       <Filter>ソース ファイル\UI</Filter>
     </ClInclude>
     <ClInclude Include="GameClearSceneUI.h">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverSceneUI.h">
       <Filter>ソース ファイル\UI</Filter>
     </ClInclude>
   </ItemGroup>

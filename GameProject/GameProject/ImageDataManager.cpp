@@ -25,6 +25,13 @@ ImageDataManager::ImageDataManager()
     imageHandle.insert(make_pair(ClearSceneBack, LoadGraph("UI/board.png")));
     imageHandle.insert(make_pair(ClearLogo, LoadGraph("UI/ClearLogo.png")));
     imageHandle.insert(make_pair(ReturnTitleText, LoadGraph("UI/ReturnTitleText.png")));
+    imageHandle.insert(make_pair(GameOverText, LoadGraph("UI/GameOverText.png")));
+    imageHandle.insert(make_pair(GameOverFrame, LoadGraph("UI/GameOvetFrame.png")));
+    imageHandle.insert(make_pair(GameOverReturnTitleText, LoadGraph("UI/GameOvetReturnTitleText.png")));
+    imageHandle.insert(make_pair(GameOverReturnTitleTextSmall, LoadGraph("UI/GameOverReturnTitleTextSmall.png")));
+    imageHandle.insert(make_pair(ContinueText, LoadGraph("UI/ContinueText.png")));
+    imageHandle.insert(make_pair(ContinueTextSmall, LoadGraph("UI/ContinueTextSmall.png")));
+
 
 
 

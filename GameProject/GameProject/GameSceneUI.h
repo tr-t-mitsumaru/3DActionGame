@@ -24,11 +24,18 @@ public:
         FadingOut         // 透明率を上げている状態（徐々に透明になる）
     };
 
+
     /// <summary>
     /// 現在のブレンドの状態を返す
     /// </summary>
     /// <returns>現在のブレンドの状態</returns>
     const BlendState GetCurrentBlendState()const { return currentBlendState; }
+
+    /// <summary>
+    /// ゲームオーバー時の処理が終わったかのフラグを返す
+    /// </summary>
+    /// <returns></returns>
+    const bool GetEndedGameOvetUpdate()const { return endedGameOvetUpdate; }
 
     /// <summary>
     /// コンストラクタ
@@ -56,6 +63,11 @@ public:
     void StartFeadOut();
 
     /// <summary>
+    /// ゲームオーバーのテキストを描画を開始する
+    /// </summary>
+    void StartGameOverTextDraw();
+
+    /// <summary>
     /// 描画
     /// </summary>
     void Draw();
@@ -65,19 +77,19 @@ private:
 
     ////////         定数          ////////
 
-    static constexpr VECTOR StartHpGagePosition     = { 600.0f,-100.0f,0.0f };      // HPゲージの最初の座標
-    static constexpr VECTOR StartHpFramePosition    = { 550.0f,-100.0f,0.0f };      // HPゲージフレームの最初の座標
-    static constexpr float  FeadInMax               =  255;                         // フェードインの最大値
-    static constexpr int    FeadInSpeed             =  4;                           // フェードインのスピード
-    static constexpr int    FeadOutSpeed            =  4;                           // フェードアウトのスピード
-    static constexpr float  LerpSpeed               = 0.01f;                        // Hpバーを減らす線形補間の速さ
-    static constexpr int    PlayerHpGageXPosition   = 700;                          // プレイヤーのHPバーのX座標
-    static constexpr int    PlayerHpGageYPosition   = 90;                           // プレイヤーのHPバーのY座標
-    static constexpr int    BossHpGageXPosition     = 600;                          // ボスのHPバーのX座標
-    static constexpr int    BossHpGageYPosition     = 950;                          // ボスのHPバーのY座標
-    static constexpr int    BossNameStringXPosition = 800;                          // ボスの名前を表示するX座標
-    static constexpr int    BossNameStringYPosition = 900;                          // ボスの名前を表示するY座標
-
+    static constexpr VECTOR StartHpGagePosition           = { 600.0f,-100.0f,0.0f };      // HPゲージの最初の座標
+    static constexpr VECTOR StartHpFramePosition          = { 550.0f,-100.0f,0.0f };      // HPゲージフレームの最初の座標
+    static constexpr float  FeadInMax                     =  255;                         // フェードインの最大値
+    static constexpr int    FeadInSpeed                   =  4;                           // フェードインのスピード
+    static constexpr int    FeadOutSpeed                  =  4;                           // フェードアウトのスピード
+    static constexpr float  LerpSpeed                     = 0.01f;                        // Hpバーを減らす線形補間の速さ
+    static constexpr int    PlayerHpGageXPosition         = 700;                          // プレイヤーのHPバーのX座標
+    static constexpr int    PlayerHpGageYPosition         = 90;                           // プレイヤーのHPバーのY座標
+    static constexpr int    BossHpGageXPosition           = 600;                          // ボスのHPバーのX座標
+    static constexpr int    BossHpGageYPosition           = 950;                          // ボスのHPバーのY座標
+    static constexpr int    BossNameStringXPosition       = 800;                          // ボスの名前を表示するX座標
+    static constexpr int    BossNameStringYPosition       = 900;                          // ボスの名前を表示するY座標
+    static constexpr int    GameOvetTextDisplayCountLimit = 100;                          // ゲームオーバーテキストを描画する時間
 
 
 
@@ -88,27 +100,32 @@ private:
     Font*             font;                       // フォントをまとめたクラス
 
     // ハンドル
-    int               frameHandle;                // 画面のフレーム
-    int               hpGageHadle;                // HPゲージ
-    int               hpFrameHandle;              // HPゲージのフレーム
-    int               hpBackGageHandle;           // HPゲージの背景
-    int               subHpGageHandle;            // サブHPゲージ
-    int               bossHpBackHandle;           // ボスのHPゲージの下地
-    int               bossHpFrameHandle;          // ボスのHPゲージの枠
-    int               bossHpGageHandle;           // ボスのHPゲージ
-    int               bossSubHpGageHandle;        // ボスのサブHPゲージ
-    int               uiBlendOpacity;             // UIのブレンド率
-    int               playerHpGageMaxWidth;       // プレイヤーのHPゲージの幅
-    int               playerHpGageMaxHeight;      // プレイヤーのHPゲージの高さ
-    int               bossHpGageMaxWidth;         // プレイヤーのHPゲージの幅
-    int               bossHpGageMaxHeight;        // プレイヤーのHPゲージの高さ
-    int               currentPlayerHpGageWidth;   // 現在のプレイヤーのHPゲージの幅
-    int               currentPlayerSubHpGageWidth;// 現在のプレイヤーのサブHPゲージの幅
-    int               currentBossHpGageWidth;     // 現在のボスのHPゲージの幅
-    int               currentBossSubHpGageWidth;  // 現在のボスのサブHPゲージの幅
-    float             playerDisplayHp;            // 描画するプレイヤーHPの量
-    float             bossDisplayHp;              // 描画するボスのHPの量
-    BlendState        currentBlendState;          // 現在のブレンドの状態
+    int               frameHandle;                   // 画面のフレーム
+    int               hpGageHadle;                   // HPゲージ
+    int               hpFrameHandle;                 // HPゲージのフレーム
+    int               hpBackGageHandle;              // HPゲージの背景
+    int               subHpGageHandle;               // サブHPゲージ
+    int               bossHpBackHandle;              // ボスのHPゲージの下地
+    int               bossHpFrameHandle;             // ボスのHPゲージの枠
+    int               bossHpGageHandle;              // ボスのHPゲージ
+    int               bossSubHpGageHandle;           // ボスのサブHPゲージ
+    int               gameOvetTextImage;             // ゲームオーバーのテキスト
+    int               uiBlendOpacity;                // UIのブレンド率
+    int               playerHpGageMaxWidth;          // プレイヤーのHPゲージの幅
+    int               playerHpGageMaxHeight;         // プレイヤーのHPゲージの高さ
+    int               bossHpGageMaxWidth;            // プレイヤーのHPゲージの幅
+    int               bossHpGageMaxHeight;           // プレイヤーのHPゲージの高さ
+    int               currentPlayerHpGageWidth;      // 現在のプレイヤーのHPゲージの幅
+    int               currentPlayerSubHpGageWidth;   // 現在のプレイヤーのサブHPゲージの幅
+    int               currentBossHpGageWidth;        // 現在のボスのHPゲージの幅
+    int               currentBossSubHpGageWidth;     // 現在のボスのサブHPゲージの幅
+    float             playerDisplayHp;               // 描画するプレイヤーHPの量
+    float             bossDisplayHp;                 // 描画するボスのHPの量
+    BlendState        currentBlendState;             // 現在のブレンドの状態
+    int               gameOverTextBlendRate;         // ゲームオーバーテキストのブレンド率
+    BlendState        currentGameOvetTextBlendState; // ゲームオーバーテキストのブレンド状態
+    int               gameOvetTextDisplayCount;      // ゲームオーバーテキストを描画するカウント
+    bool              endedGameOvetUpdate;           // ゲームオーバー時の更新が終わったか
 
 
     ///////         関数          ////////
@@ -129,5 +146,14 @@ private:
     void DrawPlayerUI();
 
 
+    /// <summary>
+    /// ゲームオーバーテキストのブレンド率を更新
+    /// </summary>
+    void UpdateGameOvetTextBlendRate();
+
+    /// <summary>
+    /// ゲームオーバテキストを描画するカウントの更新
+    /// </summary>
+    void UpdateGameOverTextDisplayCount();
 };
 

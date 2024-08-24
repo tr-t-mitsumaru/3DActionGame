@@ -13,7 +13,7 @@ public:
 
     /////////        定数         ////////
 
-    static constexpr int   MaxHp = 1000;   // HPの最大値
+    static constexpr int   MaxHp = 50;   // HPの最大値
 
     //アニメーションの種類
     enum AnimationState
@@ -68,6 +68,12 @@ public:
     /// </summary>
     /// <returns>HP</returns>
     const int GetHp()const { return hp; }
+
+    /// <summary>
+    /// 死亡時の動きが終わったフラグを返す
+    /// </summary>
+    /// <returns>死亡時の動きが終わったかのフラグ</returns>
+    const bool GetEndedDeadMove() const { return endedDeadMove; }
 
     //コンストラクタ
     Player();
@@ -131,6 +137,7 @@ private:
     float animationBlendRate;        // アニメーションのブレンド率
     bool  isEndMove;                 // 移動が終了したかのフラグ
     bool  isBlendingAnimation;       // 今ブレンドを行っているかのフラグ
+    bool  endedDeadMove;               // 死亡時の移動が終了したフラグ
 
 
 

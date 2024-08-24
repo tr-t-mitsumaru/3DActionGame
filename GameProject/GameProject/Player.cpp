@@ -23,6 +23,7 @@ Player::Player()
     , isDamage(false)
     , isEndMove(false)
     , isBlendingAnimation(false)
+    , endedDeadMove(false)
 {
     //インスタンスを持ってくる
     ModelDataManager* modelDataManager = ModelDataManager::GetInstance();
@@ -110,8 +111,16 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
     if (hp <= 0 && nextState->GetNowStateTag() == HitState)
     {
         // ライフが0になったことをステートに伝える
+        WaitTimer(50);
         nextState->SetNoLifeState();
 
+    }
+
+    // ステートが死亡かつ死亡時のアニメーションが終了していたら
+    if (nextState->GetNowStateTag() == DeadState && nextState->GetCurrentAnimationPlayState() == StateBase::FirstRoopEnd)
+    {
+        // 死んだフラグをたてる
+        endedDeadMove = true;
     }
 
     // 無敵時間の作成

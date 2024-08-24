@@ -160,6 +160,7 @@
     <ClCompile Include="GameClearScene.cpp" />
     <ClCompile Include="GameClearSceneUI.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
+    <ClCompile Include="GameOverSceneUI.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameSceneUI.cpp" />
     <ClCompile Include="ImageDataManager.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="GameClearScene.h" />
     <ClInclude Include="GameClearSceneUI.h" />
     <ClInclude Include="GameOverScene.h" />
+    <ClInclude Include="GameOverSceneUI.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameSceneUI.h" />
     <ClInclude Include="ImageDataManager.h" />
