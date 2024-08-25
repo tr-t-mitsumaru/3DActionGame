@@ -8,6 +8,8 @@
 /// </summary>
 GameOverSceneUI::GameOverSceneUI()
     :currentSerectTextState(ContinueText)
+    ,textScalingRate(1.0f)
+    ,currentTextScaleState(Expanding)
 {
     //　画像管理クラスのインスタンスをもってくる
     ImageDataManager* imageDataManager = ImageDataManager::GetInstance();
@@ -18,6 +20,7 @@ GameOverSceneUI::GameOverSceneUI()
     returnTitleTextSmallImage = imageDataManager->GetImageHandle(ImageDataManager::GameOverReturnTitleTextSmall);
     continueTextImage = imageDataManager->GetImageHandle(ImageDataManager::ContinueText);
     continueTextSmallImage = imageDataManager->GetImageHandle(ImageDataManager::ContinueTextSmall);
+
 
 }
 
@@ -34,6 +37,20 @@ GameOverSceneUI::~GameOverSceneUI()
 /// </summary>
 void GameOverSceneUI::Update()
 {
+    // 現在のテキストのサイズの状態
+    if (currentTextScaleState == Riset)
+    {
+        textScalingRate = 1.0f;
+        currentTextScaleState = Expanding;
+    }
+    else if (currentTextScaleState == Expanding)
+    {
+        textScalingRate += TextScalingSpeed;
+        if (textScalingRate >= TextMaxScale)
+        {
+            currentTextScaleState = Expanded;
+        }
+    }
 }
 
 
@@ -42,15 +59,25 @@ void GameOverSceneUI::Update()
 /// </summary>
 void GameOverSceneUI::Draw()
 {
+    DrawGraph(0, 0, frameImage, TRUE);
+
+    // コンティニューが選択されている際の描画
     if (currentSerectTextState == ContinueText)
     {
-        DrawGraph(0, 0, returnTitleTextSmallImage,TRUE);
-        DrawExtendGraph(0, 0, 0, 0, continueTextImage, TRUE);   
+        // タイトルに戻るテキストの描画
+        DrawGraph(ReturnTitleTextPositionX, ReturnTitleTextPositionY, returnTitleTextSmallImage,TRUE);
+
+        // コンティニューテキストの描画(選択された際に拡大しながら描画する)
+        DrawRotaGraph(ContinueSmallTextPositionX, ContinueSmallTextPositionY, textScalingRate, 0, continueTextImage, TRUE);
     }
+    // タイトルに戻るが選択されている際の描画
     else
     {
-        DrawGraph(0, 0, continueTextSmallImage, TRUE);
-        DrawExtendGraph(0, 0, 0, 0, returnTitleTextImage, TRUE);
+        // コンティニューテキストの描画
+        DrawGraph(ContinueTextPositionX, ContinueTextPositionY, continueTextSmallImage, TRUE);
+
+        // タイトルに戻るテキストの描画(選択された際に拡大しながら描画する)
+        DrawRotaGraph(ReturnTitleSmallTextPositionX, ReturnTitleSmallTextPositionY, textScalingRate, 0, returnTitleTextImage, TRUE);
        
     }
 }
@@ -69,4 +96,6 @@ void GameOverSceneUI::SwitchSerectText()
     {
         currentSerectTextState = ContinueText;
     }
+
+    currentTextScaleState = Riset;
 }

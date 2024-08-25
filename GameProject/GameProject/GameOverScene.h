@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include"SceneBase.h"
 
+class GameOverSceneUI;
+
 /// <summary>
 /// ゲームオーバーシーン
 /// </summary>
@@ -22,5 +24,7 @@ public:
     /// </summary>
     void Draw()override;
 private:
+
+    GameOverSceneUI* gameOverSceneUI;       // ゲームオーバーシーンUI
 };
 

@@ -2,6 +2,7 @@
 #include"DxLib.h"
 #include"Player.h"
 #include"Boss.h"
+#include"BossIdle.h"
 
 
 
@@ -67,7 +68,7 @@ public:
     StateBase* GetNextState() { return nextState; }
 
     /// <summary>
-    /// 現在のステートを渡す
+    /// 現在のプレイヤーのステートを渡す
     /// </summary>
     /// <returns>現在のステート</returns>
     const Player::PlayerState GetNowStateTag() const { return nowStateTag; }
@@ -104,20 +105,20 @@ protected:
 
     ///////  メンバ変数  ////////
 
-    int                 modelhandle;               // ステートで使用するモデルハンドル
-    StateBase*          nextState;                 // 次のループでのステートを代入する用の変数
-    VECTOR              velocity;                  // 速度やベクトルを含んだ値
-    AnimationPlayState  currentPlayAnimationState; // アニメーションの再生状態
-    Player::PlayerState nowStateTag;               // 現在のステートの識別用
-    Player::LifeState   lifeState;                 // プレイヤーの体力の状態
-    float               animationSpeed;            // 派生クラスで代入する
-    float               animationLimitTime;        // 再生中のアニメーションの総再生時間
-    float               animationNowTime;          // 再生中のアニメーションの現在の経過時間
-    int                 animationIndex;            // 現在のアニメーションのインデックス
-    int                 beforeAnimationIndex;      // 前回のアニメーションのインデックス
-    float               animationBlendRate;        // 前回のアニメーションと現在のアニメーションでのブレンド率
-    Boss::HPState       currentHpState;            // 現在のHPの状態
-    bool                isChangingMove;            // 行動を変更している途中か
+    int                     modelhandle;               // ステートで使用するモデルハンドル
+    StateBase*              nextState;                 // 次のループでのステートを代入する用の変数
+    VECTOR                  velocity;                  // 速度やベクトルを含んだ値
+    AnimationPlayState      currentPlayAnimationState; // アニメーションの再生状態
+    Player::PlayerState     nowStateTag;               // 現在のステートの識別用
+    Player::LifeState       lifeState;                 // プレイヤーの体力の状態
+    float                   animationSpeed;            // 派生クラスで代入する
+    float                   animationLimitTime;        // 再生中のアニメーションの総再生時間
+    float                   animationNowTime;          // 再生中のアニメーションの現在の経過時間
+    int                     animationIndex;            // 現在のアニメーションのインデックス
+    int                     beforeAnimationIndex;      // 前回のアニメーションのインデックス
+    float                   animationBlendRate;        // 前回のアニメーションと現在のアニメーションでのブレンド率
+    Boss::HPState           currentHpState;            // 現在のHPの状態
+    bool                    isChangingMove;            // 行動を変更している途中か
 
 
 

@@ -1,5 +1,6 @@
 ﻿#include"DxLib.h"
 #include "GameOverScene.h"
+#include"GameOverSceneUI.h"
 #include"GameScene.h"
 #include"TitleScene.h"
 
@@ -8,7 +9,8 @@
 /// </summary>
 GameOverScene::GameOverScene()
 {
-    //処理なし
+    // メモリ確保
+    gameOverSceneUI = new GameOverSceneUI();
 }
 
 /// <summary>
@@ -16,7 +18,8 @@ GameOverScene::GameOverScene()
 /// </summary>
 GameOverScene::~GameOverScene()
 {
-    //処理なし
+    // メモリの開放
+    delete gameOverSceneUI;
 }
 
 /// <summary>
@@ -24,26 +27,38 @@ GameOverScene::~GameOverScene()
 /// </summary>
 void GameOverScene::Update()
 {
-
-    //デバッグ時だけキー入力でシーン遷移するように
-#ifdef _DEBUG
-
+    gameOverSceneUI->Update();
 
     //Xキーが離されていればゲームシーンに移行
-    if (inputManager->GetKeyPushState(InputManager::X) == InputManager::JustRelease)
+    if (inputManager->GetKeyPushState(InputManager::Up) == InputManager::JustRelease
+        && gameOverSceneUI->GetCurrentSerectTextState() == GameOverSceneUI::ReturnTitleText)
     {
-       nextScene = new GameScene();
+        gameOverSceneUI->SwitchSerectText();
     }
     //右矢印キーが離されていればタイトルシーンに以降
-    else if (inputManager->GetKeyPushState(InputManager::Y) == InputManager::JustRelease)
+    else if (inputManager->GetKeyPushState(InputManager::Down) == InputManager::JustRelease &&
+        gameOverSceneUI->GetCurrentSerectTextState() == GameOverSceneUI::ContinueText)
     {
-        nextScene = new TitleScene();
+        gameOverSceneUI->SwitchSerectText();
+    }
+
+    if (inputManager->GetKeyPushState(InputManager::X) == InputManager::JustRelease)
+    {
+        if (gameOverSceneUI->GetCurrentSerectTextState() == GameOverSceneUI::ContinueText)
+        {
+            nextScene = new GameScene();
+        }
+        else
+        {
+            nextScene = new TitleScene();
+        }
     }
     else
     {
         nextScene = this;
     }
-#endif
+
+
 }
 
 /// <summary>
@@ -51,7 +66,5 @@ void GameOverScene::Update()
 /// </summary>
 void GameOverScene::Draw()
 {
-#ifdef _DEBUG
-    DrawString(500, 500, "ゲームオーバーシーン", GetColor(255, 255, 255));
-#endif
+    gameOverSceneUI->Draw();
 }
