@@ -3,6 +3,7 @@
 #include"Boss.h"
 #include"BossIdle.h"
 #include"BossAreaAttack.h"
+#include"BossDead.h"
 #include"CollisionManager.h"
 
 ///<summary>
@@ -63,9 +64,12 @@ void BossAreaAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTO
 /// </summary>
 void BossAreaAttack::ChangeState()
 {
-    //ToDo
-    //BossのAIを作るまではボタンでステートが遷移するようにしている
-    if (currentPlayAnimationState == FirstRoopEnd)
+    // 体力が無い時点で死亡ステートに移行
+    if (lifeState == Player::NoLife)
+    {
+        nextState = new BossDead(modelhandle, animationIndex);
+    }
+    else if (currentPlayAnimationState == FirstRoopEnd)
     {
         //ボスの移動ステートに移行
         nextState = new BossIdle(modelhandle,this->GetAnimationIndex(),BossIdle::AreaAttack,isChangingMove);

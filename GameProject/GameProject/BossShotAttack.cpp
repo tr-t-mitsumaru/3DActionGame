@@ -1,5 +1,6 @@
 ﻿#include"InitializeShotData.h"
 #include"BossIdle.h"
+#include"BossDead.h"
 #include"BossShotAttack.h"
 #include"EffectManager.h"
 
@@ -63,9 +64,12 @@ void BossShotAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTO
 /// </summary>
 void BossShotAttack::ChangeState()
 {
-    //ToDo
-    //BossのAIを作るまではボタンでステートが遷移するようにしている
-    if (shotState == RightSHot && currentPlayAnimationState == FirstRoopEnd)
+    // 体力が無い時点で死亡ステートに移行
+    if (lifeState == Player::NoLife)
+    {
+        nextState = new BossDead(modelhandle, animationIndex);
+    }
+    else if (shotState == RightSHot && currentPlayAnimationState == FirstRoopEnd)
     {
         //ボスの突進攻撃ステートに移行
         nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::ShotAttack,isChangingMove);

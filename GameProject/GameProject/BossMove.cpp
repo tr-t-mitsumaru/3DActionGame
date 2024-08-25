@@ -2,6 +2,7 @@
 #include"Boss.h"
 #include"BossIdle.h"
 #include"BossMove.h"
+#include"BossDead.h"
 #include"BossDefaultAttack.h"
 
 
@@ -61,8 +62,14 @@ void BossMove::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR boss
 /// </summary>
 void BossMove::ChangeState()
 {
+
+    // 体力が無い時点で死亡ステートに移行
+    if (lifeState == Player::NoLife)
+    {
+        nextState = new BossDead(modelhandle, animationIndex);
+    }
     // 設定したフレーム数を超えた場合はステートをIdleにする
-    if (moveFrameCount >= MoveFrameLimit)
+    else if (moveFrameCount >= MoveFrameLimit)
     {
         nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::Move,isChangingMove);
     }

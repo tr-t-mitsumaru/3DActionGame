@@ -29,6 +29,8 @@ Boss::Boss()
     ,isEndAnimationFirstRoop(false)
     ,isPlaiedIntimidationEffect(false)
     ,currentHpState(High)
+    ,endedDeadMove(false)
+    ,slowMotionCount(0)
 {
     //モデルマネージャーにアクセスるポインタの代入
     ModelDataManager* modelDataManager = ModelDataManager::GetInstance();
@@ -85,6 +87,7 @@ Boss::~Boss()
 /// </summary>
 void Boss::Update(const VECTOR bossTargetPosition,const VECTOR cameraPosition)
 {
+
     //ステート毎のアップデートを行う
     nowState->Update(modelDirection, position,bossTargetPosition,cameraPosition);
 
@@ -105,6 +108,32 @@ void Boss::Update(const VECTOR bossTargetPosition,const VECTOR cameraPosition)
 
     //更新処理の後次のループでのステートを代入する
     nextState = nowState->GetNextState();
+
+    // 体力が0になったらステートにそれを知らせる
+    if (hp <= 0)
+    {
+        hp = 0;
+        nextState->SetNoLifeState();
+
+        slowMotionCount++;
+
+        // ToDo
+        // 現在は1フレームごとに既定の時間停止させてスローモーションにしているが
+        // リファクタリングのタイミングで修正する
+        if (slowMotionCount <= SlowMotionCountLimit)
+        {
+            WaitTimer(WaitTime);
+        }
+
+        // 体力0かつアニメーションの再生が終わっていれば
+        if (nextState->GetCurrentAnimationPlayState() == StateBase::FirstRoopEnd)
+        {
+            endedDeadMove = true;
+        }
+    }
+
+
+
     //次のループのシーンと現在のシーンが違う場合は移行処理を行う
     if (nowState != nextState)
     {

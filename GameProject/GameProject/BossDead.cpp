@@ -12,6 +12,7 @@ BossDead::BossDead(int& InitializeModelHandle, const int beforeAnimationIndex)
     animationSpeed = InitializeAnimationSpeed;
     //インプットマネージャーのインスタンスをもってくる
     inputManager = InputManager::GetInstance();
+
 }
 
 /// <summary>

@@ -1,6 +1,7 @@
 ﻿#include"BossIdle.h"
 #include"BossAreaAttack.h"
 #include "BossDefaultAttack.h"
+#include"BossDead.h"
 #include"Utility.h"
 #include"CollisionUtility.h"
 #include"EffectManager.h"
@@ -97,7 +98,12 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
 /// </summary>
 void BossDefaultAttack::ChangeState()
 {
-    if (currentPlayAnimationState == FirstRoopEnd)
+    // 体力が無い時点で死亡ステートに移行
+    if (lifeState == Player::NoLife)
+    {
+        nextState = new BossDead(modelhandle, animationIndex);
+    }
+    else if (currentPlayAnimationState == FirstRoopEnd)
     {
         //ボスの移動ステートに移行
         nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::DefaultAttack,isChangingMove);

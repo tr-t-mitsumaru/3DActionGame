@@ -128,7 +128,7 @@ void GameScene::Update()
 #ifdef _DEBUG
 
     //Xキーが離されていればゲームクリアシーンに移行
-    if (inputManager->GetKeyPushState(InputManager::X) == InputManager::JustRelease)
+    if (boss->GetEndedBossDeadMove())
     {
         nextScene = new GameClearScene();
     }

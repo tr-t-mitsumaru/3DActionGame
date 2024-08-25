@@ -99,8 +99,12 @@ void BossRunAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR
 /// </summary>
 void BossRunAttack::ChangeState()
 {
-
-    if (currentRunState == RunEnd)
+    // 体力が無い時点で死亡ステートに移行
+    if (lifeState == Player::NoLife)
+    {
+        nextState = new BossDead(modelhandle, animationIndex);
+    }
+    else if (currentRunState == RunEnd)
     {
         nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::RunAttack,isChangingMove);
     }

@@ -5,6 +5,7 @@
 #include"BossShotAttack.h"
 #include"BossRunAttack.h"
 #include"BossMoveChange.h"
+#include"BossDead.h"
 #include"BossIdle.h"
 #include"Boss.h"
 
@@ -77,49 +78,58 @@ void BossIdle::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR boss
 /// </summary>
 void BossIdle::ChangeState()
 {
-    switch (nextStateName)
+    // 体力が無い時点で死亡ステートに移行
+    if (lifeState == Player::NoLife)
     {
-    // 通常攻撃への移行
-    case BossIdle::DefaultAttack:
-
-        nextState = new BossDefaultAttack(modelhandle, animationIndex);
-
-        break;
-    // 移動ステートに移行
-    case BossIdle::Move:
-
-        nextState = new BossMove(modelhandle, animationIndex);
-
-        break;
-    // 範囲攻撃のステートに移行
-    case BossIdle::AreaAttack:
-
-        nextState = new BossAreaAttack(modelhandle, animationIndex);
-
-        break;
-    // 遠距離攻撃に移行
-    case BossIdle::ShotAttack:
-
-        nextState = new BossShotAttack(modelhandle, animationIndex);
-
-        break;
-    // 突進攻撃に移行
-    case BossIdle::RunAttack:
-
-        nextState = new BossRunAttack(modelhandle, animationIndex);
-
-        break;
-    case BossIdle::MoveChange:
-
-        nextState = new BossMoveChange(modelhandle, animationIndex);
-
-        break;
-    default:
-
-        nextState = this;
-
-        break;
+        nextState = new BossDead(modelhandle, animationIndex);
     }
+    else
+    {
+        switch (nextStateName)
+        {
+            // 通常攻撃への移行
+        case BossIdle::DefaultAttack:
+
+            nextState = new BossDefaultAttack(modelhandle, animationIndex);
+
+            break;
+            // 移動ステートに移行
+        case BossIdle::Move:
+
+            nextState = new BossMove(modelhandle, animationIndex);
+
+            break;
+            // 範囲攻撃のステートに移行
+        case BossIdle::AreaAttack:
+
+            nextState = new BossAreaAttack(modelhandle, animationIndex);
+
+            break;
+            // 遠距離攻撃に移行
+        case BossIdle::ShotAttack:
+
+            nextState = new BossShotAttack(modelhandle, animationIndex);
+
+            break;
+            // 突進攻撃に移行
+        case BossIdle::RunAttack:
+
+            nextState = new BossRunAttack(modelhandle, animationIndex);
+
+            break;
+        case BossIdle::MoveChange:
+
+            nextState = new BossMoveChange(modelhandle, animationIndex);
+
+            break;
+        default:
+
+            nextState = this;
+
+            break;
+        }
+    }
+
 }
 
 /// <summary>

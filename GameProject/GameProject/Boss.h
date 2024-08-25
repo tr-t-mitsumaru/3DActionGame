@@ -93,6 +93,12 @@ public:
     /// <returns>HP</returns>
     const int GetHp() const { return hp; }
 
+    /// <summary>
+    /// ボスの死亡時の動きが終わったかを返す
+    /// </summary>
+    /// <returns>ボスの死亡時の動きが終わったか</returns>
+    const bool GetEndedBossDeadMove()const { return endedDeadMove; }
+
     //コンストラクタ
     Boss();
     //デストラクタ
@@ -150,6 +156,8 @@ private:
     static constexpr float IntimidationEffectScale    = 40.0f;      // 威嚇時のエフェクトの大きさ
     static constexpr float ThresholdLowHp             = 0.3f;       // HPが少ない状態のしきい値
     static constexpr float ThresholdMidleHp           = 0.7f;       // HPが普通の状態のしきい値
+    static constexpr int   SlowMotionCountLimit       = 100;        // スローモーションにするカウントの上限
+    static constexpr int   WaitTime                   = 30;         // 処理を止める時間
 
 
     ////         メンバ変数           ////
@@ -185,8 +193,10 @@ private:
     int            beforeAnimationIndex;           // 前のアニメーションのインデックス
     float          animationBlendRate;             // アニメーションのブレンド率
     bool           isStartUpdateStartScene;        // アップデートが開始されたかのフラグ
-    bool           isPlaiedIntimidationEffect;     // 威嚇エフェクトが再生されたか
+    bool           isPlaiedIntimidationEffect;     // 威嚇エフェクトが再生された
+    bool           endedDeadMove;                  // 死んだ際の動きが終わったか
     PlayAnimationState currentPlayAnimationState;  // アニメーションの状態
+    int           slowMotionCount;                 // スローにするカウント
 
 
     ////メンバ関数////
