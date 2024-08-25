@@ -21,6 +21,7 @@ public:
         BossShotHit       = 5,   // ボスのショットが当たった際のエフェクト
         PlayerAttackHit   = 6,   // プレイヤーの攻撃が当たった際のエフェクト
         BossIntimidation  = 7,   // ボスの威嚇時のエフェクト
+        SafeArea          = 8,   // 移動できる場所を示すエフェクト
     };
 
 

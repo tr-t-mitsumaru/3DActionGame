@@ -2,6 +2,7 @@
 #include"CollisionUtility.h"
 #include"BossIdle.h"
 #include"BossRunAttack.h"
+#include"GameScene.h"
 
 
 const VECTOR BossRunAttack::OffsetCollisionPosition = VGet(0.0f, 20.0f, 0.0f);
@@ -56,13 +57,16 @@ void BossRunAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR
     // 現在どれだけ進んだかを計算
     float currentDistance = VSize(VSub(position, startPosition));
 
+    // 中央からの距離を出す
+    float distanceFromCenter = VSize(VSub(position, VGet(0, 0, 0)));
+
 
 
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
     // 最初のターゲットの座標から少し進んだ位置まで到達したらステートを切り替える
-    if (currentDistance >= targetLength + TargetOffsetDistance && currentRunState == Run)
+    if ((currentDistance >= targetLength + TargetOffsetDistance || distanceFromCenter >= GameScene::MaxDistanceFromCenter) && currentRunState == Run)
     {
         currentRunState = RunEnd;
         //当たり判定を消す

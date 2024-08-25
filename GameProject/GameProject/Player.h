@@ -90,12 +90,15 @@ public:
     /// </summary>
     void UpdateStartScene(const float distanceToBoss);
 
-
-
     /// <summary>
     /// 描画
     /// </summary>
     void Draw();
+
+    /// <summary>
+    /// 中央からの最大距離に達した際の押し戻し処理
+    /// </summary>
+    void ApplyBoundaryPushback();
 
 
 private:

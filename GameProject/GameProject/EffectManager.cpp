@@ -22,6 +22,8 @@ EffectManager::EffectManager()
     effectHandle.insert(make_pair(BossShotHit, LoadEffekseerEffect("Effect/BossShotHitEffect.efkefc")));
     effectHandle.insert(make_pair(PlayerAttackHit, LoadEffekseerEffect("Effect/PlayerAttackHit.efkefc")));
     effectHandle.insert(make_pair(BossIntimidation, LoadEffekseerEffect("Effect/BossIntimidation.efkefc")));
+    effectHandle.insert(make_pair(SafeArea, LoadEffekseerEffect("Effect/Area.efkefc")));
+
 }
 
 /// <summary>

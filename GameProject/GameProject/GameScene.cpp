@@ -84,6 +84,9 @@ void GameScene::Update()
         {
             // カメラを揺らす
             camera->StartCameraShake();
+
+            // 移動可能エリアのエフェクトを再生させる
+            stage->StartEffectPaly();
         }
 
         // ボスの移動が終了していたら
@@ -111,9 +114,16 @@ void GameScene::Update()
         }
 
         boss->Update(player->GetPosition(), camera->GetPosition());
+
+        // ボスとプレイヤーの位置を修正
+        boss->ApplyBoundaryPushback();
+        player->ApplyBoundaryPushback();
         camera->UpdatePlayerCamera(player->GetPosition());
         gameSceneUI->Update(player->GetHp(),boss->GetHp());
+        
     }
+
+    stage->Update();
 
     //各クラスのアップデートを呼ぶ
     shotManager->Update();

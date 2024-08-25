@@ -531,3 +531,28 @@ void Boss::UpdateHpState()
     }
 }
 
+/// <summary>
+/// 中央からの最大距離に達した際の押し戻し処理
+/// </summary>
+void Boss::ApplyBoundaryPushback()
+{
+    // 中央からの現在の座標へのベクトルを出す
+    VECTOR direction = VSub(position, VGet(0, 0, 0));
+
+    // ベクトルのサイズから距離を出す
+    float distance = VSize(direction);
+
+    // 中央からの距離が規定値を超えていたら
+    if (distance > GameScene::MaxDistanceFromCenter)
+    {
+        // ベクトルを正規化
+        direction = VNorm(direction);
+
+        // 修正したベクトルを出す
+        VECTOR correctedVector = VScale(direction, GameScene::MaxDistanceFromCenter);
+
+        // 修正したベクトルを足し押し戻した座標に変更する
+        position = VAdd(VGet(0,0,0), correctedVector);
+    }
+}
+

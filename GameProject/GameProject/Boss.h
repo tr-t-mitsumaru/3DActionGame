@@ -124,6 +124,11 @@ public:
     /// </summary>
     void Draw();
 
+    /// <summary>
+    /// 中央からの最大距離に達した際の押し戻し処理
+    /// </summary>
+    void ApplyBoundaryPushback();
+
 private:
 
     // アニメーションの再生状態
@@ -260,5 +265,7 @@ private:
     /// HPの状態の更新
     /// </summary>
     void UpdateHpState();
+
+
 
 };

@@ -20,7 +20,8 @@ public:
 
     ///////          定数            ////////
 
-    static constexpr float ShakeStartBossAnimationRatio = 0.45f;    // 画面の揺らしを開始するボスのアニメーション再生率   
+    static constexpr float ShakeStartBossAnimationRatio = 0.45f;    // 画面の揺らしを開始するボスのアニメーション再生率
+    static constexpr float MaxDistanceFromCenter        = 400;      // プレイヤーやボスが動ける中央からの最大距離
 
     /// <summary>
     /// ゲームシーンの中での状態
@@ -64,6 +65,7 @@ private:
     ShotManager*      shotManager;      // ショットマネージャーにアクセスするポインタ
     EffectManager*    effectManager ;   // エフェクトマネージャーにアクセスするポインタ
     GameSceneUI*      gameSceneUI;      // ゲームシーンのUI
+    
     
 };
 
