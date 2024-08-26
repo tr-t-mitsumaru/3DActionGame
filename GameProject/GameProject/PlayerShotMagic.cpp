@@ -140,7 +140,7 @@ InitializeShotData PlayerShotMagic::AssignInitializeShotData(const VECTOR positi
 
 
     // 座標
-    initializeShotData.position = VAdd(position,VGet(0.0f,20.0f,0.0f));
+    initializeShotData.position = VAdd(position,VGet(0.0f,2.0f,0.0f));
 
     //方向
     initializeShotData.direction = direction;

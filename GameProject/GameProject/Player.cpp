@@ -111,9 +111,11 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
     // 体力が0かつ
     if (hp <= 0 && nextState->GetNowStateTag() == HitState)
     {
+        hp = 0;
         // ライフが0になったことをステートに伝える
         WaitTimer(50);
         nextState->SetNoLifeState();
+        
 
     }
 

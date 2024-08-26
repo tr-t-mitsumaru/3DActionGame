@@ -38,7 +38,7 @@ private:
     static constexpr float ShotCreateAnimationRatio  = 0.2f;        // ショットを作成するアニメーションの再生率
     static constexpr float ShotSpeed                 = 0.7f;        // ショットのスピード
     static constexpr float ShotRadius                = 0.5f;        // 弾の半径
-    static constexpr int   ShotDamageAmount          = 1;           // ショットが与えるダメージ
+    static constexpr int   ShotDamageAmount          = 30;           // ショットが与えるダメージ
     static constexpr float EffectDefaultScale        = 1.0f;        // エフェクトのサイズ
     static constexpr float EffectPlaySpeed           = 1.0f;        // エフェクトの再生速度
     static constexpr float OffsetEffectPositionScale = 1.5f;        // エフェクトを再生する位置をどれだけ前に進めるか 
