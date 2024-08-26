@@ -44,11 +44,11 @@ PlayerIdle::~PlayerIdle()
 void PlayerIdle::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)
 /// <param name="targetPosition">敵対しているキャラの座標</param>
 {
+    //アニメーションの再生時間のセット
+    UpdateAnimation();
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
-    //アニメーションの再生時間のセット
-    UpdateAnimation();
 
     //シーンが切り替わっていればアニメーションをデタッチ
     DetachAnimation();

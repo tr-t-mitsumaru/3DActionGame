@@ -10,7 +10,7 @@
 /// </summary>
 /// <param name="modelHandle">モデルハンドル</param>
 /// <param name="animationState">アニメーションの状態</param>
-StateBase::StateBase(int& modelHandle,const int animationState,const int beforeAnimationIndex)
+StateBase::StateBase(int& modelHandle,const int initializeAnimationState,const int beforeAnimationIndex)
     :velocity(VGet(0,0,0))
     ,animationBlendRate(0.0f)
     ,beforeAnimationIndex(-1)
@@ -18,13 +18,13 @@ StateBase::StateBase(int& modelHandle,const int animationState,const int beforeA
     ,lifeState(Player::NoDamage)
     ,currentHpState(Boss::High)
     ,isChangingMove(false)
+    ,attachedAnimation(false)
 {
     //もってきたモデルハンドルを代入
     this->modelhandle = modelHandle;
-    //アニメーションをアタッチ
-    animationIndex = MV1AttachAnim(this->modelhandle, animationState, -1, FALSE);
-    //アニメーションの総再生時間を取得
-    animationLimitTime = MV1GetAttachAnimTotalTime(this->modelhandle, animationIndex);
+
+    animationNumber = initializeAnimationState;
+
     //アニメーションの再生時間の初期化
     animationNowTime = 0.0f;
     //前回のアニメーションの添え字を代入
@@ -44,6 +44,15 @@ StateBase::~StateBase()
 /// </summary>
 void StateBase::UpdateAnimation(const float blendSpeed)
 {
+    if (!attachedAnimation)
+    {
+        //アニメーションをアタッチ
+        animationIndex = MV1AttachAnim(this->modelhandle, animationNumber, -1, FALSE);
+        //アニメーションの総再生時間を取得
+        animationLimitTime = MV1GetAttachAnimTotalTime(this->modelhandle, animationIndex);
+
+        attachedAnimation = true;
+    }
     //前回のアニメーションがある場合
     if (beforeAnimationIndex != -1 && currentPlayAnimationState == BlendStart)
     {
@@ -99,9 +108,10 @@ void StateBase::StartAnimation()
 /// </summary>
 void StateBase::DetachAnimation()
 {
-    if (nextState != this && beforeAnimationIndex != -1)
+    if (nextState != this)
     {
         MV1DetachAnim(modelhandle, beforeAnimationIndex);
+        beforeAnimationIndex = -1;
     }
 }
 

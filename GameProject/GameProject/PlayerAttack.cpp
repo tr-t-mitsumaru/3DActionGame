@@ -19,8 +19,8 @@ const VECTOR PlayerAttack::StrongAttackOffsetPositionY = VGet(0.0f, 1.0f, 0.0f);
 /// </summary>
 /// <param name="InitalModelHandle">モデルハンドル</param>
 /// <param name="beforeAnimationIndex">前のステートでのアニメーション情報</param>
-PlayerAttack::PlayerAttack(int InitalModelHandle, int beforeAnimationIndex, Player::AnimationState animationState)
-    :StateBase(InitalModelHandle,animationState,beforeAnimationIndex)
+PlayerAttack::PlayerAttack(int InitalModelHandle, int beforeAnimationIndex, Player::AnimationState initializeAnimationState)
+    :StateBase(InitalModelHandle,initializeAnimationState,beforeAnimationIndex)
     ,currentComboState(First)
     ,currentComboCollisionState(FirstStart)
 {
@@ -31,10 +31,10 @@ PlayerAttack::PlayerAttack(int InitalModelHandle, int beforeAnimationIndex, Play
     nowStateTag = Player::AttackState;
 
     // 攻撃の種類を代入
-    currentAttackState = animationState;
+    currentAttackState = initializeAnimationState;
 
     // 通常攻撃と強攻撃それぞれの当たり判定のサイズを代入
-    if (animationState == Player::ComboAttack)
+    if (initializeAnimationState == Player::ComboAttack)
     {
         // カプセルの長さ
         collisionCapsuleLineLength   = NormalAttackCollisionCapsuleLineLength;
@@ -108,16 +108,14 @@ PlayerAttack::~PlayerAttack()
 /// <param name="characterPosition">キャラクターの座標</param>
 void PlayerAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)
 {
+    //アニメーションの再生時間のセット
+    UpdateAnimation();
  
     //ステートの切り替え処理を呼ぶ
     ChangeState();
-    //アニメーションの再生時間のセット
-    UpdateAnimation();
 
     // コンボ攻撃を続けるか入力を見てチェック
     IsComboAttackActive();
-
-
 
     //アニメーションが終了していたら当たり判定を消す
     if (currentPlayAnimationState == FirstRoopEnd || currentComboState == End)

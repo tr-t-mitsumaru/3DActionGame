@@ -44,6 +44,15 @@ void BossAreaAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTO
     // 攻撃に必要なパラメーターの初期化
     InitializeAttackParameter();
 
+    if (!isAttackParameterInitialize)
+    {
+        // 初期化するモデルの向きを計算
+        VECTOR initializeModelDirection = VNorm(VSub(bossTargetPosition, position));
+
+        // モデルの向きに反映させる
+        modelDirection = initializeModelDirection;
+    }
+
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 

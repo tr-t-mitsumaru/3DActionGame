@@ -118,6 +118,8 @@ protected:
     float                   animationBlendRate;        // 前回のアニメーションと現在のアニメーションでのブレンド率
     Boss::HPState           currentHpState;            // 現在のHPの状態
     bool                    isChangingMove;            // 行動を変更している途中か
+    bool                    attachedAnimation;
+    int                     animationNumber;
 
 
 
@@ -161,6 +163,7 @@ protected:
     /// <param name="position">自身の座標</param>
     /// <returns>設定した方向</returns>
     VECTOR CalculateTargetDirection(const VECTOR targetPosition, const VECTOR position);
+
 
 private:
 

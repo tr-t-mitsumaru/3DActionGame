@@ -55,6 +55,7 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
     //アニメーションの再生時間のセット
     UpdateAnimation();
 
+
     // アニメーションスピード
     ChangeAnimationSpeed();
 

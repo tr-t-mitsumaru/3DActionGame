@@ -44,6 +44,7 @@ PlayerMove::~PlayerMove()
 /// <param name="playerTargetPosition">敵対しているキャラの座標</param>
 void PlayerMove::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)
 {
+
     velocity = VGet(0, 0, 0);
 
     //正規化した移動方向を決める
@@ -64,13 +65,13 @@ void PlayerMove::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR pl
     // 移動量を出す
     velocity = VScale(direction, MoveSpeed);
 
+    //アニメーションの再生時間のセット
+    UpdateAnimation();
 
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
 
-    //アニメーションの再生時間のセット
-    UpdateAnimation();
 
     //シーンが切り替わっていればアニメーションをデタッチ
     DetachAnimation();
@@ -86,6 +87,7 @@ void PlayerMove::ChangeState()
     if (lifeState == Player::Damaged)
     {
         nextState = new PlayerHit(modelhandle, animationIndex, Player::Impact);
+        return;
     }
     //RBのキーが押されていれば攻撃ステートに変更
     else if (inputManager->GetKeyPushState(InputManager::RB) == InputManager::Push ||
