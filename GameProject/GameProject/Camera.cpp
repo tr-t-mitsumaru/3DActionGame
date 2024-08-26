@@ -3,19 +3,19 @@
 #include"GameScene.h"
 
 
-const VECTOR Camera::StartCameraPosition = VGet(0.0f, 100.0f, -150.0f);
+const VECTOR Camera::StartCameraPosition = VGet(0.0f, 10.0f, -15.0f);
 
-const VECTOR Camera::StartTargetPosition = VGet(0.0f, 0.0f, -280.0f);
+const VECTOR Camera::StartTargetPosition = VGet(0.0f, 0.0f, -28.0f);
 
-const VECTOR Camera::SecondCameraPosition = VGet(120.0f, 50.0f, -230.0f);
+const VECTOR Camera::SecondCameraPosition = VGet(12.0f, 5.0f, -23.0f);
 
-const VECTOR Camera::SecondTargetPosition = VGet(0.0f, 10.0f, -40.0f);
+const VECTOR Camera::SecondTargetPosition = VGet(0.0f, 1.0f, -4.0f);
 
-const VECTOR Camera::ThirdCameraPosition = VGet(40.0f, 30.0f, -180.0f);
+const VECTOR Camera::ThirdCameraPosition = VGet(4.0f, 3.0f, -18.0f);
 
-const VECTOR Camera::ForceCameraPosition = VGet(0.0f, 80.0f, -100.0f);
+const VECTOR Camera::ForceCameraPosition = VGet(0.0f, 8.0f, -10.0f);
 
-const VECTOR Camera::SecondToThirdVelocity = VScale(VNorm(VSub(Camera::ThirdCameraPosition, Camera::SecondCameraPosition)), 0.7f);
+const VECTOR Camera::SecondToThirdVelocity = VScale(VNorm(VSub(Camera::ThirdCameraPosition, Camera::SecondCameraPosition)), 0.07f);
 
 
 /// <summary>
@@ -42,7 +42,7 @@ Camera::Camera()
     angleVertical = 0.0f;
 
     //奥行0.1～1000までをカメラの描画範囲とする
-    SetCameraNearFar(0.1f, 1000.0f);
+    SetCameraNearFar(0.1f, 400.0f);
 
     // カメラに位置を反映.
     SetCameraPositionAndTarget_UpVecY(position, targetPosition);

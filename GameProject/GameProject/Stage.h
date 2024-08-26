@@ -30,8 +30,9 @@ public:
 private:
     //定数
     static const VECTOR InitialPosition;          //初期座標
-    static constexpr VECTOR SafeZoneEffectScale = { 95.0f,95.0f,95.0f };    // エフェクトのサイズ
-    static constexpr int    StartEffectPlayCount = 1000;                    // エフェクトの再生を開始させるカウント
+    static constexpr VECTOR SafeZoneEffectScale            = { 19.0f,19.0f,19.0f };    // エフェクトのサイズ
+    static constexpr int    StartEffectPlayCount           = 1000;                    // エフェクトの再生を開始させるカウント
+    static constexpr int    StageModelRotationRate         = 180;
 
 
     ///////        変数        ///////

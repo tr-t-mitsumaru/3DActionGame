@@ -10,8 +10,8 @@
 #include"GameScene.h"
 
 //初期座標の入力
-const VECTOR Boss::InitialPosition = VGet(0, 0, 6);
-const VECTOR Boss::OffsetModelPosition = VGet(0,10, 0);
+const VECTOR Boss::InitialPosition = VGet(0, 0, 0.6);
+const VECTOR Boss::OffsetModelPosition = VGet(0,1, 0);
 
 /// <summary>
 /// コンストラクタ
@@ -66,7 +66,7 @@ Boss::Boss()
     collisionManager->RegisterCollisionData(&collisionData);
 
     //スケールの初期化
-    MV1SetScale(modelHandle, VGet(DefaultScale, 0.14, DefaultScale));
+    MV1SetScale(modelHandle, VGet(DefaultScale, 0.014, DefaultScale));
 
     //座標の設定
     MV1SetPosition(modelHandle, VAdd(InitialPosition,OffsetModelPosition));

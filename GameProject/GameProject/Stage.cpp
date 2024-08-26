@@ -2,6 +2,7 @@
 #include"Stage.h"
 #include"ModelDataManager.h"
 #include"EffectManager.h"
+#include"Utility.h"
 
 //定数の初期化
 const VECTOR Stage::InitialPosition = VGet(0, 0, 0);
@@ -21,6 +22,12 @@ Stage::Stage()
 
     //ステージの座標の初期化
     MV1SetPosition(modelHandle, InitialPosition);
+
+    //  ステージのサイズを変更
+    MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
+
+    // ステージの回転
+    MV1SetRotationXYZ(modelHandle, VGet(0, Utility::ConvertRadian(StageModelRotationRate), 0));
 
     //　エフェクトデータの初期化
     InitializeSafeZoneEffectData();

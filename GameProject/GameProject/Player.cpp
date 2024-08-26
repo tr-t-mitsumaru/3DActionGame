@@ -9,13 +9,13 @@
 #include"GameScene.h"
 
 
-const VECTOR Player::ModelOffsetPosition = VGet(0, 0, -3);
+const VECTOR Player::ModelOffsetPosition = VGet(0, 0, -0.6);
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
 Player::Player()
-    : position(VGet(0, 0, -370.0f))
+    : position(VGet(0, 0, -37.0f))
     , angle(0.0f)
     , nowState(NULL)
     , modelDirection(VGet(0, 0, 0))

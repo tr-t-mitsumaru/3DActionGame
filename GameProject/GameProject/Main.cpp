@@ -56,7 +56,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 
     // 画面を初期化(真っ黒にする)
-    SetCameraNearFar(0.1f, 500.0f);     //nearとfarの設定
+    SetCameraNearFar(0.1f, 50.0f);     //nearとfarの設定
 
 
     //ゲームループ

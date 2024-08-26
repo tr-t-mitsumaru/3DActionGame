@@ -106,18 +106,18 @@ private:
     ///////  定数  //////
 
     static const VECTOR ModelOffsetPosition;                    // モデルの位置を調整するための値
-    static constexpr float  DefaultScale              = 0.2f;   // モデルの初期スケール
+    static constexpr float  DefaultScale              = 0.02f;   // モデルの初期スケール
     static constexpr float AngleSpeed                 = 0.15f;  // モデルの向きを変えるスピード
-    static constexpr float CollisionCapsuleLineLength = 24.0f;  // 当たり判定に必要なカプセルの線分の長さ
-    static constexpr float CollisionRadius            = 6.0f;   // 当たり判定に必要なカプセルの半径の大きさ
+    static constexpr float CollisionCapsuleLineLength = 2.4f;  // 当たり判定に必要なカプセルの線分の長さ
+    static constexpr float CollisionRadius            = 0.6f;   // 当たり判定に必要なカプセルの半径の大きさ
     static constexpr float HalfLength                 = 0.5f;   // 中央座標を出す際の長さを半分にするための定数
     static constexpr float InvincibilityStartRatio    = 0.1f;   // 無敵時間の開始割合
     static constexpr float InvincibilityEndRatio      = 0.7f;   // 無敵時間の終了割合
-    static constexpr float ShotHitEffectScale         = 10.0f;  // 弾が当たった時のエフェクトのサイズ
+    static constexpr float ShotHitEffectScale         = 1.0f;  // 弾が当たった時のエフェクトのサイズ
 
     // 登場シーンで使用する定数
-    static constexpr float MoveSpeed           = 0.7f;   // 登場シーンでの移動スピード
-    static constexpr float MoveDistance        = 150.0f; // 移動する距離
+    static constexpr float MoveSpeed           = 0.07f;  // 登場シーンでの移動スピード
+    static constexpr float MoveDistance        = 15.0f;  // 移動する距離
     static constexpr float AnimationSpeed      = 0.8f;   // アニメーションの再生速度
     static constexpr float AnimationBlendSpeed = 0.1f;   // アニメーションのブレンドスピード
 

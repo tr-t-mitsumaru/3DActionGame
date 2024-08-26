@@ -74,10 +74,10 @@ public:
 private:
 
 
-    static constexpr float   CameraTargetPlayerHeight = 30.0f;   // プレイヤーからカメラの注視点への高さ
-    static constexpr float   ToPlayerLength           = 70.0f;   // プレイヤーとの距離
-    static constexpr float   AngleSpeed               = 0.03f;   // 旋回速度
-    static constexpr float   SwitchPositionDistance   = 200.0f;  // カメラの座標を切り替える際に使用する距離
+    static constexpr float   CameraTargetPlayerHeight = 3.0f;    // プレイヤーからカメラの注視点への高さ
+    static constexpr float   ToPlayerLength           = 7.0f;    // プレイヤーとの距離
+    static constexpr float   AngleSpeed               = 0.006f;  // 旋回速度
+    static constexpr float   SwitchPositionDistance   = 20.0f;   // カメラの座標を切り替える際に使用する距離
     static const     VECTOR  StartCameraPosition;                // ゲーム開始時のカメラの座標
     static const     VECTOR  StartTargetPosition;                // ゲーム開始時のカメラの注視点
     static const     VECTOR  SecondCameraPosition;               // ゲーム開始時の二つ目のカメラの座標
@@ -85,10 +85,10 @@ private:
     static const     VECTOR  ThirdCameraPosition;                // 三番目のカメラの座標
     static const     VECTOR  SecondToThirdVelocity;              // ２番目の座標から三番目の座標に向かうベロシティ
     static const     VECTOR  ForceCameraPosition;                // ４番目のカメラ座標
-    static constexpr float   CameraMoveSpeed          = 0.5f;    // カメラの移動スピード
-    static constexpr float   OffsetBossPositionY      = 50.0f;   // ボスのY座標をどれだけずらした場所を注視点にするか
-    static constexpr float   ShakeOffsetLimit         = 4.0f;    // 画面を揺らす量の上限
-    static constexpr float   ShakeSpeed               = 0.5f;    // 画面を揺らすスピード
+    static constexpr float   CameraMoveSpeed          = 0.05f;   // カメラの移動スピード
+    static constexpr float   OffsetBossPositionY      = 5.0f;    // ボスのY座標をどれだけずらした場所を注視点にするか
+    static constexpr float   ShakeOffsetLimit         = 0.4f;    // 画面を揺らす量の上限
+    static constexpr float   ShakeSpeed               = 0.1f;    // 画面を揺らすスピード
 
     // タイトルシーン
     static constexpr VECTOR  InitializeTitlePosition       = { 0,5.4f,11.0f };    // タイトルシーンでの座標
