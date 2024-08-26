@@ -51,18 +51,18 @@ private:
     static constexpr float EasyAnimationBlendSpeed   = 0.008f;  // 弱い時のアニメーションのブレンドスピード
     static constexpr float NormalAnimationBlendSpeed = 0.01f;   // 通常時のアニメーションのブレンドスピード
     static constexpr float HardAnimationBlendSpeed   = 0.03f;   // 強い時のアニメーションのブレンドスピード
-    static constexpr float EasyShotSpeed             = 6.0f;    // 弱い時の弾のスピード
-    static constexpr float NormalShotSpeed           = 7.0f;    // 通常時の弾のスピード
-    static constexpr float HardShotSpeed             = 9.0f;    // 強い時の弾のスピード
-    static constexpr float EasyShotRadius            = 15.0f;   // 弱い時の弾の大きさ
-    static constexpr float NormalShotRadius          = 25.0f;   // 通常時の弾の大きさ
-    static constexpr float HardShotRadius            = 40.0f;   // 強い時の弾の大きさ
+    static constexpr float EasyShotSpeed             = 0.6f;    // 弱い時の弾のスピード
+    static constexpr float NormalShotSpeed           = 0.7f;    // 通常時の弾のスピード
+    static constexpr float HardShotSpeed             = 0.9f;    // 強い時の弾のスピード
+    static constexpr float EasyShotRadius            = 1.5f;   // 弱い時の弾の大きさ
+    static constexpr float NormalShotRadius          = 2.5f;   // 通常時の弾の大きさ
+    static constexpr float HardShotRadius            = 4.0f;   // 強い時の弾の大きさ
     static constexpr int   EasyShotDamageAmount      = 40;      // 弱い時の弾のダメージ
     static constexpr int   NormalShotDamageAmount    = 60;      // 通常時の弾のダメージ
     static constexpr int   HardShotDamageAmount      = 80;      // 強い時の弾のダメージ
-    static constexpr float EasyEffectDefaultScale    = 15.0f;   // 弱い時のエフェクトの大きさ
-    static constexpr float NormalEffectDefaultScale  = 25.0f;   // 通常時のエフェクトの大きさ
-    static constexpr float HardEffectDefaultScale    = 40.0f;   // 強い時のエフェクトの大きさ
+    static constexpr float EasyEffectDefaultScale    = 1.5f;   // 弱い時のエフェクトの大きさ
+    static constexpr float NormalEffectDefaultScale  = 2.5f;   // 通常時のエフェクトの大きさ
+    static constexpr float HardEffectDefaultScale    = 4.0f;   // 強い時のエフェクトの大きさ
 
 
 

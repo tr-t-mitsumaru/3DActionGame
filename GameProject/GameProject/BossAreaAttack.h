@@ -46,21 +46,21 @@ private:
     static constexpr float EasyAnimationBlendSpeed   = 0.02f;        // 弱い時のアニメーションのブレンドスピード
     static constexpr float NormalAnimationBlendSpeed = 0.04f;        // 通常状態でのアニメーションのブレンドスピード
     static constexpr float HardAnimationBlendSpeed   = 0.07f;        // 強い時のアニメーションブレンドスピード
-    static constexpr float EasyShotRadius            = 15.0f;        // 弱い時の弾の大きさ
-    static constexpr float NormalShotRadius          = 20.0f;        // 普通の時の弾の大きさ
-    static constexpr float HardShotRadius            = 24.0f;        // 強い時の弾の大きさ
-    static constexpr float EasyShotSpeed             = 3.5f;         // 弱い時の弾の速度
-    static constexpr float NormalShotSpeed           = 5.0f;         // 普通の時の弾の速度
-    static constexpr float HardShotSpeed             = 7.0f;         // 強い時の弾の速度
+    static constexpr float EasyShotRadius            = 1.5f;         // 弱い時の弾の大きさ
+    static constexpr float NormalShotRadius          = 2.0f;         // 普通の時の弾の大きさ
+    static constexpr float HardShotRadius            = 2.4f;         // 強い時の弾の大きさ
+    static constexpr float EasyShotSpeed             = 0.35f;        // 弱い時の弾の速度
+    static constexpr float NormalShotSpeed           = 0.5f;         // 普通の時の弾の速度
+    static constexpr float HardShotSpeed             = 0.7f;         // 強い時の弾の速度
     static constexpr int   EasyShotDamageAmount      = 40;           // 弱い時の弾のダメージ
     static constexpr int   NormalShotDamageAmount    = 60;           // 普通の時の弾のダメージ
     static constexpr int   HardShotDamageAmount      = 80;           // 強い時の弾のダメージ
     static constexpr float EasyAnimationSpeed        = 0.4f;         // 弱い時のアニメーションの速さ
     static constexpr float NormalAnimationSpeed      = 0.6f;         // 普通の時のアニメーションの速さ
     static constexpr float HardAnimationSpeed        = 0.8f;         // 強い時のアニメーションの速さ
-    static constexpr float EasyEffectScale           = 15.0f;        // 弱い時のエフェクトの大きさ
-    static constexpr float NormalEffectScale         = 20.0f;        // 通常時のエフェクトの大きさ
-    static constexpr float HardEffectScale           = 25.0f;        // 強い時のエフェクトの大きさ
+    static constexpr float EasyEffectScale           = 1.5f;         // 弱い時のエフェクトの大きさ
+    static constexpr float NormalEffectScale         = 2.0f;         // 通常時のエフェクトの大きさ
+    static constexpr float HardEffectScale           = 2.5f;         // 強い時のエフェクトの大きさ
 
 
 

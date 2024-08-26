@@ -10,8 +10,8 @@
 
 
 
-const VECTOR PlayerAttack::NormalAttackOffsetPositionY = VGet(-10.0f,10.0f, 0.0f);
-const VECTOR PlayerAttack::StrongAttackOffsetPositionY = VGet(0.0f, 10.0f, 0.0f);
+const VECTOR PlayerAttack::NormalAttackOffsetPositionY = VGet(-1.0f,1.0f, 0.0f);
+const VECTOR PlayerAttack::StrongAttackOffsetPositionY = VGet(0.0f, 1.0f, 0.0f);
 
 
 /// <summary>

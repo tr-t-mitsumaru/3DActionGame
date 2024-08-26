@@ -5,7 +5,7 @@
 #include"GameScene.h"
 
 
-const VECTOR BossRunAttack::OffsetCollisionPosition = VGet(0.0f, 20.0f, 0.0f);
+const VECTOR BossRunAttack::OffsetCollisionPosition = VGet(0.0f, 2.0f, 0.0f);
 
 ///<summary>
 ///コンストラクタ
@@ -61,6 +61,9 @@ void BossRunAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR
     float distanceFromCenter = VSize(VSub(position, VGet(0, 0, 0)));
 
 
+    //アニメーションの再生時間のセット
+    UpdateAnimation(animationBlendSpeed);
+
 
     //ステートの切り替え処理を呼ぶ
     ChangeState();
@@ -72,9 +75,6 @@ void BossRunAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR
         //当たり判定を消す
         collisionData.collisionState = CollisionData::CollisionEnded;
     }
-
-    //アニメーションの再生時間のセット
-    UpdateAnimation(animationBlendSpeed);
 
     //当たり判定に必要な情報の更新
     UpdateCollisionData(modelDirection, position);

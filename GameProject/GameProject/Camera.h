@@ -76,7 +76,7 @@ private:
 
     static constexpr float   CameraTargetPlayerHeight = 3.0f;    // プレイヤーからカメラの注視点への高さ
     static constexpr float   ToPlayerLength           = 7.0f;    // プレイヤーとの距離
-    static constexpr float   AngleSpeed               = 0.006f;  // 旋回速度
+    static constexpr float   AngleSpeed               = 0.03f;  // 旋回速度
     static constexpr float   SwitchPositionDistance   = 20.0f;   // カメラの座標を切り替える際に使用する距離
     static const     VECTOR  StartCameraPosition;                // ゲーム開始時のカメラの座標
     static const     VECTOR  StartTargetPosition;                // ゲーム開始時のカメラの注視点

@@ -30,7 +30,7 @@ public:
     /// </summary>
     void ChangeState()override;
 private:
-    static constexpr float MoveSpeed = 1.3f;   //移動量
+    static constexpr float MoveSpeed = 0.13f;   //移動量
 
 
     /// <summary>

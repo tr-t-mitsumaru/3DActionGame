@@ -26,21 +26,21 @@ private:
     ///////  定数  ///////
 
     static constexpr float  InitializeAnimationSpeed               = 0.5f;     // アニメーション速度
-    static constexpr float  CollisionCapsuleLineHalfLength         = 50.0f;    // 当たり判定のカプセルの半分の大きさ
-    static constexpr float  CollisionRadius                        = 60.0f;    // 当たり判定の半径
+    static constexpr float  CollisionCapsuleLineHalfLength         = 5.0f;    // 当たり判定のカプセルの半分の大きさ
+    static constexpr float  CollisionRadius                        = 6.0f;    // 当たり判定の半径
     static const     VECTOR OffsetPosition;                                    // プレイヤーと攻撃の当たり判定座標がどれだけずれているか
-    static constexpr float  OffsetPositionScale                    = 70.0f;    // プレイヤーとどれだけ離すかの大きさ
+    static constexpr float  OffsetPositionScale                    = 7.0f;    // プレイヤーとどれだけ離すかの大きさ
     static constexpr float  CollisionCapsuleAngle                  = 50;       // 当たり判定のカプセルの角度
     static constexpr float  InitializeCollisionStartAnimationRatio = 0.45f;    // 当たり判定を始めるアニメーションの再生率
     static constexpr float  CollisionEndAnimationRatio             = 0.5f;     // 当たり判定を終わらせるアニメーションの再生率
     static constexpr int    DamageAmount                           = 90;       // 与えるダメージ量
     static constexpr float  EffectPlaySpeed                        = 1.0f;     // エフェクトの再生速度
-    static constexpr float  EffectDefaultScale                     = 20.0f;    // エフェクトの基本サイズ
+    static constexpr float  EffectDefaultScale                     = 2.0f;    // エフェクトの基本サイズ
     static constexpr float  EasyAnimationSpeed                     = 0.2f;     // 弱い時のアニメーションのスピード
     static constexpr float  NormalAnimationSpeed                   = 0.5f;     // 通常時のアニメーションのスピード
     static constexpr float  HardAnimationSpeed                     = 1.0f;     // 強い時のアニメーションスピード
     static constexpr float  AnimationSpeedChangeRate               = 0.26f;     // アニメーションのスピードを変更する再生率
-    static constexpr float  EffectOffsetPositionY                  = 50.0f;    // エフェクトのY座標の調整位置
+    static constexpr float  EffectOffsetPositionY                  = 5.0f;    // エフェクトのY座標の調整位置
 
     ///////  メンバ変数  ////////
 

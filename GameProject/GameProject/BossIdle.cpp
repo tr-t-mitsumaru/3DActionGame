@@ -61,14 +61,17 @@ void BossIdle::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR boss
         SelectActionPattern(targetDistance);
     }
 
-    //ステートの切り替え処理を呼ぶ
-    ChangeState();
-
     //アニメーションの再生時間のセット
     UpdateAnimation(AnimationBlendSpeed);
 
-    //シーンが切り替わっていればアニメーションをデタッチ
+    //ステートの切り替え処理を呼ぶ
+    ChangeState();
+
+
+    // シーンが切り替わっていればアニメーションをデタッチ
     DetachAnimation();
+
+
     
 }
 
@@ -205,10 +208,6 @@ void BossIdle::SelectActionPattern(const float targetDistance)
     }
 
 
-
-
-
-    printfDx("%f\n", targetDistance);
 }
 
 /// <summary>

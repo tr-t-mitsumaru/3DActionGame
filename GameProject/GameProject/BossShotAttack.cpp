@@ -42,6 +42,13 @@ void BossShotAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTO
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
+    if (shotState == WaitLeftShot)
+    {
+        VECTOR direction = VSub(bossTargetPosition, position);
+        direction = VNorm(direction);
+        modelDirection = direction;
+    }
+
     // アニメーションの再生率を見て弾を作成する
     SpawnShotByAnimationTime(position, bossTargetPosition, modelDirection);
 

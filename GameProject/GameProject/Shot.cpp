@@ -178,7 +178,7 @@ void Shot::DeleteShot()
     // 中心からの距離を出す
     float distanceFromeCenter = CalculateDistanceFromCenter();
 
-    if (distanceFromeCenter >= 500)
+    if (distanceFromeCenter >= 41)
     {
         // 当たり判定を削除する
         this->collisionData.collisionState = CollisionData::CollisionEnded;

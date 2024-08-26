@@ -38,10 +38,10 @@ private:
 
     static constexpr float InitializeAnimationSpeed     = 0.6f;     // アニメーションの初期速度
     static constexpr float CollisionStratAnimationRatio = 0.1f;     // 当たり判定を作成するアニメーションの再生率
-    static constexpr float OffsetCollisionPositonScale  = 0.1;      // 当たり判定をプレイヤーの向いている方向にどれだけ動かすか
+    static constexpr float OffsetCollisionPositonScale  = 0.01f;    // 当たり判定をプレイヤーの向いている方向にどれだけ動かすか
     static const VECTOR    OffsetCollisionPosition;                 // 当たり判定をプレイヤーの位置からどれだけずらすか
-    static constexpr float CollisionRadius              = 60.0f;    // 当たり判定の半径
-    static constexpr float TargetOffsetDistance         = 100.0f;   // ターゲットとの距離からどれだけずらすか
+    static constexpr float CollisionRadius              = 6.0f;     // 当たり判定の半径
+    static constexpr float TargetOffsetDistance         = 10.0f;     // ターゲットとの距離からどれだけずらすか
 
     // 攻撃に必要なパラメーター
     static constexpr float EasyAnimationBlendSpeed      = 0.008f;   // 弱い時のアニメーションのブレンドスピード
@@ -50,9 +50,9 @@ private:
     static constexpr int   EasyDamageAmount             = 70;       // 弱い時のダメージ量
     static constexpr int   NormalDamageAmount           = 120;      // 通常時のダメージ量
     static constexpr int   HardDamageAmount             = 140;      // 強い時のダメージ量
-    static constexpr float EasyMoveSpeed                = 5.0f;     // 弱い時の移動スピード
-    static constexpr float NormalMoveSpeed              = 6.0f;     // 通常時の移動スピード
-    static constexpr float HardMoveSpeed                = 8.0f;     // 強い時の移動スピード
+    static constexpr float EasyMoveSpeed                = 0.5f;     // 弱い時の移動スピード
+    static constexpr float NormalMoveSpeed              = 0.6f;     // 通常時の移動スピード
+    static constexpr float HardMoveSpeed                = 0.8f;     // 強い時の移動スピード
 
 
 
@@ -66,7 +66,7 @@ private:
     bool     isAttackParameterInitialize; // 攻撃に必要なパラメーターを初期化したか
     int      damageAmount;                // 与えるダメージ量
     float    animationBlendSpeed;         // アニメーションのブレンドスピード
-    int      moveSpeed;                   // 移動スピード
+    float      moveSpeed;                   // 移動スピード
 
 
 

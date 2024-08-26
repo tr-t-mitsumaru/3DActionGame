@@ -41,10 +41,10 @@ private:
     /////////  定数  //////
 
     static constexpr float InitializeAnimationSpeed                = 1.0f;     // アニメーションの初期速度
-    static constexpr float ShortRange                              = 90.0f;    // 近距離の範囲
-    static constexpr float MiddleRange                             = 150.0f;   // 中距離の範囲
+    static constexpr float ShortRange                              = 9.0f;    // 近距離の範囲
+    static constexpr float MiddleRange                             = 15.0f;   // 中距離の範囲
     static constexpr int   RandRange                               = 99;       // ランダムの範囲
-    static constexpr float AnimationBlendSpeed                     = 0.1f;     // アニメーションのブレンドスピード
+    static constexpr float AnimationBlendSpeed                     = 0.03f;     // アニメーションのブレンドスピード
     static constexpr int   ShortRangeDefaultAttackProbability      = 60;       // 近距離での通常攻撃が出る確率
     static constexpr int   ShortRangeAreaAttackProbability         = 40;       // 近距離での通常攻撃が出る確率
     static constexpr int   MiddleRangeAreaAttackProbability        = 40;       // 中距離での範囲攻撃が出る確率

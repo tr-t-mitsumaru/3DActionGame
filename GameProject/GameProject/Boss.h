@@ -150,7 +150,7 @@ private:
     static constexpr float HalfLength                 = 0.5f;       // 中央座標を出す際の長さを半分にするための定数
     static constexpr int   NotRegisterTag             = -1;         // レジスタの識別番号が代入されていないことをしめす
     static constexpr float DefaultScale               = 0.02f;       // 基本的なスケール
-    static constexpr float AngleSpeed                 = 0.15f;      // モデルの向きを変えるスピード
+    static constexpr float AngleSpeed                 = 0.05f;      // モデルの向きを変えるスピード
     static constexpr float ShotHitEffectScale         = 1.0f;       // 弾が当たった時のエフェクトのサイズ
     static constexpr float PlayerAttackHitEffectScale = 1.0f;       // プレイヤーの攻撃が当たった際のエフェクトのサイズ
     static constexpr int   MoveStartCountLimit        = 40;         // 動き出すまでの時間

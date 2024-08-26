@@ -6,7 +6,7 @@
 #include"EffectManager.h"
 #include"CollisionUtility.h"
 
-const VECTOR PlayerShotMagic::OffsetEffectPosition = VGet(0.0f, 15.0f, 0.0f);
+const VECTOR PlayerShotMagic::OffsetEffectPosition = VGet(0.0f, 1.5f, 0.0f);
 
 
 /// <summary>

@@ -59,23 +59,23 @@ private:
 
     ///////  定数  ///////
 
-    static constexpr float  NormalAttackCollisionCapsuleLineLength   = 15.0f;  // 通常攻撃の当たり判定のカプセルの半分の長さ
-    static constexpr float  NormalAttackCollisionRadius              = 12.0f;  // 通常攻撃の当たり判定のカプセルの半径
+    static constexpr float  NormalAttackCollisionCapsuleLineLength   = 1.5f;   // 通常攻撃の当たり判定のカプセルの半分の長さ
+    static constexpr float  NormalAttackCollisionRadius              = 1.2f;   // 通常攻撃の当たり判定のカプセルの半径
     static const     VECTOR NormalAttackOffsetPositionY;                       // 通常攻撃のプレイヤーと攻撃の当たり判定座標がどれだけずれているか
-    static constexpr float  NormalAttackOffsetPositionScale          = 18.0f;  // 通常攻撃のプレイヤーとどれだけ離すかの大きさ
+    static constexpr float  NormalAttackOffsetPositionScale          = 1.8f;   // 通常攻撃のプレイヤーとどれだけ離すかの大きさ
     static constexpr int    NormalAttackCollisionCapsuleAngle        = -30;    // 通常攻撃の当たり判定用カプセルの回転角度
     static constexpr float  NormalAttackCollisionStartAnimationRatio = 0.3;    // 当たり判定を始めるアニメーションの再生率
     static constexpr int    NormalAttackDamageAmount                 = 70;     // 通常攻撃の与えるダメージ量
-    static constexpr float  StrongAttackCollisionCapsuleLineLength   = 15.0f;  // 強攻撃の当たり判定のカプセルの半分の長さ
-    static constexpr float  StrongAttackCollisionRadius              = 15.0f;  // 強攻撃の当たり判定のカプセルの半径
+    static constexpr float  StrongAttackCollisionCapsuleLineLength   = 1.5f;   // 強攻撃の当たり判定のカプセルの半分の長さ
+    static constexpr float  StrongAttackCollisionRadius              = 1.5f;   // 強攻撃の当たり判定のカプセルの半径
     static const     VECTOR StrongAttackOffsetPositionY;                       // 強攻撃のプレイヤーと攻撃の当たり判定座標がどれだけずれているか
-    static constexpr float  StrongAttackOffsetPositionScale          = 18.0f;  // 強攻撃のプレイヤーとどれだけ離すかの大きさ
+    static constexpr float  StrongAttackOffsetPositionScale          = 1.8f;   // 強攻撃のプレイヤーとどれだけ離すかの大きさ
     static constexpr int    StrongAttackCollisionCapsuleAngle        = 0;      // 強攻撃の当たり判定用カプセルの回転角度
     static constexpr float  StrongAttackCollisionStartAnimationRatio = 0.3;    // 強攻撃の当たり判定を始めるアニメーションの再生率
     static constexpr int    StrongAttackDamageAmount                 = 110;    // 強攻撃の与えるダメージ量
-    static constexpr float  FirstComboMoveSpeed                      = 0.15f;  // １撃目の移動速度
-    static constexpr float  SecondComboMoveSpeed                     = 0.4f;   // ２撃目の移動速度
-    static constexpr float  ThirdComboMoveSpeed                      = 0.5f;   // ３撃目の移動速度
+    static constexpr float  FirstComboMoveSpeed                      = 0.015f; // １撃目の移動速度
+    static constexpr float  SecondComboMoveSpeed                     = 0.04f;  // ２撃目の移動速度
+    static constexpr float  ThirdComboMoveSpeed                      = 0.05f;  // ３撃目の移動速度
     static constexpr float  InputTimeLimit                           = 0.1f;   // コンボ中の入力可能な時間
     static constexpr float  SecondAttackInputStartTime               = 0.2f;   // ２撃目の入力を開始する時間
     static constexpr float  ThirdAttackInputStartTime                = 0.53f;  // ３撃目の入力を開始する時間

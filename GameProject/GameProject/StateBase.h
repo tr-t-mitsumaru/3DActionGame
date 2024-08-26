@@ -149,6 +149,7 @@ protected:
     /// </summary>
     void StartAnimation();
 
+    /// <summary>
     /// シーンが切り替わってた際にアニメーションをデタッチする
     /// </summary>
     void DetachAnimation();

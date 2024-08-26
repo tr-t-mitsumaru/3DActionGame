@@ -7,7 +7,7 @@
 #include"EffectManager.h"
 
 
-const VECTOR BossDefaultAttack::OffsetPosition = VGet(30.0f, 40.0f, 0.0f);
+const VECTOR BossDefaultAttack::OffsetPosition = VGet(3.0f, 4.0f, 0.0f);
 
 /// <summary>
 /// コンストラクタ

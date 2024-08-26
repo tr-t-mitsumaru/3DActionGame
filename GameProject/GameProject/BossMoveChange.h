@@ -48,11 +48,11 @@ private:
 
     static constexpr float InitializeAnimationSpeed               = 0.6f;                    // 初期のアニメーションスピード
     static constexpr float AnimationBlendSpeed                    = 0.03f;                   // アニメーションのブレンドスピード
-    static constexpr VECTOR EffectDefaultScale                    = { 40.0f,40.0f,40.0f };   // エフェクトの初期サイズ
+    static constexpr VECTOR EffectDefaultScale                    = { 4.0f,4.0f,4.0f };      // エフェクトの初期サイズ
     static constexpr float EffectPlaySpeed                        = 1.0f;                    // エフェクトの再生速度
     static constexpr float EffectPlayAnimationRatio               = 0.45f;                   // エフェクトを再生させるアニメーションの再生率
     static constexpr float ChangeTexturePlayAnimationRatio        = 0.45f;                   // テクスチャを変更するアニメーションの再生率
-    static constexpr float CollisionRadius                        = 50.0f;                   // 当たり判定の半径サイズ
+    static constexpr float CollisionRadius                        = 5.0f;                    // 当たり判定の半径サイズ
     static constexpr int   DamageAmount                           = 70;                      // ダメージ量
     static constexpr float InitializeCollisionStartAnimationRatio = 0.45f;                   // 当たり判定を作成するアニメーションの再生率
 

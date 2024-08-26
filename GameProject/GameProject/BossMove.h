@@ -28,7 +28,7 @@ private:
     ///////  定数  ///////
 
     static constexpr float InitializeAnimationSpeed = 0.3f;   // アニメーション速度
-    static constexpr float MoveSpeed                = 0.8f;   // 移動スピード
+    static constexpr float MoveSpeed                = 0.08f;   // 移動スピード
     static constexpr float BlendSpeed               = 0.06f;  // 前のアニメーションとのブレンドの速さ
     static constexpr int   MoveFrameLimit           = 200;    // 移動させるフレーム数の上限
 
