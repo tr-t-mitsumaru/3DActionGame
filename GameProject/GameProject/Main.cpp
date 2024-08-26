@@ -7,6 +7,7 @@
 #include"ShotManager.h"
 #include"EffectManager.h"
 #include"ImageDataManager.h"
+#include"SoundManager.h"
 
 //----------------------------//
 // WinMain関数.
@@ -47,6 +48,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     EffectManager::CreateInstance();
     ShotManager::CreateInstance();
     ImageDataManager::CreateInstance();
+    SoundManager::CreateInstance();
 
 
 
@@ -72,6 +74,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     ShotManager::DeleteInstance();
     EffectManager::DeleteInstance();
     ImageDataManager::DeleteInstance();
+    SoundManager::DeleteInstance();
 
 
     Effkseer_End();

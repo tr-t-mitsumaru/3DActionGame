@@ -11,7 +11,7 @@ public:
     /// </summary>
     enum SoundEffectTag
     {
-
+        OpenDoor = 0,   // ドアを開ける音
     };
 
     /// <summary>
@@ -36,7 +36,8 @@ public:
     /// サウンドの名前を持ってきて再生する
     /// </summary>
     /// <param name="soundEffectTag">再生する音の名前</param>
-    void PlaySoundEffect(SoundEffectTag soundEffectTag);
+    /// <param name="overRide">上書きして再生するか</param>
+    void PlaySoundEffect(SoundEffectTag soundEffectTag,bool overRide = false);
 
     /// <summary>
     /// BGMの名前を持ってきて再生する

@@ -4,6 +4,7 @@
 class Camera;
 class TitleSceneUI;
 class EffectManager;
+class SoundManager;
 
 
 /// <summary>
@@ -29,7 +30,9 @@ private:
 
     ///////       変数       ///////
 
-    Camera*        camera;           // カメラ
-    TitleSceneUI*  titleSceneUI;     // UI
-    EffectManager* effectManager;    // エフェクト管理クラス
+    Camera*        camera;            // カメラ
+    TitleSceneUI*  titleSceneUI;      // UI
+    EffectManager* effectManager;     // エフェクト管理クラス
+    SoundManager* soundManager;      // 音管理クラスのポインタ
+    bool           pushedStartButton; // ゲーム開始のボタンが既に押されたか
 };

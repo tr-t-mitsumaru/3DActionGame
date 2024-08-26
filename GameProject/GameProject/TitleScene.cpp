@@ -2,6 +2,7 @@
 #include"TitleSceneUI.h"
 #include"Camera.h"
 #include"EffectManager.h"
+#include"SoundManager.h"
 #include"TitleScene.h"
 #include"GameScene.h"
 
@@ -10,6 +11,7 @@
 /// コンストラクタ
 /// </summary>
 TitleScene::TitleScene()
+    :pushedStartButton(false)
 {
     // メモリの確保
     camera       = new Camera();
@@ -17,6 +19,9 @@ TitleScene::TitleScene()
 
     // エフェクト管理クラスのインスタンスをもってくる
     effectManager = EffectManager::GetInstance();
+
+    // サウンド管理クラスのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
 }
 
 /// <summary>
@@ -45,13 +50,19 @@ void TitleScene::Update()
     effectManager->Update();
 
     //Xが離されたらゲームシーンに移行
-    if (inputManager->GetKeyPushState(InputManager::X) == InputManager::JustRelease)
+    if (inputManager->GetKeyPushState(InputManager::X) == InputManager::JustRelease && ! pushedStartButton)
     {
         // ドアを空け始める
         titleSceneUI->StartDoorOpen();
 
         // カメラを前に進み始める
         camera->StartMovingForward();
+
+        // ドアが開く音を流す
+        soundManager->PlaySoundEffect(SoundManager::OpenDoor);
+
+        // 既にスタートボタンが押されたフラグを立てる
+        pushedStartButton = true;
     }
 
     // ドアが開ききったらシーンを切り替える
