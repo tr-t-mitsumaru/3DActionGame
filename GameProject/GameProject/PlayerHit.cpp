@@ -37,11 +37,12 @@ PlayerHit::~PlayerHit()
 /// <param name="characterPosition">キャラクターの座標</param>
 void PlayerHit::Update(VECTOR& modelDirection, VECTOR& position, const VECTOR targetPosition, VECTOR cameraPosition)
 {
+    //アニメーションの再生時間のセット
+    UpdateAnimation();
+
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
-    //アニメーションの再生時間のセット
-    UpdateAnimation();
 
     //シーンが切り替わっていればアニメーションをデタッチ
     DetachAnimation();

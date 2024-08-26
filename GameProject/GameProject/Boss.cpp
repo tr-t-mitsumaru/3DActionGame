@@ -176,6 +176,8 @@ void Boss::Draw()
 
 #ifdef _DEBUG
 
+    nowState->DrawCollision();
+
     DrawFormatString(50, 250, GetColor(255, 255, 255), "HP : %d", hp);
 #endif
 

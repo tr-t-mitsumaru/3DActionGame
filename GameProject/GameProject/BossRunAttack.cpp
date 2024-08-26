@@ -14,6 +14,7 @@ BossRunAttack::BossRunAttack(int& InitializeModelHandle, const int beforeAnimati
     :StateBase(InitializeModelHandle, Boss::Run, beforeAnimationIndex)
     ,currentRunState(RunStart)
     ,isAttackParameterInitialize(false)
+    ,initializedModelDirection(false)
 {
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
@@ -46,6 +47,18 @@ void BossRunAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR
 
     // 体力によって変わる攻撃時のパラメーターを変更
     InitializeAttackPrameters();
+
+    if (!initializedModelDirection)
+    {
+        // モデルの向きを計算
+        VECTOR initialModelDirection = VNorm(VSub(bossTargetPosition, position));
+
+        // 実際のモデルの向きに反映
+        modelDirection = initialModelDirection;
+
+        initializedModelDirection = true;
+
+    }
 
     if (currentPlayAnimationState == BlendEnd)
     {

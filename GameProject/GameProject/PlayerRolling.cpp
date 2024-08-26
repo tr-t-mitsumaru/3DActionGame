@@ -34,14 +34,14 @@ PlayerRolling::~PlayerRolling()
 /// <param name="playerTargetPosition">敵対しているキャラの座標</param>
 void PlayerRolling::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)
 {
+    //アニメーションの再生時間のセット
+    UpdateAnimation();
+
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
     // 移動量を加算する
     velocity = SetMovement(modelDirection);
-
-    //アニメーションの再生時間のセット
-    UpdateAnimation();
 
     //シーンが切り替わっていればアニメーションをデタッチ
     DetachAnimation();

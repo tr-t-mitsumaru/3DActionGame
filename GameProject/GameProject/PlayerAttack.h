@@ -71,7 +71,7 @@ private:
     static const     VECTOR StrongAttackOffsetPositionY;                       // 強攻撃のプレイヤーと攻撃の当たり判定座標がどれだけずれているか
     static constexpr float  StrongAttackOffsetPositionScale          = 1.8f;   // 強攻撃のプレイヤーとどれだけ離すかの大きさ
     static constexpr int    StrongAttackCollisionCapsuleAngle        = 0;      // 強攻撃の当たり判定用カプセルの回転角度
-    static constexpr float  StrongAttackCollisionStartAnimationRatio = 0.3;    // 強攻撃の当たり判定を始めるアニメーションの再生率
+    static constexpr float  StrongAttackCollisionStartAnimationRatio = 0.4;    // 強攻撃の当たり判定を始めるアニメーションの再生率
     static constexpr int    StrongAttackDamageAmount                 = 110;    // 強攻撃の与えるダメージ量
     static constexpr float  FirstComboMoveSpeed                      = 0.015f; // １撃目の移動速度
     static constexpr float  SecondComboMoveSpeed                     = 0.04f;  // ２撃目の移動速度

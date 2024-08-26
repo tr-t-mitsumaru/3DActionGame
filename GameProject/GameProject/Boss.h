@@ -17,7 +17,7 @@ public:
 
     ////////         定数          /////////
 
-    static constexpr int MaxHp = 2000;      // ボスのHP
+    static constexpr int MaxHp = 5000;      // ボスのHP
 
 
     /// <summary>
@@ -145,11 +145,11 @@ private:
     static const VECTOR InitialPosition;             //初期座標
     static const VECTOR OffsetModelPosition;         //モデルの位置調整用の値
 
-    static constexpr float CollisionCapsuleLineLength = 6.0f;      // 当たり判定に必要なカプセルの線分の長さ
-    static constexpr float CollisionRadius            = 3.5f;      // 当たり判定に必要なカプセルの半径の大きさ
+    static constexpr float CollisionCapsuleLineLength = 6.0f;       // 当たり判定に必要なカプセルの線分の長さ
+    static constexpr float CollisionRadius            = 3.0f;       // 当たり判定に必要なカプセルの半径の大きさ
     static constexpr float HalfLength                 = 0.5f;       // 中央座標を出す際の長さを半分にするための定数
     static constexpr int   NotRegisterTag             = -1;         // レジスタの識別番号が代入されていないことをしめす
-    static constexpr float DefaultScale               = 0.02f;       // 基本的なスケール
+    static constexpr float DefaultScale               = 0.02f;      // 基本的なスケール
     static constexpr float AngleSpeed                 = 0.05f;      // モデルの向きを変えるスピード
     static constexpr float ShotHitEffectScale         = 1.0f;       // 弾が当たった時のエフェクトのサイズ
     static constexpr float PlayerAttackHitEffectScale = 1.0f;       // プレイヤーの攻撃が当たった際のエフェクトのサイズ
@@ -158,9 +158,9 @@ private:
     static constexpr float FirstAnimationSpeed        = 0.4f ;      // 最初のアニメーションの再生速度
     static constexpr float SecondAnimationSpeed       = 0.5f;       // ２個目のアニメーションの速度
     static constexpr float AnimationBlendSpeed        = 0.01f;      // アニメーションのブレンドスピード
-    static constexpr float IntimidationEffectScale    = 4.0f;      // 威嚇時のエフェクトの大きさ
-    static constexpr float ThresholdLowHp             = 0.3f;       // HPが少ない状態のしきい値
-    static constexpr float ThresholdMidleHp           = 0.7f;       // HPが普通の状態のしきい値
+    static constexpr float IntimidationEffectScale    = 4.0f;       // 威嚇時のエフェクトの大きさ
+    static constexpr float ThresholdLowHp             = 0.35f;      // HPが少ない状態のしきい値
+    static constexpr float ThresholdMidleHp           = 0.75f;      // HPが普通の状態のしきい値
     static constexpr int   SlowMotionCountLimit       = 100;        // スローモーションにするカウントの上限
     static constexpr int   WaitTime                   = 30;         // 処理を止める時間
 

@@ -52,9 +52,10 @@ private:
     static constexpr float EffectPlaySpeed                        = 1.0f;                    // エフェクトの再生速度
     static constexpr float EffectPlayAnimationRatio               = 0.45f;                   // エフェクトを再生させるアニメーションの再生率
     static constexpr float ChangeTexturePlayAnimationRatio        = 0.45f;                   // テクスチャを変更するアニメーションの再生率
-    static constexpr float CollisionRadius                        = 5.0f;                    // 当たり判定の半径サイズ
+    static constexpr float CollisionRadius                        = 10.0f;                    // 当たり判定の半径サイズ
     static constexpr int   DamageAmount                           = 70;                      // ダメージ量
     static constexpr float InitializeCollisionStartAnimationRatio = 0.45f;                   // 当たり判定を作成するアニメーションの再生率
+    static constexpr float CollisionDeleteAnimationRatio          = 0.8f;                    // 当たり判定を消すアニメーションの再生率
 
     ///////  メンバ変数  ////////
 

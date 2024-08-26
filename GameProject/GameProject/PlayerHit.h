@@ -35,7 +35,7 @@ private:
 
     ///////           定数             ///////
 
-    static constexpr float AnimationSpeed = 0.7f;   // アニメーションの速度
+    static constexpr float AnimationSpeed = 0.5f;   // アニメーションの速度
 
 
 

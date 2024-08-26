@@ -49,10 +49,11 @@ PlayerShotMagic::~PlayerShotMagic()
 /// <param name="playerTargetPosition">敵対しているキャラの座標</param>
 void PlayerShotMagic::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)
 {
-    //ステートの切り替え処理を呼ぶ
-    ChangeState();
     //アニメーションの再生時間のセット
     UpdateAnimation();
+
+    //ステートの切り替え処理を呼ぶ
+    ChangeState();
 
     // アニメーションの再生時間に合わせてショットを生成する
     CreateShotByAnimationRatio(position, playerTargetPosition, modelDirection);

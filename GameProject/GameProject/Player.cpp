@@ -18,7 +18,7 @@ Player::Player()
     : position(VGet(0, 0, -37.0f))
     , angle(0.0f)
     , nowState(NULL)
-    , modelDirection(VGet(0, 0, 0))
+    , modelDirection(VGet(0, 0, 1))
     , hp(MaxHp)
     , isBossHited(false)
     , isDamage(false)
@@ -230,6 +230,8 @@ void Player::Draw()
     //プレイヤーの座標の表示
     DrawFormatString(50, 150, GetColor(255, 255, 255), "x %f  y %f  z %f", position.x, position.y, position.z);
 
+    nowState->DrawCollision();
+    
     //ボスに当たった際の表示
     if (isBossHited)
     {

@@ -66,7 +66,8 @@ private:
     bool     isAttackParameterInitialize; // 攻撃に必要なパラメーターを初期化したか
     int      damageAmount;                // 与えるダメージ量
     float    animationBlendSpeed;         // アニメーションのブレンドスピード
-    float      moveSpeed;                   // 移動スピード
+    float    moveSpeed;                   // 移動スピード
+    bool     initializedModelDirection;   // モデルの向きを初期化したか
 
 
 

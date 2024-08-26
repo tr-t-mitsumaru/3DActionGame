@@ -72,13 +72,13 @@ void PlayerIdle::ChangeState()
         nextState = new PlayerMove(modelhandle,this->GetAnimationIndex());
     }
     //RBのキーかRTキーが押されていれば攻撃ステートに変更
-    else if (inputManager->GetKeyPushState(InputManager::RB) == InputManager::Push ||
-             inputManager->GetKeyPushState(InputManager::RT) == InputManager::Push)
+    else if (inputManager->GetKeyPushState(InputManager::X) == InputManager::Push ||
+             inputManager->GetKeyPushState(InputManager::RB) == InputManager::Push)
     {
         //押されたボタンによって強攻撃のアニメーションにするか
         //通常攻撃のアニメーションにするか変更する
         Player::AnimationState animationState;
-        if (inputManager->GetKeyPushState(InputManager::RB) == InputManager::Push)
+        if (inputManager->GetKeyPushState(InputManager::X) == InputManager::Push)
         {
             animationState = Player::ComboAttack;
         }
@@ -94,7 +94,7 @@ void PlayerIdle::ChangeState()
         nextState = new PlayerDefense(modelhandle, this->GetAnimationIndex());
     }
     //Bキーが押されていれば回避状態のステート
-    else if (inputManager->GetKeyPushState(InputManager::B) == InputManager::Push)
+    else if (inputManager->GetKeyPushState(InputManager::A) == InputManager::Push)
     {
         nextState = new PlayerRolling(modelhandle, this->GetAnimationIndex());
     }
