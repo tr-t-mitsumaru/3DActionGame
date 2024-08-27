@@ -50,6 +50,10 @@ public:
 
 private:
 
+    ///////          定数             //////
+    static constexpr int   FogColor    = 80;        // 霧の色
+    static constexpr float FogDistance = 100.0f;    // 霧との距離
+
 
     ///////          変数            ///////
 
@@ -66,7 +70,14 @@ private:
     ShotManager*      shotManager;      // ショットマネージャーにアクセスするポインタ
     EffectManager*    effectManager ;   // エフェクトマネージャーにアクセスするポインタ
     GameSceneUI*      gameSceneUI;      // ゲームシーンのUI
-    SoundManager*     soundManager;     // サウンドマネージャー  
+    SoundManager*     soundManager;     // サウンドマネージャー
+
+    ///////       関数       ///////
+
+    /// <summary>
+    /// 霧の設定の初期化
+    /// </summary>
+    void InitializeFog();
     
     
 };

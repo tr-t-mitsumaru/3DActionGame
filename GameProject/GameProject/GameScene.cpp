@@ -34,6 +34,9 @@ GameScene::GameScene()
     effectManager = EffectManager::GetInstance();
     soundManager = SoundManager::GetInstance();
 
+    // 霧の設定を初期化する
+    InitializeFog();
+
 }
 
 /// <summary>
@@ -54,6 +57,22 @@ GameScene::~GameScene()
     effectManager->StopAllEffect();
     soundManager->StopBGM(SoundManager::Game);
     soundManager->StopSoundEffect(SoundManager::GameOverSE);
+
+}
+
+/// <summary>
+/// 霧の設定の初期化
+/// </summary>
+void GameScene::InitializeFog()
+{
+    // 霧を有効化する
+    SetFogEnable(true);
+
+    // 霧の色を指定
+    SetFogColor(FogColor, FogColor, FogColor);
+
+    // 霧の開始距離、終了距離を設定
+    SetFogStartEnd(0.0f, FogDistance);
 }
 
 /// <summary>
@@ -169,6 +188,11 @@ void GameScene::Update()
 
     // エフェクト全体の更新
     effectManager->Update();
+
+    /// <summary>
+    /// 霧の初期化
+    /// </summary>
+
 
 
     //デバッグ時だけキー入力でシーン遷移するように
