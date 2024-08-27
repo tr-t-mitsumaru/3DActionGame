@@ -9,6 +9,7 @@ class CollisionManager;
 class ShotManager;
 class EffectManager;
 class GameSceneUI;
+class SoundManager;
 
 
 /// <summary>
@@ -65,6 +66,7 @@ private:
     ShotManager*      shotManager;      // ショットマネージャーにアクセスするポインタ
     EffectManager*    effectManager ;   // エフェクトマネージャーにアクセスするポインタ
     GameSceneUI*      gameSceneUI;      // ゲームシーンのUI
+    SoundManager*     soundManager;     // サウンドマネージャー  
     
     
 };

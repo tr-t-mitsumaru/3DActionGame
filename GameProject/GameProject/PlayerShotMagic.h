@@ -6,6 +6,7 @@
 
 struct InitializeShotData;
 class  EffectManager;
+class SoundManager;
 
 /// <summary>
 /// プレイヤーの攻撃に関するステート
@@ -52,6 +53,8 @@ private:
     EffectManager* effectManager;      // エフェクトの管理クラスのポインタ
     EffectData     effectData;         // エフェクトの移動などに必要なデータ
     bool           isPlaiedEffect;     // エフェクトを再生したか
+    SoundManager*  soundManager;       // 音管理クラスのポインタ
+    bool           playedShotVoice;    // プレイヤーのボイスを再生したか
 
 
     ///////      関数     ////////

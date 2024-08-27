@@ -83,6 +83,7 @@ private:
     float          shotRadius;                    // 弾の半径
     int            shotDamageAmount;              // 弾のダメージ
     VECTOR         effectScale;                   // エフェクトのサイズ
+    SoundManager*  soundManager;                  // 音管理クラスのポインタ        
 
     ///////  メンバ関数  //////
 

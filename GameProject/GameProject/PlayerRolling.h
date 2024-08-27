@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include"StateBase.h"
 
+class SoundManager;
+
 
 /// <summary>
 /// プレイヤーの回避に関するステート
@@ -29,6 +31,9 @@ public:
 private:
 
     static constexpr float MoveSpeed = 0.25f;    //  回避時の移動スピード
+
+    SoundManager* soundManager;       // 音管理クラスのポインタ
+    bool          playedPlayerVoice;  // プレイヤーのボイスを流したかのフラグ 
 
     /// <summary>
     /// 回避時の移動量を決める

@@ -5,6 +5,7 @@
 
 //プロトタイプ宣言
 class InputManager;
+class SoundManager;
 
 /// <summary>
 /// プレイヤーの移動に関するステート
@@ -44,6 +45,7 @@ private:
     ///////  メンバ変数  ///////
 
     InputManager* inputManager;              //インプットマネージャーにアクセスするためのポインタ
+    SoundManager* soundManager;              // 音管理クラスのポインタ
 
     bool isGround;                           //接地しているか
 

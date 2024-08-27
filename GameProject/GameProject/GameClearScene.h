@@ -2,6 +2,7 @@
 #include"SceneBase.h"
 
 class GameClearSceneUI;
+class SoundManager;
 
 /// <summary>
 /// クリアシーン
@@ -28,6 +29,7 @@ private:
     ///////       変数        ////////
 
     GameClearSceneUI* gameClearSceneUI;     // UI
+    SoundManager*     soundManager;         // 音管理クラスのポインタ
 
 };
 

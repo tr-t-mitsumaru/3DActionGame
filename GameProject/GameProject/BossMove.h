@@ -2,6 +2,8 @@
 #include"StateBase.h"
 #include"InputManager.h"
 
+class SoundManager;
+
 /// <summary>
 /// ボスの通常移動に関するステート
 /// </summary>
@@ -34,10 +36,8 @@ private:
 
     ///////  メンバ変数  ////////
 
-    //ToDo
-    //AIを作成したら入力は必要ないので削除
-    InputManager* inputManager;      //入力管理クラス
-    int moveFrameCount;              // 移動させるフレーム数のカウント
+    int           moveFrameCount;            // 移動させるフレーム数のカウント
+    SoundManager* soundManager;              // 音管理クラスのポインタ
     
 
     ///////  メンバ関数  //////

@@ -8,6 +8,7 @@
 #include"BossStart.h"
 #include"EffectManager.h"
 #include"GameScene.h"
+#include"SoundManager.h"
 
 //初期座標の入力
 const VECTOR Boss::InitialPosition = VGet(0, 0, 0.6);
@@ -37,6 +38,9 @@ Boss::Boss()
 
     // エフェクトマネージャーのインスタンスのポインタをもってくる
     effectManager = EffectManager::GetInstance();
+
+    // 音管理クラスのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
 
     //モデルハンドルをもってくる
     modelHandle = MV1DuplicateModel(modelDataManager->GetModelHandle(ModelDataManager::Boss));
@@ -174,14 +178,6 @@ void Boss::Draw()
     //モデルの描画
     MV1DrawModel(modelHandle);
 
-#ifdef _DEBUG
-
-    nowState->DrawCollision();
-
-    DrawFormatString(50, 250, GetColor(255, 255, 255), "HP : %d", hp);
-#endif
-
-
 }
 
 
@@ -230,6 +226,9 @@ void Boss::OnHit(const CollisionData collisionData)
 
         // エフェクトの再生
         effectManager->PlayEffect(&shotHitEffectData);
+
+        // 弾が当たった際の音を流す
+        soundManager->PlaySoundEffect(SoundManager::ShotHit);
 
         //HPを減らす
         hp -= collisionData.damageAmount;

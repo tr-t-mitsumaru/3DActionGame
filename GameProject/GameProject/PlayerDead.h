@@ -37,6 +37,11 @@ private:
 
     static constexpr float AnimationSpeed = 1.0f;   // アニメーションの速度
 
+    ///////           変数             ///////
+
+    SoundManager* soundManager;     // 音管理クラスのポインタ
+    bool          playedDeadVoice;  // 死んだときのボイスを流したか
+
 
 
     ///////         メンバ関数           //////

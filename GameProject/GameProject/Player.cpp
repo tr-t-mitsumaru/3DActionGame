@@ -7,6 +7,7 @@
 #include"PlayerIdle.h"
 #include"EffectManager.h"
 #include"GameScene.h"
+#include"SoundManager.h"
 
 
 const VECTOR Player::ModelOffsetPosition = VGet(0, 0, -0.6);
@@ -31,6 +32,9 @@ Player::Player()
 
     // エフェクトマネージャーのインスタンスのポインタをもってくる
     effectManager = EffectManager::GetInstance();
+
+    // サウンドマネージャーのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
 
     //モデルハンドルをもらう
     modelHandle = MV1DuplicateModel(modelDataManager->GetModelHandle(ModelDataManager::Player));
@@ -154,9 +158,14 @@ void Player::UpdateStartScene(const float distanceToBoss)
         // ボスに向かって移動させる
         position.z += MoveSpeed;
 
+        // 足音を立てる
+        soundManager->PlaySoundEffect(SoundManager::PlayerFootSteps);
+
         // ボスとの距離が特定の距離まで近づいたら
         if (distanceToBoss <= MoveDistance)
         {
+            // 音を止める
+            soundManager->StopSoundEffect(SoundManager::PlayerFootSteps);
             // 移動をやめる
             isEndMove = true;
 
@@ -226,23 +235,6 @@ void Player::Draw()
 {
     //プレイヤーの描画
     MV1DrawModel(modelHandle);
-
-#ifdef _DEBUG
-
-    //プレイヤーの座標の表示
-    DrawFormatString(50, 150, GetColor(255, 255, 255), "x %f  y %f  z %f", position.x, position.y, position.z);
-
-    nowState->DrawCollision();
-    
-    //ボスに当たった際の表示
-    if (isBossHited)
-    {
-        DrawString(50, 200, "BossHit", GetColor(255, 255, 255));
-    }
-
-    DrawFormatString(50, 300, GetColor(255, 255, 255), "HP : %d", hp);
-
-#endif
 
 }
 
@@ -344,6 +336,8 @@ void Player::OnHit(CollisionData collisionData)
     {
         if (nowState->GetNowStateTag() == DefenseState)
         {
+            // ガード中のヒット音を流す
+            soundManager->PlaySoundEffect(SoundManager::PlayerDiffence);
 
             damageRate = 0.5f;
         }

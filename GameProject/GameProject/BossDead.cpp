@@ -1,5 +1,6 @@
 ﻿#include"BossDead.h"
 #include"BossIdle.h"
+#include"SoundManager.h"
 
 
 ///<summary>
@@ -7,11 +8,13 @@
 ///</summary>
 BossDead::BossDead(int& InitializeModelHandle, const int beforeAnimationIndex)
     :StateBase(InitializeModelHandle, Boss::Dead, beforeAnimationIndex)
+    ,playedDeadSoundEffect(false)
 {
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
-    //インプットマネージャーのインスタンスをもってくる
-    inputManager = InputManager::GetInstance();
+
+    // 音管理クラスのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
 
 }
 
@@ -32,6 +35,13 @@ BossDead::~BossDead()
 /// <param name="targetPosition">敵対しているキャラの座標</param>
 void BossDead::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition,VECTOR cameraPosition)
 {
+    // 一度だけボスが死んだ際の音を流す
+    if (!playedDeadSoundEffect)
+    {
+        soundManager->PlaySoundEffect(SoundManager::BossDead);
+        playedDeadSoundEffect = true;
+    }
+
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 

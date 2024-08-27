@@ -3,7 +3,7 @@
 #include"BossDead.h"
 #include"BossShotAttack.h"
 #include"EffectManager.h"
-
+#include"SoundManager.h"
 
 ///<summary>
 ///コンストラクタ
@@ -19,6 +19,9 @@ BossShotAttack::BossShotAttack(int& InitializeModelHandle, const int beforeAnima
 
     // ショットマネージャーのインスタンスをもってくる
     shotManager = ShotManager::GetInstance();
+
+    // 音管理クラスのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
 
 }
 
@@ -135,6 +138,9 @@ void BossShotAttack::SpawnShotByAnimationTime(const VECTOR position, const VECTO
 
         // 必要な情報を代入して弾を作成
         shotManager->SpawnShot(initializeShotData);
+
+        // 弾を撃った瞬間に音を流す
+        soundManager->PlaySoundEffect(SoundManager::BossShotAttack,true);
 
         // 弾を撃った状態を変更する
         if (shotState == WaitLeftShot)

@@ -5,6 +5,7 @@
 #include"EffectData.h"
 #include"EffectManager.h"
 #include"CollisionUtility.h"
+#include"SoundManager.h"
 
 const VECTOR PlayerShotMagic::OffsetEffectPosition = VGet(0.0f, 1.5f, 0.0f);
 
@@ -17,6 +18,7 @@ PlayerShotMagic::PlayerShotMagic(int InitalModelHandle, int beforeAnimationIndex
     :StateBase(InitalModelHandle, Player::Spell, beforeAnimationIndex)
     ,isShotFired(false)
     ,isPlaiedEffect(false)
+    ,playedShotVoice(false)
 {
     // 現在のステートを入れる
     nowStateTag = Player::ShotState;
@@ -29,6 +31,9 @@ PlayerShotMagic::PlayerShotMagic(int InitalModelHandle, int beforeAnimationIndex
 
     // エフェクトマネージャーのインスタンスをもってくる
     effectManager = EffectManager::GetInstance();
+
+    // 音管理クラスのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
 }
 
 
@@ -49,6 +54,12 @@ PlayerShotMagic::~PlayerShotMagic()
 /// <param name="playerTargetPosition">敵対しているキャラの座標</param>
 void PlayerShotMagic::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)
 {
+    // 一度だけ弾を撃つ際のボイスを再生する
+    if (!playedShotVoice)
+    {
+        soundManager->PlaySoundEffect(SoundManager::ShotMagicVoice);
+    }
+
     //アニメーションの再生時間のセット
     UpdateAnimation();
 
@@ -109,6 +120,9 @@ void PlayerShotMagic::CreateShotByAnimationRatio(const VECTOR position, const VE
     {
         // 初期化用のデータを作成
         InitializeShotData initializeShotData = AssignInitializeShotData(position, targetPosition);
+
+        // 弾を作る際に音を流す
+        soundManager->PlaySoundEffect(SoundManager::ShotMagicAttack);
 
         // 弾を撃った方向にモデルを回転させる
         modelDirection = initializeShotData.direction;

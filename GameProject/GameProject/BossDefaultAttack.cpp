@@ -5,6 +5,7 @@
 #include"Utility.h"
 #include"CollisionUtility.h"
 #include"EffectManager.h"
+#include"SoundManager.h"
 
 
 const VECTOR BossDefaultAttack::OffsetPosition = VGet(3.0f, 4.0f, 0.0f);
@@ -25,6 +26,9 @@ BossDefaultAttack::BossDefaultAttack(int& InitializeModelHandle, const int befor
 
     // エフェクトマネージャーのインスタンスをもってくる
     effectManager = EffectManager::GetInstance();
+
+    // 音管理クラスのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
 
     //当たり判定がまだ生成されていない状態
     collisionData.collisionState = CollisionData::NoCollision;
@@ -232,6 +236,9 @@ void BossDefaultAttack::ChangeAnimationSpeed()
     // アニメーションが一定まで再生されたら
     if (animationNowTime / animationLimitTime >= AnimationSpeedChangeRate && ! isChangedAnimationSpeed)
     {
+        // 切り替えた瞬間に音を流し始める
+
+        soundManager->PlaySoundEffect(SoundManager::BossDefaultAttack);
         // アニメーションスピードを切り替える
         animationSpeed = InitializeAnimationSpeed;
 

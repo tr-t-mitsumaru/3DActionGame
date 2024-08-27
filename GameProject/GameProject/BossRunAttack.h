@@ -3,6 +3,9 @@
 #include"StateBase.h"
 #include"InputManager.h"
 
+
+class SoundManager;
+
 /// <summary>
 /// ボスの静止ステート
 /// </summary>
@@ -71,13 +74,10 @@ private:
 
 
 
-    //ToDo
-    //AIを作成したら入力は必要ないので削除
-    InputManager* inputManager;      //入力管理クラス
-
     VECTOR            position;                      // 攻撃の当たり判定の座標
     CollisionData     collisionData;                 // 当たり判定に必要な情報をまとめたもの
     CollisionManager* collisionManager;              // 当たり判定の管理クラスのポインタ
+    SoundManager*     soundManager;                  // 音管理クラスのポインタ
 
     ///////  メンバ関数  //////
 

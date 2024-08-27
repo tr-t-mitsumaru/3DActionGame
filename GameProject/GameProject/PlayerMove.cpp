@@ -8,6 +8,7 @@
 #include"PlayerRolling.h"
 #include"PlayerShotMagic.h"
 #include"PlayerJump.h"
+#include"SoundManager.h"
 
 /// <summary>
 /// コンストラクタ
@@ -21,6 +22,9 @@ PlayerMove::PlayerMove(int modelHandle,int beforeAnimationIndex)
 
     //インプットマネージャーのアドレスを取得
     inputManager = InputManager::GetInstance();
+
+    // 音管理クラスのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
 
     //アニメーション速度の初期化
     animationSpeed = 1.4f;
@@ -44,6 +48,8 @@ PlayerMove::~PlayerMove()
 /// <param name="playerTargetPosition">敵対しているキャラの座標</param>
 void PlayerMove::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)
 {
+    // 歩いている音を流す
+    soundManager->PlaySoundEffect(SoundManager::PlayerFootStepsFist);
 
     velocity = VGet(0, 0, 0);
 
@@ -71,7 +77,11 @@ void PlayerMove::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR pl
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
-
+    // 足音を止める
+    if (nextState != this)
+    {
+        soundManager->StopSoundEffect(SoundManager::PlayerFootStepsFist);
+    }
 
     //シーンが切り替わっていればアニメーションをデタッチ
     DetachAnimation();

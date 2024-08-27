@@ -3,6 +3,8 @@
 #include"StateBase.h"
 #include"InputManager.h"
 
+class SoundManager;
+
 /// <summary>
 /// ボスの静止ステート
 /// </summary>
@@ -29,9 +31,8 @@ private:
 
     ///////  メンバ変数  ///////
 
-    //ToDo
-    //AIを作成したら入力は必要ないので削除
-    InputManager* inputManager;      //入力管理クラス
+    SoundManager* soundManager;          // 音管理クラスのポインタ
+    bool          playedDeadSoundEffect; // 死んだ際の音を再生させたか
 
     ///////  メンバ関数  ///////
 

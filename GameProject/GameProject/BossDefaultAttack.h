@@ -3,6 +3,8 @@
 #include"InputManager.h"
 #include"EffectData.h"
 
+class SoundManager;
+
 /// <summary>
 /// ボスの通常攻撃のステート
 /// </summary>
@@ -52,6 +54,7 @@ private:
     bool              isAttackParameterInitialize;   // 攻撃に使うパラメータを初期化したか
     float             animationBlendSpeed;           // 前のアニメーションとブレンドする時間
     bool              isChangedAnimationSpeed;       // アニメーションのスピードを切り替えたかのフラグ
+    SoundManager*     soundManager;                  // 音管理クラスのポインタ
 
 
     ///////  メンバ関数  //////

@@ -5,6 +5,7 @@
 #include"BossAreaAttack.h"
 #include"BossDead.h"
 #include"CollisionManager.h"
+#include"SoundManager.h"
 
 ///<summary>
 ///コンストラクタ
@@ -22,6 +23,9 @@ BossAreaAttack::BossAreaAttack(int& InitializeModelHandle, const int beforeAnima
 
     //ショットマネージャーのインスタンスをもってくる
     shotManager = ShotManager::GetInstance();
+
+    // サウンドマネージャーのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
 
 
 
@@ -165,6 +169,9 @@ void BossAreaAttack::CreateShotByAnimationTime(const VECTOR position)
     if (animationNowTime / animationLimitTime >= ShotCreateAnimationRatio &&
         attackState == NoAttack)
     {
+        // 弾を作成したタイミングでサウンドを流す
+        soundManager->PlaySoundEffect(SoundManager::BossAreaAttack);
+        
         // 弾を作成
         CreateAttackShot(position);
         attackState = StartAttack;

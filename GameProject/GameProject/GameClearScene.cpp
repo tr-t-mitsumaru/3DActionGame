@@ -10,6 +10,8 @@ GameClearScene::GameClearScene()
 {
     // メモリを確保
     gameClearSceneUI = new GameClearSceneUI();
+
+
 }
 
 /// <summary>

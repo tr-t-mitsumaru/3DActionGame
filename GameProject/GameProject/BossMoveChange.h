@@ -6,6 +6,7 @@
 class EffectManager;
 class CollisionManager;
 class ImageDataManager;
+class SoundManager;
 
 class BossMoveChange :public StateBase
 {
@@ -67,6 +68,7 @@ private:
     CollisionData     collisionData;        // 当たり判定の更新に必要な情報
     bool              isPlaedEffect;        // エフェクトを再生したかどうか
     bool              isChangedTexture;     // テクスチャを変更したか
+    SoundManager*     soundManager;         // 音管理クラスのポインタ 
 
 
     ///////  メンバ関数  //////

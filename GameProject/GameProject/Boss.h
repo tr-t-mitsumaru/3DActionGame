@@ -6,6 +6,7 @@ class ModelDataManager;
 class CollisionManager;
 class StateBase;
 class EffectManager;
+class SoundManager;
 
 
 /// <summary>
@@ -186,6 +187,9 @@ private:
     EffectData shotHitEffectData;         // エフェクトの更新に必要なデータ
     EffectData playerAttackHitEffectData; // プレイヤーの攻撃が当たった際のエフェクトのデータ
     EffectData intimidationEffectData;    // 威嚇時に使用するエフェクトのデータ
+
+    // サウンド
+    SoundManager* soundManager;           // 音管理クラスのポインタ
 
     // 登場シーン
     StartMoveState currentStartMoveState;          // 登場シーンでのボスの状態

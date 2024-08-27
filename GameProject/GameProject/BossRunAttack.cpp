@@ -3,8 +3,7 @@
 #include"BossIdle.h"
 #include"BossRunAttack.h"
 #include"GameScene.h"
-
-
+#include"SoundManager.h"
 const VECTOR BossRunAttack::OffsetCollisionPosition = VGet(0.0f, 2.0f, 0.0f);
 
 ///<summary>
@@ -19,11 +18,11 @@ BossRunAttack::BossRunAttack(int& InitializeModelHandle, const int beforeAnimati
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
 
-    //インプットマネージャーのインスタンスをもってくる
-    inputManager = InputManager::GetInstance();
-
     // コリジョンマネージャーのインスタンスをもってくる
     collisionManager = CollisionManager::GetInstance();
+
+    //　サウンドマネージャーのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
 
     //当たり判定がまだ生成されていない状態
     collisionData.collisionState = CollisionData::NoCollision;
@@ -44,6 +43,11 @@ BossRunAttack::~BossRunAttack()
 /// <param name="position">プレイヤーモデルの向き</param>
 void BossRunAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bossTargetPosition, VECTOR cameraPosition)
 {
+    // アニメーションのブレンドが終了していればボスが走っている時の音を流す
+    if (currentPlayAnimationState ==  BlendEnd)
+    {
+        soundManager->PlaySoundEffect(SoundManager::BossRun);
+    }
 
     // 体力によって変わる攻撃時のパラメーターを変更
     InitializeAttackPrameters();

@@ -5,6 +5,7 @@
 #include"SoundManager.h"
 #include"TitleScene.h"
 #include"GameScene.h"
+#include"SoundManager.h"
 
 
 /// <summary>
@@ -29,6 +30,7 @@ TitleScene::TitleScene()
 /// </summary>
 TitleScene::~TitleScene()
 {
+    soundManager->StopBGM(SoundManager::Title);
     // エフェクトを全て止める
     effectManager->StopAllEffect();
     delete camera;
@@ -40,6 +42,9 @@ TitleScene::~TitleScene()
 /// </summary>
 void TitleScene::Update()
 {
+    // BGMの再生
+    soundManager->PlayBGM(SoundManager::Title);
+
     // カメラの更新
     camera->UpdateTitleScene();
 

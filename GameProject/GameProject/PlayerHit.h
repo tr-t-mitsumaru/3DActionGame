@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include"StateBase.h"
 
+class SoundManager;
 
 /// <summary>
 /// プレイヤーが被弾した際のステート
@@ -37,6 +38,10 @@ private:
 
     static constexpr float AnimationSpeed = 0.5f;   // アニメーションの速度
 
+    ///////           変数            ///////
+
+    SoundManager* soundManager;     // 音管理クラスのポインタ
+    bool          playedHitVoice;   // ヒットした時の音を流したか
 
 
     ///////         メンバ関数           //////

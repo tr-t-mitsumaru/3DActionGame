@@ -2,6 +2,7 @@
 #include"SceneBase.h"
 
 class GameOverSceneUI;
+class SoundManager;
 
 /// <summary>
 /// ゲームオーバーシーン
@@ -26,5 +27,6 @@ public:
 private:
 
     GameOverSceneUI* gameOverSceneUI;       // ゲームオーバーシーンUI
+    SoundManager*    soundManager;          // 音管理クラスのポインタ
 };
 

@@ -24,7 +24,7 @@ Stage::Stage()
     MV1SetPosition(modelHandle, InitialPosition);
 
     //  ステージのサイズを変更
-    MV1SetScale(modelHandle, VGet(0.1f, 0.1f, 0.1f));
+    MV1SetScale(modelHandle, VGet(0.14f, 0.14f, 0.14f));
 
     // ステージの回転
     MV1SetRotationXYZ(modelHandle, VGet(0, Utility::ConvertRadian(StageModelRotationRate), 0));
@@ -38,7 +38,7 @@ Stage::Stage()
 /// </summary>
 Stage::~Stage()
 {
-    //処理なし
+    effectManager->StopEffect(safeZoneEffectData);
 }
 
 /// <summary>

@@ -2,6 +2,7 @@
 #include"PlayerDead.h"
 #include"PlayerIdle.h"
 #include"PlayerHit.h"
+#include"SoundManager.h"
 
 
 
@@ -10,7 +11,11 @@
 /// </summary>
 PlayerHit::PlayerHit(int InitalModelHandle, int beforeAnimationIndex, Player::AnimationState animationState)
     :StateBase(InitalModelHandle,animationState, beforeAnimationIndex)
+    ,playedHitVoice(false)
 {
+    // 音管理クラスのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
+
     // 現在のステートを入れる
     nowStateTag = Player::HitState;
 
@@ -37,6 +42,12 @@ PlayerHit::~PlayerHit()
 /// <param name="characterPosition">キャラクターの座標</param>
 void PlayerHit::Update(VECTOR& modelDirection, VECTOR& position, const VECTOR targetPosition, VECTOR cameraPosition)
 {
+    // ボイスを再生していない場合は再生する
+    if (! playedHitVoice)
+    {
+        soundManager->PlaySoundEffect(SoundManager::DamageVoice);
+        playedHitVoice = true;
+    }
     //アニメーションの再生時間のセット
     UpdateAnimation();
 

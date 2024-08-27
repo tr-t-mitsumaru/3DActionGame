@@ -4,6 +4,7 @@
 
 class ShotManager;
 struct InitializeShotData;
+class SoundManager;
 
 /// <summary>
 /// ボスの静止ステート
@@ -80,14 +81,17 @@ private:
     CollisionData collisionData;           //当たり判定に必要な情報をまとめたもの
     CollisionManager* collisionManager;    //当たり判定の管理クラスのポインタ
     //ショット関連
-    ShotManager* shotManager;                 // ショットの管理クラス
-    AttackState  attackState;                 // 現在の攻撃の状態
-    float        shotSpeed;                   // ショットのスピード
-    bool         isAttackParameterInitialize; // 攻撃に必要なパラメーターを初期化したか
-    float        animationBlendSpeed;         // アニメーションのブレンドスピード
-    float        shotRadius;                  // 生成する弾のサイズ
-    int          shotDamageAmount;            // 弾のダメージ
-    VECTOR       effectScale;                 // エフェクトのサイズ
+    ShotManager*  shotManager;                 // ショットの管理クラス
+    AttackState   attackState;                 // 現在の攻撃の状態
+    float         shotSpeed;                   // ショットのスピード
+    bool          isAttackParameterInitialize; // 攻撃に必要なパラメーターを初期化したか
+    float         animationBlendSpeed;         // アニメーションのブレンドスピード
+    float         shotRadius;                  // 生成する弾のサイズ
+    int           shotDamageAmount;            // 弾のダメージ
+    VECTOR        effectScale;                 // エフェクトのサイズ
+
+    // サウンド関連
+    SoundManager* soundManager;                // 音管理クラスのポインタ
 
     ///////  メンバ関数  //////
 

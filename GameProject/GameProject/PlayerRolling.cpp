@@ -2,6 +2,7 @@
 #include"PlayerHit.h"
 #include"PlayerIdle.h"
 #include"Player.h"
+#include"SoundManager.h"
 
 /// <summary>
 /// コンストラクタ
@@ -9,7 +10,11 @@
 /// <param name="InitalModelHandle">モデルハンドル</param>
 PlayerRolling::PlayerRolling(int initalModelHandle, int beforeAnimationIndex)
     :StateBase(initalModelHandle, Player::Rolling,beforeAnimationIndex)
+    ,playedPlayerVoice(false)
 {
+    // 音管理クラスのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
+     
     // 現在のステートを入れる
     nowStateTag = Player::RollingState;
 
@@ -34,6 +39,13 @@ PlayerRolling::~PlayerRolling()
 /// <param name="playerTargetPosition">敵対しているキャラの座標</param>
 void PlayerRolling::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)
 {
+    // プレイヤーのボイスを流していない場合は再生する
+    if (!playedPlayerVoice)
+    {
+        soundManager->PlaySoundEffect(SoundManager::RollingVoice);
+        playedPlayerVoice = true;
+    }
+
     //アニメーションの再生時間のセット
     UpdateAnimation();
 
@@ -42,6 +54,8 @@ void PlayerRolling::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR
 
     // 移動量を加算する
     velocity = SetMovement(modelDirection);
+
+    
 
     //シーンが切り替わっていればアニメーションをデタッチ
     DetachAnimation();

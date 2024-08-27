@@ -4,6 +4,7 @@
 #include"CollisionUtility.h"
 #include"ImageDataManager.h"
 #include"BossIdle.h"
+#include"SoundManager.h"
 
 
 /// <summary>
@@ -24,6 +25,9 @@ BossMoveChange::BossMoveChange(int& modelHandle, const int beforeAnimationIndex)
 
     // エフェクトマネージャーのインスタンスをもってくる
     effectManager = EffectManager::GetInstance();
+
+    // 音管理クラスのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
 
     // 画像管理クラスのインスタンスをもってくる
     ImageDataManager* imageDataManager = ImageDataManager::GetInstance();
@@ -154,7 +158,11 @@ void BossMoveChange::PlayEffectByAnimationTime()
 {
     if (animationNowTime / animationLimitTime >= EffectPlayAnimationRatio && !isPlaedEffect)
     {
+        // エフェクトを出す際に音も出す
+        soundManager->PlaySoundEffect(SoundManager::BossRoar);
+
         effectManager->PlayEffect(&effectData);
+
         isPlaedEffect = true;
     }
 }
@@ -174,7 +182,6 @@ void BossMoveChange::CreateCollisionByAnimationTime()
         if (collisionData.collisionState == CollisionData::CollisionActive)
         {
             collisionManager->RegisterCollisionData(&collisionData);
-            effectManager->PlayEffect(&effectData);
         }
     }
 }

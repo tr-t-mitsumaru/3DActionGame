@@ -4,6 +4,7 @@
 #include"BossMove.h"
 #include"BossDead.h"
 #include"BossDefaultAttack.h"
+#include"SoundManager.h"
 
 
 
@@ -16,7 +17,8 @@ BossMove::BossMove(int& InitializeModelHandle, const int beforeAnimationIndex)
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
 
-    inputManager = InputManager::GetInstance();
+    // 音管理クラスのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
 }
 
 /// <summary>
@@ -35,6 +37,12 @@ void BossMove::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR boss
 {
     // フレームカウントを増やす
     moveFrameCount++;
+
+    // ブレンドが終了していたら歩いている音を流す
+    if (currentPlayAnimationState == BlendEnd)
+    {
+        soundManager->PlaySoundEffect(SoundManager::BossWalk);
+    }
 
     //ステートの切り替え処理を呼ぶ
     ChangeState();

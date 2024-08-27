@@ -2,6 +2,7 @@
 #include"ImageDataManager.h"
 #include"Utility.h"
 #include"GameClearSceneUI.h"
+#include"SoundManager.h"
 
 
 /// <summary>
@@ -23,6 +24,9 @@ GameClearSceneUI::GameClearSceneUI()
     // 分割画像のハンドルを代入
     scrollImage = imageDataManager->GetDibisionImageHandle(ImageDataManager::ClearSceneScroll);
 
+    // 音管理クラスのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
+
 }
 
 
@@ -31,7 +35,7 @@ GameClearSceneUI::GameClearSceneUI()
 /// </summary>
 GameClearSceneUI::~GameClearSceneUI()
 {
-    // 処理なし
+    soundManager->StopBGM(SoundManager::ClearBgm);
 }
 
 /// <summary>
@@ -83,6 +87,8 @@ void GameClearSceneUI::UpdateLogo()
 {
     if (currentUIState == NowLogoUpdate)
     {
+        soundManager->PlayBGM(SoundManager::ClearBgm);
+
         // ロゴのブレンド率を上げていく
         logoBlendRate += LogoBlendSpeed;
         if (logoBlendRate >= BlendMax)
@@ -90,6 +96,7 @@ void GameClearSceneUI::UpdateLogo()
             logoBlendRate = BlendMax;
 
             currentUIState = EndedLogoUpdate;
+
         }
     }
 
@@ -103,6 +110,7 @@ void GameClearSceneUI::UpdateScroll()
     // 巻物が開き終わってなければあアニメーションを進めて開く
     if (currentUIState == OpeningScroll)
     {
+        soundManager->PlaySoundEffect(SoundManager::ScrollOpen);
         // 巻物のアニメーションを進める
         scrollAnimationCount++;
 
@@ -114,7 +122,14 @@ void GameClearSceneUI::UpdateScroll()
 
             // 開き終わったフラグを立てる
             currentUIState = NowLogoUpdate;
+            soundManager->StopSoundEffect(SoundManager::ScrollOpen);
         }
+
+    }
+    else
+    {
+        soundManager->StopSoundEffect(SoundManager::ScrollOpen);
+
     }
 }
 

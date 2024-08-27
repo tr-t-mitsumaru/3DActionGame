@@ -6,6 +6,7 @@
 //クラスのプロトタイプ宣言
 class ModelDataManager;
 class StateBase;
+class SoundManager;
 
 class Player
 {
@@ -153,6 +154,8 @@ private:
     // エフェクト
     EffectManager* effectManager;   // エフェクトの管理クラスにアクセスするためのポインタ
     EffectData shotHitEffectData;   // エフェクトの更新に必要なデータ
+
+    SoundManager* soundManager;     // 音管理クラス
 
 
     ///////  メンバ関数  ///////

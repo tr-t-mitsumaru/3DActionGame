@@ -1,5 +1,6 @@
 ﻿#include"Player.h"
 #include"PlayerDead.h"
+#include"SoundManager.h"
 
 
 /// <summary>
@@ -7,7 +8,11 @@
 /// </summary>
 PlayerDead::PlayerDead(int initalModelHandle, int beforeAnimationIndex)
     :StateBase(initalModelHandle, Player::Death, beforeAnimationIndex)
+    ,playedDeadVoice(false)
 {
+    // 音管理クラスのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
+
     // 現在のステートを入れる
     nowStateTag = Player::DeadState;
 
@@ -32,6 +37,12 @@ PlayerDead::~PlayerDead()
 /// <param name="characterPosition">キャラクターの座標</param>
 void PlayerDead::Update(VECTOR& modelDirection, VECTOR& position, const VECTOR targetPosition, VECTOR cameraPosition)
 {
+    if (! playedDeadVoice)
+    {
+        soundManager->PlaySoundEffect(SoundManager::DeadVoice);
+        playedDeadVoice = true;
+    }
+
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 

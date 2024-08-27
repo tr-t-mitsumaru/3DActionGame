@@ -7,6 +7,7 @@
 #include"CollisionUtility.h"
 #include"InputManager.h"
 #include"Utility.h"
+#include"SoundManager.h"
 
 
 
@@ -23,9 +24,13 @@ PlayerAttack::PlayerAttack(int InitalModelHandle, int beforeAnimationIndex, Play
     :StateBase(InitalModelHandle,initializeAnimationState,beforeAnimationIndex)
     ,currentComboState(First)
     ,currentComboCollisionState(FirstStart)
+    ,playedStrongAttackVoice(false)
 {
     // インプットマネージャーのインスタンスをもってくる
     inputManager = InputManager::GetInstance();
+
+    // 音管理クラスのインスタンスをもってくる
+    soundManager = SoundManager::GetInstance();
 
     // 現在のステートを入れる
     nowStateTag = Player::AttackState;
@@ -108,6 +113,12 @@ PlayerAttack::~PlayerAttack()
 /// <param name="characterPosition">キャラクターの座標</param>
 void PlayerAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)
 {
+
+    if (currentAttackState == Player::Clash && ! playedStrongAttackVoice)
+    {
+        soundManager->PlaySoundEffect(SoundManager::StrongAttackVoice);
+        playedStrongAttackVoice = true;
+    }
     //アニメーションの再生時間のセット
     UpdateAnimation();
  
@@ -151,6 +162,7 @@ void PlayerAttack::UpdateCollisionStateByAnimationRatio()
         // アニメーションの再生率が１撃目の開始ラインを超えていたら当たり判定を作成
         if (currentAnimationRatio > FirstAttackCollisionStartTime && collisionData.collisionState == CollisionData::NoCollision)
         {
+            soundManager->PlaySoundEffect(SoundManager::AttackVoice1);
             collisionData.collisionState = CollisionData::CollisionActive;
             collisionManager->RegisterCollisionData(&collisionData);
         }
@@ -165,6 +177,7 @@ void PlayerAttack::UpdateCollisionStateByAnimationRatio()
         // アニメーションの再生率が２撃目の開始ラインを超えていたら当たり判定を作成
         else if (currentAnimationRatio > SecondAttackCollisionStartTime && currentComboCollisionState == FirstEnd)
         {
+            soundManager->PlaySoundEffect(SoundManager::AttackVoice2);
             collisionData.collisionState = CollisionData::CollisionActive;
             collisionManager->RegisterCollisionData(&collisionData);
             currentComboCollisionState = SecondStart;
@@ -180,6 +193,7 @@ void PlayerAttack::UpdateCollisionStateByAnimationRatio()
         // アニメーションの再生率が３撃目の開始ラインを超えていたら当たり判定を作成
         else if (currentAnimationRatio > ThirdAttackCollisionStartTime && currentComboCollisionState == SecondEnd)
         {
+            soundManager->PlaySoundEffect(SoundManager::AttackVoice3);
             collisionData.collisionState = CollisionData::CollisionActive;
             collisionManager->RegisterCollisionData(&collisionData);
             currentComboCollisionState = ThirdStart;
@@ -192,6 +206,7 @@ void PlayerAttack::UpdateCollisionStateByAnimationRatio()
             currentComboCollisionState = ThirdEnd;
         }
     }
+    // 強攻撃
     else
     {
         if (currentAnimationRatio > StrongAttackCollisionStartAnimationRatio && collisionData.collisionState == CollisionData::NoCollision)
@@ -265,6 +280,9 @@ void PlayerAttack::OnHit(CollisionData collisionData)
 {
     //当たったフラグをオンにする
     this->collisionData.collisionState = CollisionData::CollisionEnded;
+
+    // 音を流す
+    soundManager->PlaySoundEffect(SoundManager::PlayerAttackHit,true);
 
     // 連続攻撃の状態に合わせてステートを切り替える
     switch (currentComboCollisionState)

@@ -3,6 +3,7 @@
 
 
 class InputManager;
+class SoundManager;
 
 /// <summary>
 /// プレイヤーの攻撃に関するステート
@@ -112,6 +113,8 @@ private:
     Player::AnimationState currentAttackState;            // プレイヤーの攻撃の種類
     ComboState             currentComboState;             // コンボ攻撃の状態
     ComboCollisionState    currentComboCollisionState;    // コンボ中の当たり判定の状態
+    SoundManager*          soundManager;                  // 音管理クラスのポインタ
+    bool                   playedStrongAttackVoice;       // 強攻撃のボイスを流したか
 
 
     //////  メンバ関数  //////

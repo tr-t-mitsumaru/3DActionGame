@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-
+class SoundManager;
 
 class GameClearSceneUI
 {
@@ -62,6 +62,9 @@ private:
     int     logoBlendRate;                 // ロゴのブレンド率
     int     blinkingCount;                 // 点滅表示
     bool    display;                       // 描画しているか
+
+    // 音
+    SoundManager* soundManager;     // 音管理クラスのポインタ
 
 
     ///////       関数       ///////

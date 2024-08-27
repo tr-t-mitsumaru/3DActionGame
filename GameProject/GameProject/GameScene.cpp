@@ -10,6 +10,7 @@
 #include"ShotManager.h"
 #include"EffectManager.h"
 #include"GameSceneUI.h"
+#include"SoundManager.h"
 
 
 
@@ -26,9 +27,13 @@ GameScene::GameScene()
     player      = new Player();
     boss        = new Boss();
     gameSceneUI = new GameSceneUI();
+
+    // シングルトンクラスのインスタンスをもってくる
     collisionManager = CollisionManager::GetInstance();
     shotManager = ShotManager::GetInstance();
     effectManager = EffectManager::GetInstance();
+    soundManager = SoundManager::GetInstance();
+
 }
 
 /// <summary>
@@ -47,6 +52,8 @@ GameScene::~GameScene()
     collisionManager->DeleteAllCollisionDataList();
     shotManager->DeleteAllShot();
     effectManager->StopAllEffect();
+    soundManager->StopBGM(SoundManager::Game);
+    soundManager->StopSoundEffect(SoundManager::GameOverSE);
 }
 
 /// <summary>
@@ -60,16 +67,27 @@ void GameScene::Update()
     // 登場シーンのアップデート
     if (currentGameScneState == Start)
     {
+
+
         // 登場シーンで使用する各アップデート
         camera->UpdateStartScene(playerBossDistance,boss->GetPosition(),player->GetPosition());
         player->UpdateStartScene(playerBossDistance);
         boss->UpdateStartScene();
+
+        // 最初に再生する
+        if (camera->GetStartCameraState() == Camera::StartView)
+        {
+            soundManager->PlayBGM(SoundManager::Start);
+        }
 
         // カメラがボスに注目している場合
         if (camera->GetStartCameraState() == Camera::FoucusOnBoss)
         {
             // ボスのアップデートを始める
             boss->StartUpdateStartScene();
+
+            // ボスが動き出した音
+            soundManager->PlaySoundEffect(SoundManager::BossStandUp);
         }
 
         // ボスが威嚇を始めたら
@@ -77,6 +95,7 @@ void GameScene::Update()
         {
             // カメラの注目点をプレイヤーに変更する
             camera->ChangeForcusPlayer();
+
         }
 
         // ボスの威嚇アニメーションが一定まで進んでいたら
@@ -87,6 +106,18 @@ void GameScene::Update()
 
             // 移動可能エリアのエフェクトを再生させる
             stage->StartEffectPaly();
+
+            // ボスが立ち上がっている時の音を止める
+            soundManager->StopSoundEffect(SoundManager::BossStandUp);
+
+            // ボスの威嚇音を流す
+            soundManager->PlaySoundEffect(SoundManager::BossRoar);
+
+            // 開始時のBGMを止める
+            soundManager->StopBGM(SoundManager::Start);
+
+            // ゲーム中の音を再生する
+            soundManager->PlayBGM(SoundManager::Game);
         }
 
         // ボスの移動が終了していたら
@@ -97,7 +128,11 @@ void GameScene::Update()
 
             // 登場シーンからバトルシーンに変更する
             currentGameScneState = Battle;
+
+            // 開始時にサウンドを止める
+            soundManager->StopSoundEffect(SoundManager::BossRoar);
         }
+
     }
 
     // バトル中のみ行うアップデート
@@ -111,6 +146,8 @@ void GameScene::Update()
         if (player->GetEndedDeadMove())
         {
             gameSceneUI->StartGameOverTextDraw();
+            soundManager->StopBGM(SoundManager::Game);
+            soundManager->PlaySoundEffect(SoundManager::GameOverSE);
         }
 
         boss->Update(player->GetPosition(), camera->GetPosition());
