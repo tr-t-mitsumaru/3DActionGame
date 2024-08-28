@@ -3,6 +3,7 @@
 
 class FadeInOut
 {
+public:
     //フェードインアウトの状態
     enum FadeInOutState
     {

@@ -26,7 +26,18 @@ public:
     void Draw()override;
 private:
 
+    /// <summary>
+    /// 次のシーンの種類
+    /// </summary>
+    enum NextScene
+    {
+        Title = 0,     // タイトルシーン
+        Game  = 1,     // ゲームシーン
+    };
+
     GameOverSceneUI* gameOverSceneUI;       // ゲームオーバーシーンUI
     SoundManager*    soundManager;          // 音管理クラスのポインタ
+    NextScene currentNextScene;             // 次のシーンの種類
+
 };
 

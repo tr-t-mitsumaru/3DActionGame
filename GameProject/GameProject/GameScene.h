@@ -33,6 +33,12 @@ public:
         Tutorial = 1,  // チュートリアル
         Battle   = 2,  // 戦いが開始した状態
     };
+
+    enum NextSceneState
+    {
+        GameOver  = 0,      // ゲームオーバー
+        GameClear = 1,      // ゲームクリア
+    };
     
     //コンストラクタ
     GameScene();
@@ -59,6 +65,7 @@ private:
     ///////          変数            ///////
 
     GameSceneState currentGameScneState;        // 現在のゲームシーン中の状態
+    NextSceneState nextSceneState;              // 次のシーンがなにか
 
 
     ///////        クラス参照        ///////

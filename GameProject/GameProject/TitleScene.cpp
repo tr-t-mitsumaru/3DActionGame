@@ -42,6 +42,10 @@ TitleScene::~TitleScene()
 /// </summary>
 void TitleScene::Update()
 {
+    //フェードインとフェードアウトの更新処理
+    fadeInOut->FadeIn();
+    fadeInOut->FadeOut();
+
     // BGMの再生
     soundManager->PlayBGM(SoundManager::Title);
 
@@ -91,4 +95,7 @@ void TitleScene::Draw()
 
     // エフェクトの描画
     effectManager->Draw();
+
+    // フェードインアウトで使用する黒い画像の描画
+    fadeInOut->Draw();
 }

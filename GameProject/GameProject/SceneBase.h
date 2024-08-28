@@ -11,11 +11,16 @@ public:
     SceneBase()
     {
         inputManager = InputManager::GetInstance();
+
+        // フェードインアウトのメモリを確保
+        fadeInOut = new FadeInOut();
     }
+
     //デストラクタ
     virtual ~SceneBase()
     {
         inputManager = nullptr;
+        delete fadeInOut;
     }
 
     /// <summary>

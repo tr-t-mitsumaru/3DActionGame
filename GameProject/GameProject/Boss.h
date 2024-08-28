@@ -18,7 +18,7 @@ public:
 
     ////////         定数          /////////
 
-    static constexpr int MaxHp = 5000;      // ボスのHP
+    static constexpr int MaxHp = 1000;      // ボスのHP
 
 
     /// <summary>

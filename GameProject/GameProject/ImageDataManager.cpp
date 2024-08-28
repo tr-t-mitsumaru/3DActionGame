@@ -20,7 +20,7 @@ ImageDataManager::ImageDataManager()
     imageHandle.insert(make_pair(BossHpBack, LoadGraph("UI/BossHpBack.png")));
     imageHandle.insert(make_pair(BossHpGageSub, LoadGraph("UI/BossHpGageSub.png")));
     imageHandle.insert(make_pair(BossSecondTexture, LoadGraph("Model/GolemBlackLight.jpg")));
-    imageHandle.insert(make_pair(BossThirdTexture, LoadGraph("Model/bossThirdTexture.jpg")));
+    imageHandle.insert(make_pair(BossThirdTexture, LoadGraph("Model/GolemFinal.png")));
     imageHandle.insert(make_pair(TitleStartString, LoadGraph("UI/startString.png")));
     imageHandle.insert(make_pair(ClearSceneBack, LoadGraph("UI/board.png")));
     imageHandle.insert(make_pair(ClearLogo, LoadGraph("UI/ClearLogo.png")));

@@ -11,7 +11,6 @@ GameClearScene::GameClearScene()
     // メモリを確保
     gameClearSceneUI = new GameClearSceneUI();
 
-
 }
 
 /// <summary>
@@ -37,11 +36,21 @@ void GameClearScene::Update()
     //Xキーが離された瞬間ならタイトルシーンに以降
     if (inputManager->GetKeyPushState(InputManager::X) == InputManager::JustRelease)
     {
-        nextScene = new TitleScene();
+        fadeInOut->StartFadeOut();
     }
     else
     {
         nextScene = this;
+    }
+
+    // フェードインとアウトの更新
+    fadeInOut->FadeIn();
+    fadeInOut->FadeOut();
+
+    // フェードアウトが終了していたらタイトルシーンに移行
+    if (fadeInOut->GetCurrentFadeInOutState() == FadeInOut::EndFadeOut)
+    {
+        nextScene = new TitleScene();
     }
 #endif
 }
@@ -53,6 +62,7 @@ void GameClearScene::Draw()
 {
     // UIの描画
     gameClearSceneUI->Draw();
+    fadeInOut->Draw();
 
 }
 

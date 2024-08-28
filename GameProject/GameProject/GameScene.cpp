@@ -86,8 +86,6 @@ void GameScene::Update()
     // 登場シーンのアップデート
     if (currentGameScneState == Start)
     {
-
-
         // 登場シーンで使用する各アップデート
         camera->UpdateStartScene(playerBossDistance,boss->GetPosition(),player->GetPosition());
         player->UpdateStartScene(playerBossDistance);
@@ -205,24 +203,39 @@ void GameScene::Update()
     // エフェクト全体の更新
     effectManager->Update();
 
-    //デバッグ時だけキー入力でシーン遷移するように
-#ifdef _DEBUG
 
-    //Xキーが離されていればゲームクリアシーンに移行
     if (boss->GetEndedBossDeadMove())
     {
-        nextScene = new GameClearScene();
+        nextSceneState = GameClear;
+        fadeInOut->StartFadeOut();
     }
     // UIのゲームオーバー時の更新が終わっていればシーンを切り替え
     else if (gameSceneUI->GetEndedGameOvetUpdate())
     {
-        nextScene = new GameOverScene();
+        nextSceneState = GameOver;
+        fadeInOut->StartFadeOut();
+    }
+
+    //フェードインとフェードアウトの更新処理
+    fadeInOut->FadeIn();
+    fadeInOut->FadeOut();
+
+
+    if (fadeInOut->GetCurrentFadeInOutState() == FadeInOut::EndFadeOut)
+    {
+        if (nextSceneState == GameClear)
+        {
+            nextScene = new GameClearScene();
+        }
+        else
+        {
+            nextScene = new GameOverScene();
+        }
     }
     else
     {
         nextScene = this;
     }
-#endif
 }
 
 /// <summary>
@@ -237,4 +250,5 @@ void GameScene::Draw()
     shotManager->Draw();
     effectManager->Draw();
     gameSceneUI->Draw();
+    fadeInOut->Draw();
 }

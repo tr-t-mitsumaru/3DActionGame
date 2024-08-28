@@ -1,7 +1,7 @@
 ﻿#include"DxLib.h"
 #include "FadeInOut.h"
 #include"ImageDataManager.h"
-
+#include"Game.h"
 
 /// <summary>
 /// コンストラクタ
@@ -22,15 +22,14 @@ FadeInOut::FadeInOut()
 /// </summary>
 FadeInOut::~FadeInOut()
 {
-    //画像の削除
-    DeleteGraph(blackImage);
+    // 処理なし
 }
 
 /// <summary>
 /// フェードアウトを始めるためにフラグを切り替える関数
 /// </summary>
 void FadeInOut::StartFadeOut()
-{
+{   
     currentFadeInOutState = NowFadeOut;
 }
 
@@ -41,19 +40,19 @@ void FadeInOut::StartFadeOut()
 void FadeInOut::FadeOut()
 {
     //フェードアウトが始まるフラグが立っていないなら即リターン
-    if (currentFadeInOutState != START_FADE_OUT)
+    if (currentFadeInOutState != NowFadeOut)
     {
         return;
     }
     else
     {
         //少しずつ透明な画像を元に戻す
-        blendNum += FADE_OUT_SPEED;
+        blendCount += FadeOutSpeed;
         //フェードアウトが完了したら
-        if (blendNum > BLEND_MAX)
+        if (blendCount > BlendMax)
         {
-            blendNum = BLEND_MAX;
-            currentFadeInOutState = END_FADE_OUT;
+            blendCount = BlendMax;
+            currentFadeInOutState = EndFadeOut;
         }
     }
 }
@@ -64,18 +63,18 @@ void FadeInOut::FadeOut()
 void FadeInOut::FadeIn()
 {
     //フェードインが始まるフラグが立っていないなら即リターン
-    if (currentFadeInOutState != START_FADE_IN)
+    if (currentFadeInOutState != NowFadeIn)
     {
         return;
     }
     else
     {
         //少しずつ画像を透明にしていく
-        blendNum -= FADE_IN_SPEED;
-        if (blendNum < 0)
+        blendCount -= FadeInSpeed;
+        if (blendCount < 0)
         {
-            blendNum = 0;
-            currentFadeInOutState = END_FADE_IN;
+            blendCount = 0;
+            currentFadeInOutState = EndFadeIn;
         }
 
     }
@@ -87,9 +86,9 @@ void FadeInOut::FadeIn()
 void FadeInOut::Draw()
 {
     //透過率の変更
-    SetDrawBlendMode(DX_BLENDMODE_ALPHA, blendNum);
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, blendCount);
     //黒い画像の描画
-    DrawExtendGraph(0, 0, SCREEN_WIDTH + 1, SCREEN_HEIGHT, blackImage, TRUE);
+    DrawExtendGraph(0, 0, Game::ScreenWidth + 1, Game::ScreenHeight, blackImage, TRUE);
     //他に影響がないように元に戻す
     SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

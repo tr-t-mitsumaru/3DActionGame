@@ -34,6 +34,10 @@ GameOverScene::~GameOverScene()
 /// </summary>
 void GameOverScene::Update()
 {
+    // フェードインアウトの更新
+    fadeInOut->FadeIn();
+    fadeInOut->FadeOut();
+
     // BGMを再生させる
     soundManager->PlayBGM(SoundManager::GameOver);
 
@@ -59,17 +63,35 @@ void GameOverScene::Update()
     {
         if (gameOverSceneUI->GetCurrentSerectTextState() == GameOverSceneUI::ContinueText)
         {
-            nextScene = new GameScene();
+            currentNextScene = Game;
         }
         else
         {
-            nextScene = new TitleScene();
+            currentNextScene = Title;
         }
+
+        // フェードアウトを開始する
+        fadeInOut->StartFadeOut ();
+
         soundManager->PlaySoundEffect(SoundManager::Decision);
     }
     else
     {
         nextScene = this;
+    }
+
+    // フェードアウトが終了していたら
+    if (fadeInOut->GetCurrentFadeInOutState() == FadeInOut::EndFadeOut)
+    {
+        // 選択されたステートに合わせてシーンを読み込む
+        if (currentNextScene == Title)
+        {
+            nextScene = new TitleScene();
+        }
+        else
+        {
+            nextScene = new GameScene();
+        }
     }
 
 
@@ -81,4 +103,5 @@ void GameOverScene::Update()
 void GameOverScene::Draw()
 {
     gameOverSceneUI->Draw();
+    fadeInOut->Draw();
 }

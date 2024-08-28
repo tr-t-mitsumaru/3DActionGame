@@ -42,6 +42,12 @@ void BossDead::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR boss
         playedDeadSoundEffect = true;
     }
 
+    // １ループが終わったら止める
+    if (currentPlayAnimationState == FirstRoopEnd)
+    {
+        currentPlayAnimationState = Stop;
+    }
+
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
