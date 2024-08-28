@@ -6,9 +6,9 @@
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="InitalModelHandle">モデルハンドル</param>
-PlayerShotMagic::PlayerShotMagic(int InitalModelHandle, int beforeAnimationIndex)
-    :StateBase(InitalModelHandle, Player::Spell, beforeAnimationIndex)
+/// <param name="initalModelHandle">モデルハンドル</param>
+PlayerShotMagic::PlayerShotMagic(int initalModelHandle, int beforeAnimationIndex)
+    :StateBase(initalModelHandle, Player::Spell, beforeAnimationIndex)
 {
     // 現在のステートを入れる
     nowStateTag = Player::ShotState;

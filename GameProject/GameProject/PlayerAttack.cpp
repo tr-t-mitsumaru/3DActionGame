@@ -16,10 +16,10 @@ const VECTOR PlayerAttack::StrongAttackOffsetPositionY = VGet(0.0f, 10.0f, 0.0f)
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="InitalModelHandle">モデルハンドル</param>
+/// <param name="initalModelHandle">モデルハンドル</param>
 /// <param name="beforeAnimationIndex">前のステートでのアニメーション情報</param>
-PlayerAttack::PlayerAttack(int InitalModelHandle, int beforeAnimationIndex, Player::AnimationState animationState)
-    :StateBase(InitalModelHandle,animationState,beforeAnimationIndex)
+PlayerAttack::PlayerAttack(int initalModelHandle, int beforeAnimationIndex, Player::AnimationState animationState)
+    :StateBase(initalModelHandle,animationState,beforeAnimationIndex)
 {
     // 現在のステートを入れる
     nowStateTag = Player::AttackState;

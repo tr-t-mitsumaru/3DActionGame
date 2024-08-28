@@ -8,8 +8,8 @@
 /// <summary>
 /// コンストラクタ
 /// </summary>
-PlayerHit::PlayerHit(int InitalModelHandle, int beforeAnimationIndex, Player::AnimationState animationState)
-    :StateBase(InitalModelHandle,animationState, beforeAnimationIndex)
+PlayerHit::PlayerHit(int initalModelHandle, int beforeAnimationIndex, Player::AnimationState animationState)
+    :StateBase(initalModelHandle,animationState, beforeAnimationIndex)
 {
     // 現在のステートを入れる
     nowStateTag = Player::HitState;

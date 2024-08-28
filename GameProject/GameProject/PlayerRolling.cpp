@@ -6,7 +6,7 @@
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="InitalModelHandle">モデルハンドル</param>
+/// <param name="initalModelHandle">モデルハンドル</param>
 PlayerRolling::PlayerRolling(int initalModelHandle, int beforeAnimationIndex)
     :StateBase(initalModelHandle, Player::Rolling,beforeAnimationIndex)
 {
