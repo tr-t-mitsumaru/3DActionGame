@@ -113,15 +113,17 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
     MV1SetPosition(modelHandle, VAdd(position,ModelOffsetPosition));
 
     // 体力が0かつ
-    if (hp <= 0 && nextState->GetNowStateTag() == HitState)
+    if (hp <= 0)
     {
         hp = 0;
-        // ライフが0になったことをステートに伝える
-        WaitTimer(50);
-        nextState->SetNoLifeState();
-        
-
+        if (nextState->GetNowStateTag() == HitState)
+        {
+            // ライフが0になったことをステートに伝える
+            WaitTimer(50);
+            nextState->SetNoLifeState();
+        }
     }
+
 
     // ステートが死亡かつ死亡時のアニメーションが終了していたら
     if (nextState->GetNowStateTag() == DeadState && nextState->GetCurrentAnimationPlayState() == StateBase::FirstRoopEnd)

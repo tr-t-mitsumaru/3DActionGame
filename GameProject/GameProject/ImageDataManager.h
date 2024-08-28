@@ -35,6 +35,7 @@ public:
         ContinueText                 = 20,
         ContinueTextSmall            = 21,
         Tutorial                     = 22,
+        BlackBack                    = 23,
     };
 
     ///////       定数       ///////
