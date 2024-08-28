@@ -29,8 +29,9 @@ public:
     /// </summary>
     enum GameSceneState
     {
-        Start  = 0,  // ゲームが開始してプレイヤーが動けるようになる前の状態
-        Battle = 1,  // 戦いが開始した状態
+        Start    = 0,  // ゲームが開始してプレイヤーが動けるようになる前の状態
+        Tutorial = 1,  // チュートリアル
+        Battle   = 2,  // 戦いが開始した状態
     };
     
     //コンストラクタ

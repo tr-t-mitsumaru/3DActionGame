@@ -34,6 +34,7 @@ public:
         GameOverReturnTitleTextSmall = 19,
         ContinueText                 = 20,
         ContinueTextSmall            = 21,
+        Tutorial                     = 22,
     };
 
     ///////       定数       ///////

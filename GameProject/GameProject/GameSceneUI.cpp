@@ -14,6 +14,8 @@ GameSceneUI::GameSceneUI()
     ,playerDisplayHp(0)
     ,bossDisplayHp(0)
     ,endedGameOvetUpdate(false)
+    ,drawTutorialImage(false)
+    ,display(false)
 {
     // インスタンスをもってくる
     imageDataManager = ImageDataManager::GetInstance();
@@ -22,16 +24,19 @@ GameSceneUI::GameSceneUI()
     font = new Font();
 
     // 画像のハンドルをもってくる
-    hpGageHadle = imageDataManager->GetImageHandle(ImageDataManager::HpGage);
-    hpFrameHandle = imageDataManager->GetImageHandle(ImageDataManager::HpFrame);
-    frameHandle = imageDataManager->GetImageHandle(ImageDataManager::Frame);
-    hpBackGageHandle = imageDataManager->GetImageHandle(ImageDataManager::HpBack);
-    subHpGageHandle = imageDataManager->GetImageHandle(ImageDataManager::HpGageSub);
-    bossHpBackHandle = imageDataManager->GetImageHandle(ImageDataManager::BossHpBack);
-    bossHpFrameHandle = imageDataManager->GetImageHandle(ImageDataManager::BossHpFrame);
-    bossHpGageHandle = imageDataManager->GetImageHandle(ImageDataManager::BossHpGage);
+    hpGageHadle         = imageDataManager->GetImageHandle(ImageDataManager::HpGage);
+    hpFrameHandle       = imageDataManager->GetImageHandle(ImageDataManager::HpFrame);
+    frameHandle         = imageDataManager->GetImageHandle(ImageDataManager::Frame);
+    hpBackGageHandle    = imageDataManager->GetImageHandle(ImageDataManager::HpBack);
+    subHpGageHandle     = imageDataManager->GetImageHandle(ImageDataManager::HpGageSub);
+    bossHpBackHandle    = imageDataManager->GetImageHandle(ImageDataManager::BossHpBack);
+    bossHpFrameHandle   = imageDataManager->GetImageHandle(ImageDataManager::BossHpFrame);
+    bossHpGageHandle    = imageDataManager->GetImageHandle(ImageDataManager::BossHpGage);
     bossSubHpGageHandle = imageDataManager->GetImageHandle(ImageDataManager::BossHpGageSub);
-    gameOvetTextImage = imageDataManager->GetImageHandle(ImageDataManager::GameOverText);
+    gameOvetTextImage   = imageDataManager->GetImageHandle(ImageDataManager::GameOverText);
+    tutorialImage       = imageDataManager->GetImageHandle(ImageDataManager::Tutorial);
+    startTextImage      = imageDataManager->GetImageHandle(ImageDataManager::TitleStartString);
+
 
 
     // 画像のサイズを取る
@@ -144,10 +149,10 @@ void GameSceneUI::Draw()
 
     // ブレンドモードをノーマルに戻す
     SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
+
+    // チュートリアルの描画
+    DrawTutorial();
     
-
-
-
 }
 
 /// <summary>
@@ -245,6 +250,63 @@ void GameSceneUI::UpdateGameOverTextDisplayCount()
         if (gameOvetTextDisplayCount >= GameOvetTextDisplayCountLimit)
         {
             endedGameOvetUpdate = true;
+        }
+    }
+}
+
+/// <summary>
+/// チュートリアル画像の描画を開始させる
+/// </summary>
+void GameSceneUI::StartTutorialImageDraw()
+{
+    drawTutorialImage = true;
+}
+
+/// <summary>
+/// チュートリアル画像の描画を終了させる
+/// </summary>
+void GameSceneUI::EndTutorialImageDraw()
+{
+    drawTutorialImage = false;
+}
+
+/// <summary>
+/// チュートリアルの描画
+/// </summary>
+void GameSceneUI::DrawTutorial()
+{
+    if (drawTutorialImage)
+    {
+        // チュートリアル画像の描画
+        DrawGraph(0, 0, tutorialImage, TRUE);
+
+        if (display)
+        {
+            // チュートリアルからゲームを開始させる説明のテキスト画像の描画
+            DrawExtendGraph(StartTextX1Position, StartTextY1Position, StartTextX2Position, StartTextY2Position, startTextImage, TRUE);
+        }
+    }
+}
+
+
+/// <summary>
+/// 点滅させるための値の更新
+/// </summary>
+void GameSceneUI::Blinking()
+{
+    blinkingCount++;
+    //文字を表示する時間のカウント
+    if (blinkingCount <= DisplayTime)
+    {
+        display = true;
+    }
+    //文字を消す時間のカウント
+    else if (blinkingCount > DisplayTime && blinkingCount <= InbisibleTime)
+    {
+        display = false;
+        if (blinkingCount == InbisibleTime)
+        {
+            blinkingCount = 0;
         }
     }
 }

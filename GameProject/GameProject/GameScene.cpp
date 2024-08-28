@@ -146,12 +146,28 @@ void GameScene::Update()
             camera->StopCameraShake();
 
             // 登場シーンからバトルシーンに変更する
-            currentGameScneState = Battle;
+            currentGameScneState = Tutorial;
+
+            // チュートリアル画像の描画を開始
+            gameSceneUI->StartTutorialImageDraw();
 
             // 開始時にサウンドを止める
             soundManager->StopSoundEffect(SoundManager::BossRoar);
         }
 
+    }
+
+    // チュートリアル中の更新処理
+    else if (currentGameScneState == Tutorial)
+    {
+        gameSceneUI->Blinking();
+
+        if (inputManager->GetKeyPushState(InputManager::X) == InputManager::JustRelease)
+        {
+            // チュートリアル画像の描画を終了させる
+            gameSceneUI->EndTutorialImageDraw();
+            currentGameScneState = Battle;
+        }
     }
 
     // バトル中のみ行うアップデート
@@ -188,12 +204,6 @@ void GameScene::Update()
 
     // エフェクト全体の更新
     effectManager->Update();
-
-    /// <summary>
-    /// 霧の初期化
-    /// </summary>
-
-
 
     //デバッグ時だけキー入力でシーン遷移するように
 #ifdef _DEBUG

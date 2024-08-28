@@ -31,6 +31,8 @@ ImageDataManager::ImageDataManager()
     imageHandle.insert(make_pair(GameOverReturnTitleTextSmall, LoadGraph("UI/GameOverReturnTitleTextSmall.png")));
     imageHandle.insert(make_pair(ContinueText, LoadGraph("UI/ContinueText.png")));
     imageHandle.insert(make_pair(ContinueTextSmall, LoadGraph("UI/ContinueTextSmall.png")));
+    imageHandle.insert(make_pair(Tutorial, LoadGraph("UI/Tutorial.png")));
+
 
 
 

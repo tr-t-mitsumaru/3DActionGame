@@ -68,6 +68,21 @@ public:
     void StartGameOverTextDraw();
 
     /// <summary>
+    /// チュートリアル画像の描画を開始させる
+    /// </summary>
+    void StartTutorialImageDraw();
+
+    /// <summary>
+    /// チュートリアル画像の描画を終了させる
+    /// </summary>
+    void EndTutorialImageDraw();
+
+    /// <summary>
+    /// 点滅表示
+    /// </summary>
+    void Blinking();
+
+    /// <summary>
     /// 描画
     /// </summary>
     void Draw();
@@ -90,6 +105,13 @@ private:
     static constexpr int    BossNameStringXPosition       = 800;                          // ボスの名前を表示するX座標
     static constexpr int    BossNameStringYPosition       = 900;                          // ボスの名前を表示するY座標
     static constexpr int    GameOvetTextDisplayCountLimit = 100;                          // ゲームオーバーテキストを描画する時間
+    static constexpr int    StartTextX1Position           = 700;                          // 開始説明のテキストのX1座標
+    static constexpr int    StartTextY1Position           = 950;                          // 開始説明のテキストのY1座標
+    static constexpr int    StartTextX2Position           = 1200;                         // 開始説明のテキストのX2座標
+    static constexpr int    StartTextY2Position           = 1050;                         // 開始説明のテキストのY2座標
+    static constexpr int    DisplayTime                   = 30;                           // 表示する時間
+    static constexpr int    InbisibleTime                 = 60;                           // 表示しない時間
+
 
 
 
@@ -110,6 +132,8 @@ private:
     int               bossHpGageHandle;              // ボスのHPゲージ
     int               bossSubHpGageHandle;           // ボスのサブHPゲージ
     int               gameOvetTextImage;             // ゲームオーバーのテキスト
+    int               tutorialImage;                 // チュートリアル画像
+    int               startTextImage;                // ゲームを開始する時の説明テキストの画像
     int               uiBlendOpacity;                // UIのブレンド率
     int               playerHpGageMaxWidth;          // プレイヤーのHPゲージの幅
     int               playerHpGageMaxHeight;         // プレイヤーのHPゲージの高さ
@@ -126,6 +150,9 @@ private:
     BlendState        currentGameOvetTextBlendState; // ゲームオーバーテキストのブレンド状態
     int               gameOvetTextDisplayCount;      // ゲームオーバーテキストを描画するカウント
     bool              endedGameOvetUpdate;           // ゲームオーバー時の更新が終わったか
+    bool              drawTutorialImage;             // チュートリアル画像を描画しているか
+    int               blinkingCount;                 // 点滅表示に使うカウント
+    bool              display;                       // 表示しているか
 
 
     ///////         関数          ////////
@@ -155,5 +182,12 @@ private:
     /// ゲームオーバテキストを描画するカウントの更新
     /// </summary>
     void UpdateGameOverTextDisplayCount();
+
+    /// <summary>
+    /// チュートリアルの描画
+    /// </summary>
+    void DrawTutorial();
+
+
 };
 
