@@ -99,7 +99,6 @@ private:
     VECTOR        modelDirection;   //モデルの向くべき方向
     int           hp;               //プレイヤーの体力
     bool          isBossHited;      //ボスと当たったかのフラグ
-    bool          isDamage;         // ダメージを受けたかのフラグ
 
     ///////  メンバクラス  ///////
 

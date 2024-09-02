@@ -19,7 +19,6 @@ Player::Player()
     , modelDirection(VGet(0, 0, 0))
     , hp(100)
     , isBossHited(false)
-    , isDamage(false)
 {
     //インスタンスを持ってくる
     ModelDataManager* modelDataManager = ModelDataManager::GetInstance();
@@ -106,8 +105,7 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
     //当たり判定を行う前に当たっているかをfalseにしておく
     isBossHited = false;
 
-    // 毎ループでダメージを受けていない状態にする
-    isDamage = false;
+
 }
 
 /// <summary>
