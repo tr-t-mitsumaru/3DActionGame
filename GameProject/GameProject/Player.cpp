@@ -84,8 +84,8 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
     //更新処理の後次のループでのステートを代入する
     nextState = nowState->GetNextState();
 
-    // 体力が0かつ
-    if (hp <= 0 && nextState->GetNowStateTag() == HitState)
+    // 体力が0かつダメージを受けるステートの再生が終了していれば
+    if (hp <= 0 && nextState->GetNowStateTag() == HitState && nextState->GetCurrentAnimationPlayState() == StateBase::FirstRoopEnd)
     {
         // ライフが0になったことをステートに伝える
         nextState->SetNoLifeState();
@@ -254,9 +254,12 @@ void Player::OnHit(CollisionData collisionData)
         {
             hp -= collisionData.damageAmount;
         }
-
-        // ステートにダメージを受けた事を伝える
-        nowState->OnDamage();
+        // ダメージを受けているか死んでいる状態じゃなければ
+        if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState)
+        {
+            // ステートにダメージを受けた事を伝える
+            nowState->OnDamage();
+        }
         break;
     default:
         break;

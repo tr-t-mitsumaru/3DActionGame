@@ -48,18 +48,17 @@ void PlayerShotMagic::Update(VECTOR& modelDirection, VECTOR& position,const VECT
 /// </summary>
 void PlayerShotMagic::ChangeState()
 {
-    // ダメージを受けていたらヒットステートに移行
-    if (lifeState == Player::Damaged)
+    // 既にChangeState以外でステートが切り替えられていなければ
+    if (!changedState)
     {
-        nextState = new PlayerHit(modelhandle, animationIndex, Player::Impact);
-    }
-    //アニメーションの再生が終了したらステートを切り替える
-    else if (currentPlayAnimationState == FirstRoopEnd)
-    {
-        nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
-    }
-    else
-    {
-        nextState = this;
+        //アニメーションの再生が終了したらステートを切り替える
+        if (currentPlayAnimationState == FirstRoopEnd)
+        {
+            nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
+        }
+        else
+        {
+            nextState = this;
+        }
     }
 }

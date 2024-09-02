@@ -52,19 +52,18 @@ void PlayerRolling::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR
 /// </summary>
 void PlayerRolling::ChangeState()
 {
-    // ダメージを受けていたらヒットステートに移行
-    if (lifeState == Player::Damaged)
+    // 既にChangeState以外でステートが切り替えられていなければ
+    if (!changedState)
     {
-        nextState = new PlayerHit(modelhandle, animationIndex, Player::Impact);
-    }
-    //アニメーションの再生が終了したらステートを切り替える
-    if (currentPlayAnimationState == FirstRoopEnd)
-    {
-        nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
-    }
-    else
-    {
-        nextState = this;
+        //アニメーションの再生が終了したらステートを切り替える
+        if (currentPlayAnimationState == FirstRoopEnd)
+        {
+            nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
+        }
+        else
+        {
+            nextState = this;
+        }
     }
 }
 

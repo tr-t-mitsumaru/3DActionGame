@@ -50,17 +50,6 @@ public:
         DeadState    = 8,   // 死亡
     };
 
-    /// <summary>
-    /// 体力の状態
-    /// </summary>
-    enum LifeState
-    {
-        NoDamage = 0,   // ダメージを受けていない
-        Damaged  = 1,   // ダメージを受けた
-        NoLife   = 2,   // 体力が0
-
-    };
-
     //getter,setter
     const VECTOR GetPosition()const { return position; }
 
