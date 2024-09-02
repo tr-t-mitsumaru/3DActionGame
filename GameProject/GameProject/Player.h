@@ -17,16 +17,16 @@ public:
         BackWalk         = 0,    // 後ろ歩き
         StartBlocking    = 1,    // 防御開始
         BlockingImpact   = 2,    // ガード中にダメージを受ける
-        ComboAttack = 3,    // 連続攻撃
+        ComboAttack = 3,         // 連続攻撃
         Death            = 4,    // 死亡
-        Slash            = 5,   // 通常攻撃
+        Slash            = 5,    // 通常攻撃
         Idle             = 6,    // 静止
         Impact           = 7,    // ダメージヒット
         Jump             = 8,    // ジャンプ
         Rolling          = 9,    // 回避
         Run              = 10,   // 走り
         Spell            = 11,   // 魔法攻撃
-        Clash            = 12,    // 強攻撃
+        Clash            = 12,   // 強攻撃
         Walk             = 13,   // 歩き
     };
 
@@ -44,16 +44,6 @@ public:
         RollingState = 6,   // 回避
         ShotState    = 7,   // 弾を撃つ
         DeadState    = 8,   // 死亡
-    };
-
-    /// <summary>
-    /// 体力の状態
-    /// </summary>
-    enum LifeState
-    {
-        NoDamage = 0,   // ダメージを受けていない
-        Damaged  = 1,   // ダメージを受けた
-        NoLife   = 2,   // 体力が0
     };
 
     //getter,setter
@@ -99,7 +89,6 @@ private:
     VECTOR        modelDirection;   //モデルの向くべき方向
     int           hp;               //プレイヤーの体力
     bool          isBossHited;      //ボスと当たったかのフラグ
-    bool          isDamage;         // ダメージを受けたかのフラグ
 
     ///////  メンバクラス  ///////
 

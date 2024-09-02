@@ -15,9 +15,6 @@ BossShotAttack::BossShotAttack(int& InitializeModelHandle, const int beforeAnima
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
 
-    //インプットマネージャーのインスタンスをもってくる
-    inputManager = InputManager::GetInstance();
-
     // ショットマネージャーのインスタンスをもってくる
     shotManager = ShotManager::GetInstance();
 
@@ -62,12 +59,10 @@ void BossShotAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTO
 /// </summary>
 void BossShotAttack::ChangeState()
 {
-    //ToDo
-    //BossのAIを作るまではボタンでステートが遷移するようにしている
-    if (shotState == RightSHot && currentPlayAnimationState == FirstRoopEnd)
+    if (shotState == RightSHot && currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの突進攻撃ステートに移行
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::ShotAttack);
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),Boss::ShotAttack);
     }
     else
     {
@@ -82,7 +77,7 @@ void BossShotAttack::ChangeState()
 void BossShotAttack::SwitchAnimation()
 {
     // アニメーションの1ループが終了したら
-    if (currentPlayAnimationState == StateBase::FirstRoopEnd && shotState == LeftShot)
+    if (currentPlayAnimationState == StateBase::FirstLoopEnd && shotState == LeftShot)
     {
         // 前のステートのアニメーションをデタッチ
         MV1DetachAnim(modelhandle, beforeAnimationIndex);

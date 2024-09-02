@@ -9,12 +9,10 @@
 ///</summary>
 BossStart::BossStart(int& InitializeModelHandle, const int beforeAnimationIndex)
     :StateBase(InitializeModelHandle, Boss::Standing, beforeAnimationIndex)
-    ,currentStartMoveState(SitDown)
+    ,currentStartMoveState(Sitting)
 {
     //アニメーション速度の初期化
     animationSpeed = StandingAnimationSpeed;
-
-    inputManager = InputManager::GetInstance();
 
     //アニメーションを止めた状態で始める
     currentPlayAnimationState = Stop;
@@ -61,13 +59,11 @@ void BossStart::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bos
 /// </summary>
 void BossStart::ChangeState()
 {
-    //ToDo
-    //BossのAIを作るまではボタンでステートが遷移するようにしている
-    //本来はcurrentStartMoveStateがStandになったら状態を遷移ささせる
-    if (currentPlayAnimationState == FirstRoopEnd)
+    
+    if (currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの移動ステートに移行
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::None);
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),Boss::None);
     }
     else
     {
@@ -81,7 +77,7 @@ void BossStart::ChangeState()
 void BossStart::ChangeStartMoveState()
 {
     //カウントが一定のラインに達するまで動きを止めておく
-    if (currentStartMoveState == SitDown)
+    if (currentStartMoveState == Sitting)
     {
         startCount++;
         //カウントが超えたら立ち上がらせる
