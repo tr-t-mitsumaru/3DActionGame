@@ -53,10 +53,6 @@ private:
 
     ///////  メンバ変数  ////////
 
-    //ToDo
-    //AIを作成したら入力は必要ないので削除
-    InputManager* inputManager;      //入力管理クラス
-
     ShotManager* shotManager;        // ショット管理クラスのポインタ
     bool         isAnimationSwitch;  // アニメーションを切り替えたかのフラグ
     ShotState    shotState;          // 弾の撃っている状態
