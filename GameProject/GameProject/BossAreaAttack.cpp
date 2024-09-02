@@ -1,8 +1,8 @@
 ﻿#include"ShotManager.h"
 #include"InitializeShotData.h"
 #include"Boss.h"
+#include"BossIdle.h"
 #include"BossAreaAttack.h"
-#include"BossShotAttack.h"
 #include"CollisionManager.h"
 
 ///<summary>
@@ -14,9 +14,6 @@ BossAreaAttack::BossAreaAttack(int& InitializeModelHandle, const int beforeAnima
 {
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
-
-    //インプットマネージャーのインスタンスをもってくる
-    inputManager = InputManager::GetInstance();
 
     //コリジョンマネージャーのインスタンスをもってくる
     collisionManager = CollisionManager::GetInstance();
@@ -49,7 +46,7 @@ void BossAreaAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTO
     CreateShotByAnimationTime(position);
 
     //アニメーションの再生時間のセット
-    UpdateAnimation();
+    UpdateAnimation(AnimationBlendSpeed);
 
     //シーンが切り替わっていればアニメーションをデタッチ
     DetachAnimation();
@@ -62,12 +59,10 @@ void BossAreaAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTO
 /// </summary>
 void BossAreaAttack::ChangeState()
 {
-    //ToDo
-    //BossのAIを作るまではボタンでステートが遷移するようにしている
-    if (inputManager->GetKeyPushState(InputManager::LeftStick) == InputManager::JustRelease)
+    if (currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの移動ステートに移行
-        nextState = new BossShotAttack(modelhandle,this->GetAnimationIndex());
+        nextState = new BossIdle(modelhandle,this->GetAnimationIndex(),Boss::AreaAttack);
     }
     else
     {

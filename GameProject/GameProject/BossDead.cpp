@@ -10,8 +10,6 @@ BossDead::BossDead(int& InitializeModelHandle, const int beforeAnimationIndex)
 {
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
-    //インプットマネージャーのインスタンスをもってくる
-    inputManager = InputManager::GetInstance();
 }
 
 /// <summary>
@@ -48,15 +46,6 @@ void BossDead::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR boss
 /// </summary>
 void BossDead::ChangeState()
 {
-    //ToDo
-    //BossのAIを作るまではボタンでステートが遷移するようにしている
-    if (inputManager->GetKeyPushState(InputManager::LeftStick) == InputManager::JustRelease)
-    {
-        //ボスの移動ステートに移行
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex());
-    }
-    else
-    {
-        nextState = this;
-    }
+
+    nextState = this;
 }

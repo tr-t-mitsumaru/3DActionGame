@@ -43,13 +43,13 @@ StateBase::~StateBase()
 /// <summary>
 /// アニメーションの更新処理
 /// </summary>
-void StateBase::UpdateAnimation()
+void StateBase::UpdateAnimation(const float blendSpeed)
 {
     //前回のアニメーションがある場合
     if (beforeAnimationIndex != -1 && currentPlayAnimationState == BlendStart)
     {
         //前回とのアニメーションをブレンドして表示
-        animationBlendRate += 0.2f;
+        animationBlendRate += blendSpeed;
         //ブレンドが終わったら
         if (animationBlendRate >= 1.0f)
         {
@@ -71,7 +71,7 @@ void StateBase::UpdateAnimation()
         if (animationNowTime >= animationLimitTime)
         {
             animationNowTime = 0.0f;
-            currentPlayAnimationState = FirstRoopEnd;
+            currentPlayAnimationState = FirstLoopEnd;
         }
     }
 
@@ -92,7 +92,7 @@ void StateBase::StopAnimation()
 /// </summary>
 void StateBase::StartAnimation()
 {
-    currentPlayAnimationState = FirstRoop;
+    currentPlayAnimationState = FirstLoop;
 }
 
 /// <summary>
@@ -133,4 +133,18 @@ void StateBase::SetNoLifeState()
     changedState = true;
 }
 
+/// <summary>
+/// 移動方向の設定
+/// </summary>
+/// <param name="targetPosition">移動したい目標の座標</param>
+/// <param name="position">自身の座標</param>
+/// <returns>設定した方向</returns>
+VECTOR StateBase::CalculateTargetDirection(const VECTOR targetPosition, const VECTOR position)
+{
+    // 移動させる方向を出す
+    VECTOR direction = VSub(targetPosition, position);
+
+    // 正規化
+    return  direction = VNorm(direction);
+}
 

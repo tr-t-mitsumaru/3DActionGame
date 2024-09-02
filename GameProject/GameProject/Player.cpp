@@ -66,6 +66,7 @@ Player::~Player()
 /// </summary>
 void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPosition)
 {
+
     //ステート毎のアップデートを行う
     nowState->Update(modelDirection,position,playerTargetPosition,cameraPosition);
 
@@ -85,7 +86,7 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
     nextState = nowState->GetNextState();
 
     // 体力が0かつダメージを受けるステートの再生が終了していれば
-    if (hp <= 0 && nextState->GetNowStateTag() == HitState && nextState->GetCurrentAnimationPlayState() == StateBase::FirstRoopEnd)
+    if (hp <= 0 && nextState->GetNowStateTag() == HitState && nextState->GetCurrentAnimationPlayState() == StateBase::FirstLoopEnd)
     {
         // ライフが0になったことをステートに伝える
         nextState->SetNoLifeState();
@@ -103,6 +104,8 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
 
     //当たり判定を行う前に当たっているかをfalseにしておく
     isBossHited = false;
+
+
 }
 
 /// <summary>
@@ -232,37 +235,44 @@ void Player::OnHit(CollisionData collisionData)
 {
     switch (collisionData.hitObjectTag)
     {
-    case CollisionManager::Boss:
-
-        //ボスと当たったフラグを立てる
-        isBossHited = true;
-
-        break;
-    case CollisionManager::BossDefaultAttack:
-
-    case CollisionManager::BossRunAttack:
-
-    case CollisionManager::BossShot:
-
-    case CollisionManager::BossAreaAttack:
-        if (nowState->GetNowStateTag() == DefenseState)
+        case CollisionManager::Boss:
         {
-            //敵の攻撃に当たったのでHPを減らす
-            hp -= collisionData.damageAmount * 0.5f;
+            //ボスと当たったフラグを立てる
+            isBossHited = true;
+
+            break;
         }
-        else
+        case CollisionManager::BossDefaultAttack:
         {
-            hp -= collisionData.damageAmount;
+        case CollisionManager::BossRunAttack:
+
+        case CollisionManager::BossShot:
+
+        case CollisionManager::BossAreaAttack:
+
+            // 1フレームで複数のダメージを受けないようにする
+            // ダメージを受けているか死んでいる状態じゃなければ
+            if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState)
+            {
+                if (nowState->GetNowStateTag() == DefenseState)
+                {
+                    //敵の攻撃に当たったのでHPを減らす
+                    hp -= collisionData.damageAmount * 0.5f;
+                }
+                else
+                {
+                    hp -= collisionData.damageAmount;
+                }
+
+                // ステートにダメージを受けた事を伝える
+                nowState->OnDamage();
+            }
+            break;
         }
-        // ダメージを受けているか死んでいる状態じゃなければ
-        if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState)
-        {
-            // ステートにダメージを受けた事を伝える
-            nowState->OnDamage();
-        }
-        break;
-    default:
-        break;
+         default:
+         {
+             break;
+         }
     }
 
 

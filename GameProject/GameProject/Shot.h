@@ -47,11 +47,6 @@ public:
     /// </summary>
     void OnHit(CollisionData collisionData);
 
-    /// <summary>
-    /// 座標などを当たり判定に必要なデータに変換
-    /// </summary>
-    void UpdateCollisionData() ;
-
 
 
 private:
@@ -69,6 +64,25 @@ private:
     // 当たり判定
     CollisionManager* collisionManager;     // 当たり判定を管理するクラスにアクセスするポインタ
     CollisionData     collisionData;        // 当たり判定情報を格納するためのデータ構造
+
+    ///////          関数             ///////
+
+    /// <summary>
+    /// 座標などを当たり判定に必要なデータに変換
+    /// </summary>
+    void UpdateCollisionData() ;
+
+    /// <summary>
+    /// 中心からの距離をはかる
+    /// </summary>
+    /// <returns>中心からの距離</returns>
+    float CalculateDistanceFromCenter();
+
+    /// <summary>
+    /// 弾の削除
+    /// </summary>
+    void DeleteShot();
+
 
 
 };

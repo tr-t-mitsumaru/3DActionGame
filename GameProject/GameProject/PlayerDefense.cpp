@@ -44,7 +44,7 @@ void PlayerDefense::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR
     UpdateAnimation();
 
     //一回のループが終わればアニメーションの更新を止める
-    if (currentPlayAnimationState == FirstRoopEnd)
+    if (currentPlayAnimationState == FirstLoopEnd)
     {
         StopAnimation();
     }

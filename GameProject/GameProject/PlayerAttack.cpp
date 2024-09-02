@@ -106,7 +106,7 @@ void PlayerAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR 
     UpdateAnimation();
 
     //アニメーションが終了していたら当たり判定を消す
-    if (currentPlayAnimationState == FirstRoopEnd)
+    if (currentPlayAnimationState == FirstLoopEnd)
     {
         collisionData.collisionState = CollisionData::CollisionEnded;
     }
@@ -141,7 +141,7 @@ void PlayerAttack::ChangeState()
     if (!changedState)
     {
         //アニメーションの再生が終了したらステートを切り替える
-        if (currentPlayAnimationState == FirstRoopEnd)
+        if (currentPlayAnimationState == FirstLoopEnd)
         {
             nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
 

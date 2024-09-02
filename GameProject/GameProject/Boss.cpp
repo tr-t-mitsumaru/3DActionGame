@@ -15,7 +15,7 @@ const VECTOR Boss::OffsetModelPosition = VGet(0,10, 0);
 /// </summary>
 Boss::Boss()
     :position(InitialPosition)
-    ,angle(0.0f)
+    ,angle(DX_PI_F)
     ,nowState(NULL)
     ,modelDirection(VGet(0,0,-1))
     ,hp(10)
@@ -66,11 +66,14 @@ void Boss::Update(const VECTOR bossTargetPosition,const VECTOR cameraPosition)
     //ステート毎のアップデートを行う
     nowState->Update(modelDirection, position,bossTargetPosition,cameraPosition);
 
+    // 移動処理
+    position = VAdd(position, nowState->GetVelocity());
+
+    // モデルの向きの反映
+    UpdateAngle();
+
     //当たり判定に必要なデータの更新
     UpdateCollisionData();
-
-
-
 
     //モデルを描画する座標の調整
     MV1SetPosition(modelHandle, VAdd(position,OffsetModelPosition));
@@ -132,14 +135,17 @@ void Boss::OnHit(const CollisionData collisionData)
 {
     switch (collisionData.hitObjectTag)
     {
-    case CollisionManager::PlayerAttack:
+        case CollisionManager::PlayerAttack:
+        {
+            //HPを減らす
+            hp -= collisionData.damageAmount;
 
-        //HPを減らす
-        hp -= collisionData.damageAmount;
-
-        break;
-    default:
-        break;
+            break;
+        }
+        default:
+        {
+            break;
+        }
     }
 }
 

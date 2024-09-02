@@ -19,8 +19,8 @@ public:
     {
         BlendStart   = 0,    //前のアニメーションとのブレンドを開始
         BlendEnd     = 1,    //前のアニメーションとのブレンドの終了
-        FirstRoop    = 2,    //ファーストループの再生中
-        FirstRoopEnd = 3,    //ファーストループの再生終了
+        FirstLoop    = 2,    //ファーストループの再生中
+        FirstLoopEnd = 3,    //ファーストループの再生終了
         Stop         = 4,    //停止中
     };
 
@@ -118,7 +118,7 @@ protected:
     /// <summary>
     /// アニメーションの更新処理
     /// </summary>
-    void UpdateAnimation();
+    void UpdateAnimation(const float blendSpeed = 0.2f);
 
     /// <summary>
     /// アニメーションを止める処理
@@ -134,6 +134,13 @@ protected:
     /// </summary>
     void DetachAnimation();
 
+    /// <summary>
+    /// 移動方向の設定
+    /// </summary>
+    /// <param name="targetPosition">移動したい目標の座標</param>
+    /// <param name="position">自身の座標</param>
+    /// <returns>設定した方向</returns>
+    VECTOR CalculateTargetDirection(const VECTOR targetPosition, const VECTOR position);
 
 private:
 

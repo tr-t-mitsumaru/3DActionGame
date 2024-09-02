@@ -1,6 +1,6 @@
 ﻿#include"InitializeShotData.h"
+#include"BossIdle.h"
 #include"BossShotAttack.h"
-#include"BossRunAttack.h"
 
 
 ///<summary>
@@ -13,9 +13,6 @@ BossShotAttack::BossShotAttack(int& InitializeModelHandle, const int beforeAnima
 {
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
-
-    //インプットマネージャーのインスタンスをもってくる
-    inputManager = InputManager::GetInstance();
 
     // ショットマネージャーのインスタンスをもってくる「
     shotManager = ShotManager::GetInstance();
@@ -38,14 +35,16 @@ void BossShotAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTO
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
-    //アニメーションの再生時間のセット
-    UpdateAnimation();
-
     // アニメーションの再生率を見て弾を作成する
-    CreateShotByAnimationTime(position, bossTargetPosition);
+    SpawnShotByAnimationTime(position, bossTargetPosition, modelDirection);
 
     // アニメーションの切り替え
     SwitchAnimation();
+
+    //アニメーションの再生時間のセット
+    UpdateAnimation(AnimationBlendSpeed);
+
+
 
     //シーンが切り替わっていればアニメーションをデタッチ
     DetachAnimation();
@@ -58,12 +57,10 @@ void BossShotAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTO
 /// </summary>
 void BossShotAttack::ChangeState()
 {
-    //ToDo
-    //BossのAIを作るまではボタンでステートが遷移するようにしている
-    if (inputManager->GetKeyPushState(InputManager::LeftStick) == InputManager::JustRelease)
+    if (shotState == RightSHot && currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの突進攻撃ステートに移行
-        nextState = new BossRunAttack(modelhandle, this->GetAnimationIndex());
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),Boss::ShotAttack);
     }
     else
     {
@@ -78,7 +75,7 @@ void BossShotAttack::ChangeState()
 void BossShotAttack::SwitchAnimation()
 {
     // アニメーションの1ループが終了したら
-    if (currentPlayAnimationState == StateBase::FirstRoopEnd && shotState == LeftShot)
+    if (currentPlayAnimationState == StateBase::FirstLoopEnd && shotState == LeftShot)
     {
         // 前のステートのアニメーションをデタッチ
         MV1DetachAnim(modelhandle, beforeAnimationIndex);
@@ -98,7 +95,6 @@ void BossShotAttack::SwitchAnimation()
         currentPlayAnimationState = StateBase::BlendStart;
 
         shotState = WaitRightShot;
-
     }
 }
 
@@ -106,14 +102,20 @@ void BossShotAttack::SwitchAnimation()
 /// アニメーションの再生率によってショットを作成
 /// </summary>
 /// <param name="position">自身の座標</param>
-void BossShotAttack::CreateShotByAnimationTime(const VECTOR position, const VECTOR bossTargetPosition)
+void BossShotAttack::SpawnShotByAnimationTime(const VECTOR position, const VECTOR bossTargetPosition, VECTOR & modelDirection)
 {
     // アニメーションの再生率が規定値を超えたら
     if (animationNowTime / animationLimitTime >= ShotCreateAnimationRatio &&
         shotState == WaitLeftShot || shotState == WaitRightShot)
     {
+        // 初期化用のデータを作成
+        InitializeShotData initializeShotData = AssignInitializeShotData(position, bossTargetPosition);
+
+        // 弾を撃った方向にモデルを回転させる
+        modelDirection = initializeShotData.direction;
+
         // 必要な情報を代入して弾を作成
-        shotManager->SpawnShot(AssignInitializeShotData(position,bossTargetPosition));
+        shotManager->SpawnShot(initializeShotData);
 
         // 弾を撃った状態を変更する
         if (shotState == WaitLeftShot)

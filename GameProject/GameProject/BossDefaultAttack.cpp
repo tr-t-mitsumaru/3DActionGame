@@ -1,5 +1,6 @@
-﻿#include "BossDefaultAttack.h"
+﻿#include"BossIdle.h"
 #include"BossAreaAttack.h"
+#include "BossDefaultAttack.h"
 #include"Utility.h"
 #include"CollisionUtility.h"
 
@@ -15,9 +16,6 @@ BossDefaultAttack::BossDefaultAttack(int& InitializeModelHandle, const int befor
 {
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
-
-    //インプットマネージャーをもってくる
-    inputManager = InputManager::GetInstance();
 
     // コリジョンマネージャーのインスタンスをもってくる
     collisionManager = CollisionManager::GetInstance();
@@ -47,8 +45,14 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
     //アニメーションの再生時間のセット
     UpdateAnimation();
 
-    //アニメーションが終了していたら当たり判定を消す
-    if (currentPlayAnimationState == FirstRoopEnd)
+    // 向く方向を計算
+    VECTOR direction = CalculateTargetDirection(bossTargetPosition, position);
+
+    // 向きの変更
+    modelDirection = direction;
+
+    // アニメーションの再生率が一定のラインを超えたら当たり判定をなくす
+    if (animationNowTime / animationLimitTime >= CollisionEndAnimationRatio)
     {
         collisionData.collisionState = CollisionData::CollisionEnded;
     }
@@ -77,12 +81,11 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
 /// </summary>
 void BossDefaultAttack::ChangeState()
 {
-    //ToDo
-    //BossのAIを作るまではボタンでステートが遷移するようにしている
-    if (inputManager->GetKeyPushState(InputManager::LeftStick) == InputManager::JustRelease)
+
+    if (currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの移動ステートに移行
-        nextState = new BossAreaAttack(modelhandle, this->GetAnimationIndex());
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),Boss::DefaultAttack);
     }
     else
     {

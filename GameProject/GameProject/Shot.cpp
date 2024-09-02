@@ -73,6 +73,9 @@ void Shot::Update()
     //座標を更新
     position = VAdd(position, velocity);
 
+
+    DeleteShot();
+
     // 当たり判定情報を設定
     UpdateCollisionData();
 }
@@ -114,6 +117,39 @@ void Shot::UpdateCollisionData()
 
     //当たった際の関数
     collisionData.onHit = std::bind(&Shot::OnHit, this, std::placeholders::_1);
+}
+
+/// <summary>
+/// 中心からの距離をはかる
+/// </summary>
+/// <returns>中心からの距離</returns>
+float Shot::CalculateDistanceFromCenter()
+{
+    // 中央から現在の位置へのベクトルを計算
+    VECTOR vector = VSub(position, VGet(0.0f, 0.0f, 0.0f));
+
+    // 中央からの距離を計算
+    float distanceFromCenter = VSize(vector);
+
+    return distanceFromCenter;
+}
+
+/// <summary>
+/// 弾の削除
+/// </summary>
+void Shot::DeleteShot()
+{
+    // 中心からの距離を出す
+    float distanceFromeCenter = CalculateDistanceFromCenter();
+
+    if (distanceFromeCenter >= 500)
+    {
+        // 当たり判定を削除する
+        this->collisionData.collisionState = CollisionData::CollisionEnded;
+
+        // 弾自体の生きているフラグもおろす
+        isActive = false;
+    }
 }
 
 

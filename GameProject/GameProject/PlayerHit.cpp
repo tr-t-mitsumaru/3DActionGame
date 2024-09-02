@@ -53,7 +53,7 @@ void PlayerHit::ChangeState()
     if (!changedState)
     {
         //アニメーションの再生が終了したらステートを切り替える
-        if (currentPlayAnimationState == FirstRoopEnd)
+        if (currentPlayAnimationState == FirstLoopEnd)
         {
             nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
         }

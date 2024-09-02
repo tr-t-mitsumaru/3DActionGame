@@ -27,13 +27,15 @@ private:
 
     ///////  定数  ///////
 
-    static constexpr float InitializeAnimationSpeed = 0.6f;   //アニメーション速度
+    static constexpr float InitializeAnimationSpeed = 0.3f;   // アニメーション速度
+    static constexpr float MoveSpeed                = 0.8f;   // 移動スピード
+    static constexpr float BlendSpeed               = 0.06f;  // 前のアニメーションとのブレンドの速さ
+    static constexpr int   MoveFrameLimit           = 200;    // 移動させるフレーム数の上限
 
     ///////  メンバ変数  ////////
 
-    //ToDo
-    //AIを作成したら入力は必要ないので削除
-    InputManager* inputManager;      //入力管理クラス
+    int moveFrameCount;              // 移動させるフレーム数のカウント
+    
 
     ///////  メンバ関数  //////
 
@@ -41,6 +43,7 @@ private:
     /// ステートの切り替え処理をまとめたもの
     /// </summary>
     void ChangeState()override;
+
 };
 
 

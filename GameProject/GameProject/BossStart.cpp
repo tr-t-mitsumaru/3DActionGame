@@ -9,12 +9,10 @@
 ///</summary>
 BossStart::BossStart(int& InitializeModelHandle, const int beforeAnimationIndex)
     :StateBase(InitializeModelHandle, Boss::Standing, beforeAnimationIndex)
-    ,currentStartMoveState(SitDown)
+    ,currentStartMoveState(Sitting)
 {
     //アニメーション速度の初期化
-    animationSpeed = InitializeAnimationSpeed;
-
-    inputManager = InputManager::GetInstance();
+    animationSpeed = StandingAnimationSpeed;
 
     //アニメーションを止めた状態で始める
     currentPlayAnimationState = Stop;
@@ -39,10 +37,12 @@ void BossStart::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bos
 
 
     //アニメーションの再生時間のセット
-    UpdateAnimation();
+    UpdateAnimation(0.02f);
 
     //アニメーションの状態を変更させる
     ChangeStartMoveState();
+
+    SwitchAnimation();
 
     //ステートの切り替え処理を呼ぶ
     ChangeState();
@@ -59,13 +59,11 @@ void BossStart::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR bos
 /// </summary>
 void BossStart::ChangeState()
 {
-    //ToDo
-    //BossのAIを作るまではボタンでステートが遷移するようにしている
-    //本来はcurrentStartMoveStateがStandになったら状態を遷移ささせる
-    if (inputManager->GetKeyPushState(InputManager::LeftStick) == InputManager::JustRelease)
+    
+    if (currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの移動ステートに移行
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex());
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),Boss::None);
     }
     else
     {
@@ -79,7 +77,7 @@ void BossStart::ChangeState()
 void BossStart::ChangeStartMoveState()
 {
     //カウントが一定のラインに達するまで動きを止めておく
-    if (currentStartMoveState == SitDown)
+    if (currentStartMoveState == Sitting)
     {
         startCount++;
         //カウントが超えたら立ち上がらせる
@@ -97,10 +95,40 @@ void BossStart::ChangeStartMoveState()
             StartAnimation();
         }
         //立ち上がり終わっていたら状態を変更させる
-        else if (this->GetAnimationNowTime() >= this->GetAnimationLimitTime())
+        else if (animationNowTime / animationLimitTime >= SwitchAnimationRatio)
         {
-            currentStartMoveState == Stand;
+            currentStartMoveState = Stand;
+            animationSpeed = 0.5f;
         }
+    }
+}
+
+/// <summary>
+/// アニメーションの切り替え
+/// </summary>
+void BossStart::SwitchAnimation()
+{
+    // アニメーションの1ループが終了したら
+    if (animationNowTime/animationLimitTime >= SwitchAnimationRatio && currentStartMoveState == Stand)
+    {
+        // 前のステートのアニメーションをデタッチ
+        MV1DetachAnim(modelhandle, beforeAnimationIndex);
+
+        // 現在のアニメーションインデックスを前のインデックスに入れる
+        beforeAnimationIndex = animationIndex;
+
+        //アニメーションをアタッチ
+        animationIndex = MV1AttachAnim(modelhandle, Boss::Intimidation, -1, FALSE);
+
+        // アニメーションの総再生時間を取得
+        animationLimitTime = MV1GetAttachAnimTotalTime(modelhandle, animationIndex);
+
+        //アニメーションの再生時間の初期化
+        animationNowTime = 0.0f;
+
+        currentPlayAnimationState = StateBase::BlendStart;
+
+        currentStartMoveState = Intimidation;
     }
 }
 
