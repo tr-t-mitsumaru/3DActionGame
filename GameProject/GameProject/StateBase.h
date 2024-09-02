@@ -12,6 +12,18 @@ class StateBase
 {
 public:
 
+    ///////  enum  //////
+
+    //アニメーションの再生状態
+    enum AnimationPlayState
+    {
+        BlendStart   = 0,    //前のアニメーションとのブレンドを開始
+        BlendEnd     = 1,    //前のアニメーションとのブレンドの終了
+        FirstLoop    = 2,    //ファーストループの再生中
+        FirstLoopEnd = 3,    //ファーストループの再生終了
+        Stop         = 4,    //停止中
+    };
+
     //コンストラクタ
     StateBase(int& modelHandle,const int animationState, const int beforeAnimationIndex);
     //デストラクタ
@@ -31,8 +43,11 @@ public:
     // アニメーションの総再生時間を返す
     const float GetAnimationLimitTime() const { return animationLimitTime; }
 
-    // 体力の状態を返す
-    const Player::LifeState GetLifeState() const { return lifeState; }
+    // 現在のアニメーションの再生状態を返す
+    const AnimationPlayState GetCurrentAnimationPlayState() const { return currentPlayAnimationState; }
+
+    // ステートを切り替えたかのフラグを返す
+    const bool GetChangedState() const { return changedState; }
 
     ///////  メンバ関数  //////
 
@@ -72,17 +87,6 @@ public:
 
 protected:
 
-    ///////  enum  //////
-
-    //アニメーションの再生状態
-    enum AnimationPlayState
-    {
-        BlendStart   = 0,    //前のアニメーションとのブレンドを開始
-        BlendEnd     = 1,    //前のアニメーションとのブレンドの終了
-        FirstRoop    = 2,    //ファーストループの再生中
-        FirstRoopEnd = 3,    //ファーストループの再生終了
-        Stop         = 4,    //停止中
-    };
 
     ///////  メンバ変数  ////////
 
@@ -91,13 +95,13 @@ protected:
     VECTOR              velocity;                  // 速度やベクトルを含んだ値
     AnimationPlayState  currentPlayAnimationState; // アニメーションの再生状態
     Player::PlayerState nowStateTag;               // 現在のステートの識別用
-    Player::LifeState   lifeState;                 // プレイヤーの体力の状態
     float               animationSpeed;            // 派生クラスで代入する
     float               animationLimitTime;        // 再生中のアニメーションの総再生時間
     float               animationNowTime;          // 再生中のアニメーションの現在の経過時間
     int                 animationIndex;            // 現在のアニメーションのインデックス
     int                 beforeAnimationIndex;      // 前回のアニメーションのインデックス
     float               animationBlendRate;        // 前回のアニメーションと現在のアニメーションでのブレンド率
+    bool                changedState;              // ステートを切り替えたかのフラグ
 
 
 

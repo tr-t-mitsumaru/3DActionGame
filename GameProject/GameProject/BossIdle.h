@@ -9,20 +9,10 @@ class BossIdle :public StateBase
 {
 public:
 
-    enum  NextStateList
-    {
-        DefaultAttack = 0,  // 通常攻撃
-        Move          = 1,  // 移動
-        AreaAttack    = 2,  // 範囲攻撃
-        ShotAttack    = 3,  // 弾を撃つ攻撃
-        RunAttack     = 4,  // 突進攻撃
-        None          = 5,  // ステートが存在しない場合
-    };
-
     ///////  メンバ関数  ///////
 
     //コンストラクタ
-    BossIdle(int& modelHandle, const int beforeAnimationIndex, const NextStateList initializeBeforeStateName);
+    BossIdle(int& modelHandle, const int beforeAnimationIndex, const Boss::BossActionState initializeBeforeStateName);
     //デストラクタ
     ~BossIdle();
 
@@ -52,12 +42,8 @@ private:
 
     ///////  メンバ変数  ///////
 
-    NextStateList nextStateName;        // 次のステート
-    NextStateList previousStateName;      // 前のステート
-
-    //ToDo
-    //AIを作成したら入力は必要ないので削除
-    InputManager* inputManager;      //入力管理クラス
+    Boss::BossActionState nextStateName;          // 次のステート
+    Boss::BossActionState previousStateName;      // 前のステート
 
     ///////  メンバ関数  ///////
 
@@ -67,8 +53,14 @@ private:
     void ChangeState()override;
 
     /// <summary>
-    /// 行動パターンを選択する
+    /// 行動パターンが決定するまでループを続ける
     /// </summary>
-    void SelectActionPattern(const float targetDistance);
+    void SelectActionPatternLoop(const float bossTargetDistance);
+
+    /// <summary>
+    /// 距離に合わせて行動パターンを選択
+    /// </summary>
+    /// <param name="targetDistance">ボスが攻撃する対象との距離</param>
+    bool SelectActionOnRange(const float bossTargetDistance);
 };
 

@@ -49,16 +49,10 @@ private:
 
     ///////  メンバ変数  ////////
 
-    RunState currentRunState;     // 現在の走りステートの状態
-    VECTOR   direction;            // 移動する方向
-    VECTOR   startPosition;        // 突進を開始した座標
-    float    targetLength;         // ターゲットとの距離
-
-
-    //ToDo
-    //AIを作成したら入力は必要ないので削除
-    InputManager* inputManager;      //入力管理クラス
-
+    RunState          currentRunState;               // 現在の走りステートの状態
+    VECTOR            direction;                     // 移動する方向
+    VECTOR            startPosition;                 // 突進を開始した座標
+    float             targetLength;                  // ターゲットとの距離
     VECTOR            position;                      // 攻撃の当たり判定の座標
     CollisionData     collisionData;                 // 当たり判定に必要な情報をまとめたもの
     CollisionManager* collisionManager;              // 当たり判定の管理クラスのポインタ
