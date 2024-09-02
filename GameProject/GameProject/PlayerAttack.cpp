@@ -16,10 +16,10 @@ const VECTOR PlayerAttack::StrongAttackOffsetPositionY = VGet(0.0f, 10.0f, 0.0f)
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="InitalModelHandle">モデルハンドル</param>
+/// <param name="initalModelHandle">モデルハンドル</param>
 /// <param name="beforeAnimationIndex">前のステートでのアニメーション情報</param>
-PlayerAttack::PlayerAttack(int InitalModelHandle, int beforeAnimationIndex, Player::AnimationState animationState)
-    :StateBase(InitalModelHandle,animationState,beforeAnimationIndex)
+PlayerAttack::PlayerAttack(int initalModelHandle, int beforeAnimationIndex, Player::AnimationState animationState)
+    :StateBase(initalModelHandle,animationState,beforeAnimationIndex)
 {
     // 現在のステートを入れる
     nowStateTag = Player::AttackState;
@@ -137,20 +137,19 @@ void PlayerAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR 
 /// </summary>
 void PlayerAttack::ChangeState()
 {
-    // ダメージを受けていたらヒットステートに移行
-    if (lifeState == Player::Damaged)
+    // 既にChangeState以外でステートが切り替えられていなければ
+    if (!changedState)
     {
-        nextState = new PlayerHit(modelhandle, animationIndex, Player::Impact);
-    }
-    //アニメーションの再生が終了したらステートを切り替える
-    else if (currentPlayAnimationState == FirstLoopEnd)
-    {
-        nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
+        //アニメーションの再生が終了したらステートを切り替える
+        if (currentPlayAnimationState == FirstLoopEnd)
+        {
+            nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
 
-    }
-    else
-    {
-        nextState = this;
+        }
+        else
+        {
+            nextState = this;
+        }
     }
 }
 

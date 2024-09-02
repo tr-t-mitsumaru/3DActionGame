@@ -6,9 +6,9 @@
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="InitalModelHandle">モデルハンドル</param>
-PlayerShotMagic::PlayerShotMagic(int InitalModelHandle, int beforeAnimationIndex)
-    :StateBase(InitalModelHandle, Player::Spell, beforeAnimationIndex)
+/// <param name="initalModelHandle">モデルハンドル</param>
+PlayerShotMagic::PlayerShotMagic(int initalModelHandle, int beforeAnimationIndex)
+    :StateBase(initalModelHandle, Player::Spell, beforeAnimationIndex)
 {
     // 現在のステートを入れる
     nowStateTag = Player::ShotState;
@@ -48,18 +48,17 @@ void PlayerShotMagic::Update(VECTOR& modelDirection, VECTOR& position,const VECT
 /// </summary>
 void PlayerShotMagic::ChangeState()
 {
-    // ダメージを受けていたらヒットステートに移行
-    if (lifeState == Player::Damaged)
+    // 既にChangeState以外でステートが切り替えられていなければ
+    if (!changedState)
     {
-        nextState = new PlayerHit(modelhandle, animationIndex, Player::Impact);
-    }
-    //アニメーションの再生が終了したらステートを切り替える
-    else if (currentPlayAnimationState == FirstLoopEnd)
-    {
-        nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
-    }
-    else
-    {
-        nextState = this;
+        //アニメーションの再生が終了したらステートを切り替える
+        if (currentPlayAnimationState == FirstLoopEnd)
+        {
+            nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
+        }
+        else
+        {
+            nextState = this;
+        }
     }
 }
