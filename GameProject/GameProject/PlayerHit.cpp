@@ -53,12 +53,12 @@ void PlayerHit::Update(VECTOR& modelDirection, VECTOR& position, const VECTOR ta
 /// </summary>
 void PlayerHit::ChangeState()
 {
-    if (currentPlayAnimationState == FirstRoopEnd && lifeState == Player::NoLife)
+    if (currentPlayAnimationState == FirstLoopEnd && lifeState == Player::NoLife)
     {
         nextState = new PlayerDead(modelhandle, this->GetAnimationIndex());
     }
     //アニメーションの再生が終了したらステートを切り替える
-    else if (currentPlayAnimationState == FirstRoopEnd)
+    else if (currentPlayAnimationState == FirstLoopEnd)
     {
         nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
 

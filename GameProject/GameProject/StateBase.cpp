@@ -68,7 +68,7 @@ void StateBase::UpdateAnimation(const float blendSpeed)
         if (animationNowTime >= animationLimitTime)
         {
             animationNowTime = 0.0f;
-            currentPlayAnimationState = FirstRoopEnd;
+            currentPlayAnimationState = FirstLoopEnd;
         }
     }
 
@@ -89,7 +89,7 @@ void StateBase::StopAnimation()
 /// </summary>
 void StateBase::StartAnimation()
 {
-    currentPlayAnimationState = FirstRoop;
+    currentPlayAnimationState = FirstLoop;
 }
 
 /// <summary>

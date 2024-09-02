@@ -79,8 +79,8 @@ protected:
     {
         BlendStart   = 0,    //前のアニメーションとのブレンドを開始
         BlendEnd     = 1,    //前のアニメーションとのブレンドの終了
-        FirstRoop    = 2,    //ファーストループの再生中
-        FirstRoopEnd = 3,    //ファーストループの再生終了
+        FirstLoop    = 2,    //ファーストループの再生中
+        FirstLoopEnd = 3,    //ファーストループの再生終了
         Stop         = 4,    //停止中
     };
 

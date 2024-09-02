@@ -9,7 +9,7 @@ class BossIdle :public StateBase
 {
 public:
 
-    enum  NextStateList
+    enum  IdleStateRelatedStates
     {
         DefaultAttack = 0,  // 通常攻撃
         Move          = 1,  // 移動
@@ -22,7 +22,7 @@ public:
     ///////  メンバ関数  ///////
 
     //コンストラクタ
-    BossIdle(int& modelHandle, const int beforeAnimationIndex, const NextStateList initializeBeforeStateName);
+    BossIdle(int& modelHandle, const int beforeAnimationIndex, const IdleStateRelatedStates initializeBeforeStateName);
     //デストラクタ
     ~BossIdle();
 
@@ -52,8 +52,8 @@ private:
 
     ///////  メンバ変数  ///////
 
-    NextStateList nextStateName;        // 次のステート
-    NextStateList previousStateName;      // 前のステート
+    IdleStateRelatedStates nextStateName;          // 次のステート
+    IdleStateRelatedStates previousStateName;      // 前のステート
 
     //ToDo
     //AIを作成したら入力は必要ないので削除
@@ -67,8 +67,14 @@ private:
     void ChangeState()override;
 
     /// <summary>
-    /// 行動パターンを選択する
+    /// 行動パターンが決定するまでループを続ける
     /// </summary>
-    void SelectActionPattern(const float targetDistance);
+    void SelectActionPatternLoop(const float bossTargetDistance);
+
+    /// <summary>
+    /// 距離に合わせて行動パターンを選択
+    /// </summary>
+    /// <param name="targetDistance">ボスが攻撃する対象との距離</param>
+    bool SelectActionOnRange(const float bossTargetDistance);
 };
 

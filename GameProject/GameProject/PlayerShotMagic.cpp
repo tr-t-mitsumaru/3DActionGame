@@ -54,7 +54,7 @@ void PlayerShotMagic::ChangeState()
         nextState = new PlayerHit(modelhandle, animationIndex, Player::Impact);
     }
     //アニメーションの再生が終了したらステートを切り替える
-    else if (currentPlayAnimationState == FirstRoopEnd)
+    else if (currentPlayAnimationState == FirstLoopEnd)
     {
         nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
     }

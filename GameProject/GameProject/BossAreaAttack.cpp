@@ -64,7 +64,7 @@ void BossAreaAttack::ChangeState()
 {
     //ToDo
     //BossのAIを作るまではボタンでステートが遷移するようにしている
-    if (currentPlayAnimationState == FirstRoopEnd)
+    if (currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの移動ステートに移行
         nextState = new BossIdle(modelhandle,this->GetAnimationIndex(),BossIdle::AreaAttack);
