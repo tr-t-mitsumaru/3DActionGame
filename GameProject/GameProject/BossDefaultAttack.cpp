@@ -17,9 +17,6 @@ BossDefaultAttack::BossDefaultAttack(int& InitializeModelHandle, const int befor
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
 
-    //インプットマネージャーをもってくる
-    inputManager = InputManager::GetInstance();
-
     // コリジョンマネージャーのインスタンスをもってくる
     collisionManager = CollisionManager::GetInstance();
 
@@ -84,12 +81,11 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
 /// </summary>
 void BossDefaultAttack::ChangeState()
 {
-    //ToDo
-    //BossのAIを作るまではボタンでステートが遷移するようにしている
-    if (currentPlayAnimationState == FirstRoopEnd)
+
+    if (currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの移動ステートに移行
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::DefaultAttack);
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),Boss::DefaultAttack);
     }
     else
     {

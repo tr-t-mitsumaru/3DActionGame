@@ -17,7 +17,7 @@ const VECTOR PlayerAttack::StrongAttackOffsetPositionY = VGet(0.0f, 10.0f, 0.0f)
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="InitalModelHandle">モデルハンドル</param>
+/// <param name="initalModelHandle">モデルハンドル</param>
 /// <param name="beforeAnimationIndex">前のステートでのアニメーション情報</param>
 PlayerAttack::PlayerAttack(int InitalModelHandle, int beforeAnimationIndex, Player::AnimationState animationState)
     :StateBase(InitalModelHandle,animationState,beforeAnimationIndex)
@@ -120,7 +120,7 @@ void PlayerAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR 
 
 
     //アニメーションが終了していたら当たり判定を消す
-    if (currentPlayAnimationState == FirstRoopEnd || currentComboState == End)
+    if (currentPlayAnimationState == FirstLoopEnd || currentComboState == End)
     {
         collisionData.collisionState = CollisionData::CollisionEnded;
     }
@@ -198,20 +198,19 @@ void PlayerAttack::UpdateCollisionStateByAnimationRatio()
 /// </summary>
 void PlayerAttack::ChangeState()
 {
-    // ダメージを受けていたらヒットステートに移行
-    if (lifeState == Player::Damaged)
+    // 既にChangeState以外でステートが切り替えられていなければ
+    if (!changedState)
     {
-        nextState = new PlayerHit(modelhandle, animationIndex, Player::Impact);
-    }
-    //アニメーションの再生が終了したらステートを切り替える
-    else if (currentComboState == End || currentPlayAnimationState == FirstRoopEnd)
-    {
-        nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
+        //アニメーションの再生が終了したらステートを切り替える
+        if (currentComboState == End || currentPlayAnimationState == FirstLoopEnd)
+        {
+            nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
 
-    }
-    else
-    {
-        nextState = this;
+        }
+        else
+        {
+            nextState = this;
+        }
     }
 }
 
@@ -328,7 +327,7 @@ void PlayerAttack::IsComboAttackActive()
         moveSpeed = ThirdComboMoveSpeed;
 
         // 攻撃アニメーションが終了したらコンボステートを切り替える
-        if (currentPlayAnimationState == StateBase::FirstRoopEnd)
+        if (currentPlayAnimationState == StateBase::FirstLoopEnd)
         {
             currentComboState = End;
         }
