@@ -30,7 +30,7 @@ public:
         RightShot    = 9,    //右手で撃つショット
         RightTurn    = 10,   //右向き切り替え
         Run          = 11,   //走る
-        SitDown      = 12,   //座っている状態
+        Sitting      = 12,   //座っている状態
         Standing     = 13,   //立つ動作
         Walk         = 14    //歩き
     };
