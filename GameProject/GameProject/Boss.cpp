@@ -135,14 +135,17 @@ void Boss::OnHit(const CollisionData collisionData)
 {
     switch (collisionData.hitObjectTag)
     {
-    case CollisionManager::PlayerAttack:
+        case CollisionManager::PlayerAttack:
+        {
+            //HPを減らす
+            hp -= collisionData.damageAmount;
 
-        //HPを減らす
-        hp -= collisionData.damageAmount;
-
-        break;
-    default:
-        break;
+            break;
+        }
+        default:
+        {
+            break;
+        }
     }
 }
 

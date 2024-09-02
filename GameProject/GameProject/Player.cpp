@@ -235,40 +235,44 @@ void Player::OnHit(CollisionData collisionData)
 {
     switch (collisionData.hitObjectTag)
     {
-    case CollisionManager::Boss:
-
-        //ボスと当たったフラグを立てる
-        isBossHited = true;
-
-        break;
-    case CollisionManager::BossDefaultAttack:
-
-    case CollisionManager::BossRunAttack:
-
-    case CollisionManager::BossShot:
-
-    case CollisionManager::BossAreaAttack:
-
-        // 1フレームで複数のダメージを受けないようにする
-        // ダメージを受けているか死んでいる状態じゃなければ
-        if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState)
+        case CollisionManager::Boss:
         {
-            if (nowState->GetNowStateTag() == DefenseState)
-            {
-                //敵の攻撃に当たったのでHPを減らす
-                hp -= collisionData.damageAmount * 0.5f;
-            }
-            else
-            {
-                hp -= collisionData.damageAmount;
-            }
+            //ボスと当たったフラグを立てる
+            isBossHited = true;
 
-            // ステートにダメージを受けた事を伝える
-            nowState->OnDamage();
+            break;
         }
-        break;
-    default:
-        break;
+        case CollisionManager::BossDefaultAttack:
+        {
+        case CollisionManager::BossRunAttack:
+
+        case CollisionManager::BossShot:
+
+        case CollisionManager::BossAreaAttack:
+
+            // 1フレームで複数のダメージを受けないようにする
+            // ダメージを受けているか死んでいる状態じゃなければ
+            if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState)
+            {
+                if (nowState->GetNowStateTag() == DefenseState)
+                {
+                    //敵の攻撃に当たったのでHPを減らす
+                    hp -= collisionData.damageAmount * 0.5f;
+                }
+                else
+                {
+                    hp -= collisionData.damageAmount;
+                }
+
+                // ステートにダメージを受けた事を伝える
+                nowState->OnDamage();
+            }
+            break;
+        }
+         default:
+         {
+             break;
+         }
     }
 
 

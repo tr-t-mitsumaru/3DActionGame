@@ -117,7 +117,6 @@ void BossIdle::SelectActionPatternLoop(const float bossTargetDistance)
 
     while (isMatchPreviousState)
     {
-
         // 選ばれた行動が前のステートと同じかを調べる
         // 違えばfalseが帰ってきてループから抜ける
         isMatchPreviousState =  SelectActionOnRange(bossTargetDistance);
