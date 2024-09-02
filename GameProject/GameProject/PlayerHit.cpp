@@ -1,41 +1,42 @@
-﻿#include"PlayerShotMagic.h"
-#include"PlayerHit.h"
+﻿#include"Player.h"
+#include"PlayerDead.h"
 #include"PlayerIdle.h"
+#include"PlayerHit.h"
+
 
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="initalModelHandle">モデルハンドル</param>
-PlayerShotMagic::PlayerShotMagic(int initalModelHandle, int beforeAnimationIndex)
-    :StateBase(initalModelHandle, Player::Spell, beforeAnimationIndex)
+PlayerHit::PlayerHit(int initalModelHandle, int beforeAnimationIndex, Player::AnimationState animationState)
+    :StateBase(initalModelHandle,animationState, beforeAnimationIndex)
 {
     // 現在のステートを入れる
-    nowStateTag = Player::ShotState;
+    nowStateTag = Player::HitState;
 
-    //アニメーション速度の初期化
-    animationSpeed = 1.0f;
+    // アニメーションの速度を代入
+    animationSpeed = AnimationSpeed;
 }
-
 
 /// <summary>
 /// デストラクタ
 /// </summary>
-PlayerShotMagic::~PlayerShotMagic()
+PlayerHit::~PlayerHit()
 {
-    //処理なし
+    // 処理なし
 }
+
 
 /// <summary>
 /// 更新処理
 /// </summary>
-/// <param name="position">自身のモデルの向き</param>
-/// <param name="position">自身のキャラクターの座標</param>
-/// <param name="playerTargetPosition">敵対しているキャラの座標</param>
-void PlayerShotMagic::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)
+/// <param name="modelDirection">モデルの向き</param>
+/// <param name="characterPosition">キャラクターの座標</param>
+void PlayerHit::Update(VECTOR& modelDirection, VECTOR& position, const VECTOR targetPosition, VECTOR cameraPosition)
 {
     //ステートの切り替え処理を呼ぶ
     ChangeState();
+
     //アニメーションの再生時間のセット
     UpdateAnimation();
 
@@ -43,12 +44,12 @@ void PlayerShotMagic::Update(VECTOR& modelDirection, VECTOR& position,const VECT
     DetachAnimation();
 }
 
+
 /// <summary>
 /// ステートの切り替え処理をまとめたもの
 /// </summary>
-void PlayerShotMagic::ChangeState()
+void PlayerHit::ChangeState()
 {
-    // 既にChangeState以外でステートが切り替えられていなければ
     if (!changedState)
     {
         //アニメーションの再生が終了したらステートを切り替える

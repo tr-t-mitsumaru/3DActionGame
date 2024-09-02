@@ -31,7 +31,7 @@ private:
     static constexpr float  OffsetPositionScale                    = 20.0f;    //プレイヤーとどれだけ離すかの大きさ
     static constexpr float  CollisionCapsuleAngle                  = 50;       //当たり判定のカプセルの角度
     static constexpr float  InitializeCollisionStartAnimationRatio = 0.3f;     //当たり判定を始めるアニメーションの再生率
-    static constexpr int    DamageAmount                           = 1;        //与えるダメージ量
+    static constexpr int    DamageAmount                           = 20;        //与えるダメージ量
 
     ///////  メンバ変数  ////////
 

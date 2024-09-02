@@ -34,6 +34,22 @@ public:
         Spell          = 18    //魔法攻撃
     };
 
+    /// <summary>
+    /// プレイヤーのステートの種類
+    /// </summary>
+    enum PlayerState
+    {
+        IdleState    = 0,   // 静止
+        MoveState    = 1,   // 移動
+        JumpState    = 2,   // ジャンプ
+        AttackState  = 3,   // 攻撃
+        DefenseState = 4,   // 防御
+        HitState     = 5,   // 被弾
+        RollingState = 6,   // 回避
+        ShotState    = 7,   // 弾を撃つ
+        DeadState    = 8,   // 死亡
+    };
+
     //getter,setter
     const VECTOR GetPosition()const { return position; }
 
@@ -56,11 +72,13 @@ public:
 private:
     ///////  定数  //////
 
-    static const VECTOR ModelOffsetPosition;                  //モデルの位置を調整するための値
-    static constexpr float AngleSpeed = 0.15f;                //モデルの向きを変えるスピード
-    static constexpr float CollisionCapsuleLineLength = 24.0f;//当たり判定に必要なカプセルの線分の長さ
-    static constexpr float CollisionRadius            = 4.0f; //当たり判定に必要なカプセルの半径の大きさ
-    static constexpr float HalfLength                 = 0.5f; //中央座標を出す際の長さを半分にするための定数
+    static const VECTOR ModelOffsetPosition;                  // モデルの位置を調整するための値
+    static constexpr float AngleSpeed = 0.15f;                // モデルの向きを変えるスピード
+    static constexpr float CollisionCapsuleLineLength = 24.0f;// 当たり判定に必要なカプセルの線分の長さ
+    static constexpr float CollisionRadius            = 6.0f; // 当たり判定に必要なカプセルの半径の大きさ
+    static constexpr float HalfLength                 = 0.5f; // 中央座標を出す際の長さを半分にするための定数
+    static constexpr float InvincibilityStartRatio    = 0.1f; // 無敵時間の開始割合
+    static constexpr float InvincibilityEndRatio      = 0.7f; // 無敵時間の終了割合
 
     ///////  メンバ変数  ///////
 
@@ -104,5 +122,10 @@ private:
     /// </summary>
     /// <param name="direction">プレイヤーの移動方向</param>
     void UpdateAngle();
+
+    /// <summary>
+    /// 無敵状態の切り替えを行う
+    /// </summary>
+    void SwitchInvincibility();
 
 };

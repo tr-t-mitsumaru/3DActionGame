@@ -28,4 +28,11 @@ public:
 
 private:
 
+    static constexpr float MoveSpeed = 2.5f;    //  回避時の移動スピード
+
+    /// <summary>
+    /// 回避時の移動量を決める
+    /// </summary>
+    VECTOR SetMovement(const VECTOR modelDirection);
+
 };

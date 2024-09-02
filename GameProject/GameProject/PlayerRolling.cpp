@@ -1,14 +1,18 @@
 ﻿#include"PlayerRolling.h"
+#include"PlayerHit.h"
 #include"PlayerIdle.h"
 #include"Player.h"
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="InitalModelHandle">モデルハンドル</param>
+/// <param name="initalModelHandle">モデルハンドル</param>
 PlayerRolling::PlayerRolling(int initalModelHandle, int beforeAnimationIndex)
     :StateBase(initalModelHandle, Player::Rolling,beforeAnimationIndex)
 {
+    // 現在のステートを入れる
+    nowStateTag = Player::RollingState;
+
     //アニメーション速度の初期化
     animationSpeed = 1.0f;
 }
@@ -32,6 +36,10 @@ void PlayerRolling::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR
 {
     //ステートの切り替え処理を呼ぶ
     ChangeState();
+
+    // 移動量を加算する
+    velocity = SetMovement(modelDirection);
+
     //アニメーションの再生時間のセット
     UpdateAnimation();
 
@@ -44,13 +52,26 @@ void PlayerRolling::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR
 /// </summary>
 void PlayerRolling::ChangeState()
 {
-    //アニメーションの再生が終了したらステートを切り替える
-    if (currentPlayAnimationState == FirstRoopEnd)
+    // 既にChangeState以外でステートが切り替えられていなければ
+    if (!changedState)
     {
-        nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
+        //アニメーションの再生が終了したらステートを切り替える
+        if (currentPlayAnimationState == FirstRoopEnd)
+        {
+            nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
+        }
+        else
+        {
+            nextState = this;
+        }
     }
-    else
-    {
-        nextState = this;
-    }
+}
+
+
+/// <summary>
+/// 回避時の移動量を決める
+/// </summary>
+VECTOR PlayerRolling::SetMovement(const VECTOR modelDirection)
+{
+    return VScale(modelDirection, MoveSpeed);
 }

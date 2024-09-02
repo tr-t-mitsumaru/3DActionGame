@@ -1,6 +1,7 @@
 ﻿#include"PlayerMove.h"
 #include"InputManager.h"
 #include"Player.h"
+#include"PlayerHit.h"
 #include"PlayerIdle.h"
 #include"PlayerAttack.h"
 #include"PlayerDefense.h"
@@ -15,6 +16,9 @@ PlayerMove::PlayerMove(int modelHandle,int beforeAnimationIndex)
     :StateBase(modelHandle,Player::Walk,beforeAnimationIndex)
     , isGround(true)
 {
+    // 現在のステートを入れる
+    nowStateTag = Player::MoveState;
+
     //インプットマネージャーのアドレスを取得
     inputManager = InputManager::GetInstance();
 
@@ -65,8 +69,6 @@ void PlayerMove::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR pl
     ChangeState();
 
 
-
-
     //アニメーションの再生時間のセット
     UpdateAnimation();
 
@@ -80,53 +82,51 @@ void PlayerMove::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR pl
 /// </summary>
 void PlayerMove::ChangeState()
 {
-
-    //RBのキーが押されていれば攻撃ステートに変更
-    if (inputManager->GetKeyPushState(InputManager::RB) == InputManager::Push ||
-        inputManager->GetKeyPushState(InputManager::RT) == InputManager::Push)
+    // 既にChangeState以外でステートが切り替えられていなければ
+    if (! changedState)
     {
-        //押されたボタンによって強攻撃のアニメーションにするか
-        //通常攻撃のアニメーションにするか変更する
-        Player::AnimationState animationState;
-        if (inputManager->GetKeyPushState(InputManager::RB) == InputManager::Push)
+        //RBのキーが押されていれば攻撃ステートに変更
+        if (inputManager->GetKeyPushState(InputManager::RB) == InputManager::Push ||
+            inputManager->GetKeyPushState(InputManager::RT) == InputManager::Push)
         {
-            animationState = Player::Slash;
+            //押されたボタンによって強攻撃のアニメーションにするか
+            //通常攻撃のアニメーションにするか変更する
+            Player::AnimationState animationState;
+            if (inputManager->GetKeyPushState(InputManager::RB) == InputManager::Push)
+            {
+                animationState = Player::Slash;
+            }
+            else
+            {
+                animationState = Player::Clash;
+            }
+            nextState = new PlayerAttack(modelhandle, this->GetAnimationIndex(), animationState);
         }
+        //LTのキーが押されていればデフェンスステートに移行する
+        else if (inputManager->GetKeyPushState(InputManager::LT) == InputManager::Push)
+        {
+            nextState = new PlayerDefense(modelhandle, this->GetAnimationIndex());
+        }
+        //Bキーが押されていれば回避状態のステート
+        else if (inputManager->GetKeyPushState(InputManager::B) == InputManager::Push)
+        {
+            nextState = new PlayerRolling(modelhandle, this->GetAnimationIndex());
+        }
+        //LBキーで射撃ステートに移行
+        else if (inputManager->GetKeyPushState(InputManager::LB) == InputManager::Push)
+        {
+            nextState = new PlayerShotMagic(modelhandle, this->GetAnimationIndex());
+        }
+        //ステート移行が無ければ自身のポインタを渡す
+        else if(inputManager->GetKeyPushState(InputManager::Move) == InputManager::Push)
+        {
+            nextState = this;
+        }
+        //上記の状態にならなかったら静止状態に戻す
         else
         {
-            animationState = Player::Clash;
+            nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
         }
-        nextState = new PlayerAttack(modelhandle, this->GetAnimationIndex(), animationState);
-    }
-    //LTのキーが押されていればデフェンスステートに移行する
-    else if (inputManager->GetKeyPushState(InputManager::LT) == InputManager::Push)
-    {
-        nextState = new PlayerDefense(modelhandle, this->GetAnimationIndex());
-    }
-    else if (inputManager->GetKeyPushState(InputManager::A) && isGround)
-    {
-        nextState = new PlayerJump(modelhandle,this->GetAnimationIndex(), velocity);
-        isGround = false;
-    }
-    //Bキーが押されていれば回避状態のステート
-    else if (inputManager->GetKeyPushState(InputManager::B) == InputManager::Push)
-    {
-        nextState = new PlayerRolling(modelhandle, this->GetAnimationIndex());
-    }
-    //LBキーで射撃ステートに移行
-    else if (inputManager->GetKeyPushState(InputManager::LB) == InputManager::Push)
-    {
-        nextState = new PlayerShotMagic(modelhandle, this->GetAnimationIndex());
-    }
-    //ステート移行が無ければ自身のポインタを渡す
-    else if(inputManager->GetKeyPushState(InputManager::Move) == InputManager::Push)
-    {
-        nextState = this;
-    }
-    //上記の状態にならなかったら静止状態に戻す
-    else
-    {
-        nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
     }
 }
 

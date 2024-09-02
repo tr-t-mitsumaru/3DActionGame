@@ -46,7 +46,7 @@ private:
     static constexpr int   SpawnShotCount           = 50;           // 範囲攻撃で生成する弾の数
     static constexpr float FullCircleRadian         = 2 * DX_PI_F;  // １回転分のラジアン
     static constexpr float ShotRadius               = 5.0f;         // 生成する弾の半径
-    static constexpr int   ShotDamageAmount         = 1;            // 弾のダメージ量
+    static constexpr int   ShotDamageAmount         = 15;            // 弾のダメージ量
     static constexpr float ShotSpeed                = 3.0f;         // 弾のスピード
     static constexpr float ShotCreateAnimationRatio = 0.5f;         // ショットを撃つアニメーションの再生率
 

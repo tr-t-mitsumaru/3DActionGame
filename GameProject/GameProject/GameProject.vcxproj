@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -160,7 +160,9 @@
     <ClCompile Include="ModelDataManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAttack.cpp" />
+    <ClCompile Include="PlayerDead.cpp" />
     <ClCompile Include="PlayerDefense.cpp" />
+    <ClCompile Include="PlayerHit.cpp" />
     <ClCompile Include="PlayerIdle.cpp" />
     <ClCompile Include="PlayerJump.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
@@ -202,7 +204,9 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAttack.h" />
+    <ClInclude Include="PlayerDead.h" />
     <ClInclude Include="PlayerDefense.h" />
+    <ClInclude Include="PlayerHit.h" />
     <ClInclude Include="PlayerIdle.h" />
     <ClInclude Include="PlayerJump.h" />
     <ClInclude Include="PlayerMove.h" />

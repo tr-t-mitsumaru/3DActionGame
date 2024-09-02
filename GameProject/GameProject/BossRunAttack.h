@@ -31,7 +31,7 @@ private:
     static constexpr float OffsetCollisionPositonScale  = 0.0;   // 当たり判定をプレイヤーの向いている方向にどれだけ動かすか
     static const VECTOR    OffsetCollisionPosition;                // 当たり判定をプレイヤーの位置からどれだけずらすか
     static constexpr float CollisionRadius              = 60.0f;   // 当たり判定の半径
-    static constexpr int   DamageAmount                 = 1;       // ダメージ量
+    static constexpr int   DamageAmount                 = 30;       // ダメージ量
 
     ///////  メンバ変数  ////////
 

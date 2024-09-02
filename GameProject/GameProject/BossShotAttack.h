@@ -46,7 +46,7 @@ private:
     static constexpr float ShotCreateAnimationRatio = 0.35f;   // ショットを作成するアニメーションの再生率
     static constexpr float ShotSpeed                = 6.0f;    // 弾のスピード
     static constexpr float ShotRadius               = 20.0f;   // 弾の半径
-    static constexpr int   ShotDamageAmount         = 1;       // ショットが与えるダメージ
+    static constexpr int   ShotDamageAmount         = 15;       // ショットが与えるダメージ
     
 
     ///////  メンバ変数  ////////

@@ -37,6 +37,9 @@ public:
         Push        = 2,  //押されている
     };
 
+    /// <summary>
+    /// アナログキーのステート
+    /// </summary>
     enum AnalogKeyState
     {
         AnalogRight      = 1,     //右
@@ -47,6 +50,7 @@ public:
 
     //定数
     static constexpr int MoveKeyIndex = 0x0000000f;   //移動キーのどれかがおされているかの指標
+    static constexpr int AnalogKeyDeadZone = 100;     // スティックを倒してもすぐ反応しない領域
 
     //インスタンスを取得するゲッター
     static InputManager* GetInstance() { return inputManager; }

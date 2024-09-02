@@ -17,7 +17,7 @@ Player::Player()
     , angle(0.0f)
     , nowState(NULL)
     , modelDirection(VGet(0, 0, 0))
-    , hp(10)
+    , hp(100)
     , isBossHited(false)
 {
     //インスタンスを持ってくる
@@ -72,7 +72,6 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
     // 移動
     position = VAdd(position, nowState->GetVelocity());
 
-
     //モデルの向きを反映
     UpdateAngle();
 
@@ -84,6 +83,18 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
     
     //更新処理の後次のループでのステートを代入する
     nextState = nowState->GetNextState();
+
+    // 体力が0かつダメージを受けるステートの再生が終了していれば
+    if (hp <= 0 && nextState->GetNowStateTag() == HitState && nextState->GetCurrentAnimationPlayState() == StateBase::FirstRoopEnd)
+    {
+        // ライフが0になったことをステートに伝える
+        nextState->SetNoLifeState();
+
+    }
+
+    // 無敵時間の作成
+    SwitchInvincibility();
+
     //次のループのシーンと現在のシーンが違う場合は移行処理を行う
     if (nowState != nextState)
     {
@@ -104,7 +115,11 @@ void Player::Draw()
 
 #ifdef _DEBUG
     //当たり判定が正しいかの確認用の描画
-    DrawCapsule3D(collisionData.upPosition, collisionData.bottomPosition, collisionData.radius, 16, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
+
+    if (collisionData.collisionState == CollisionData::CollisionActive)
+    {
+        DrawCapsule3D(collisionData.upPosition, collisionData.bottomPosition, collisionData.radius, 16, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
+    }
 
     //ステートの当たり判定を描画する
     nowState->DrawCollision();
@@ -230,8 +245,21 @@ void Player::OnHit(CollisionData collisionData)
     case CollisionManager::BossShot:
 
     case CollisionManager::BossAreaAttack:
-        //敵の攻撃に当たったのでHPを減らす
-        hp -= collisionData.damageAmount;
+        if (nowState->GetNowStateTag() == DefenseState)
+        {
+            //敵の攻撃に当たったのでHPを減らす
+            hp -= collisionData.damageAmount * 0.5f;
+        }
+        else
+        {
+            hp -= collisionData.damageAmount;
+        }
+        // ダメージを受けているか死んでいる状態じゃなければ
+        if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState)
+        {
+            // ステートにダメージを受けた事を伝える
+            nowState->OnDamage();
+        }
         break;
     default:
         break;
@@ -239,6 +267,36 @@ void Player::OnHit(CollisionData collisionData)
 
 
 }
+
+/// <summary>
+/// 無敵状態の切り替えを行う
+/// </summary>
+void Player::SwitchInvincibility()
+{
+    // 回避状態なら
+    if (nextState->GetNowStateTag() == RollingState)
+    {
+        // 無敵時間の範囲になったら当たり判定を消す
+        if (nextState->GetAnimationNowTime() / nextState->GetAnimationLimitTime() >= InvincibilityStartRatio &&
+            nextState->GetAnimationNowTime() / nextState->GetAnimationLimitTime() < InvincibilityEndRatio)
+        {
+            // 当たり判定の削除
+            collisionData.collisionState = CollisionData::CollisionEnded;
+        }
+        // 無敵時間の範囲を超えたら当たり判定を戻す
+        else if (nextState->GetAnimationNowTime() / nextState->GetAnimationLimitTime() > InvincibilityEndRatio &&
+                 collisionData.collisionState == CollisionData::CollisionEnded)
+        {
+            // 当たり判定を有効化
+            collisionData.collisionState = CollisionData::CollisionActive;
+
+            // 当たり判定データを渡す
+            collisionManager->RegisterCollisionData(&collisionData);
+        }
+    }
+}
+
+
 
 
 

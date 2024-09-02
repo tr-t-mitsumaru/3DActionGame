@@ -168,6 +168,27 @@
     <ClCompile Include="BossRunAttack.cpp">
       <Filter>ソース ファイル\State\BossState</Filter>
     </ClCompile>
+    <ClCompile Include="BossDead.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionStateBase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Shot.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ShotManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ShotObjectPool.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerHit.cpp">
+      <Filter>ソース ファイル\State\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerDead.cpp">
+      <Filter>ソース ファイル\State\PlayerState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -274,6 +295,30 @@
     </ClInclude>
     <ClInclude Include="BossRunAttack.h">
       <Filter>ソース ファイル\State\BossState</Filter>
+    </ClInclude>
+    <ClInclude Include="BossDead.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionStateBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="InitializeShotData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Shot.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ShotManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ShotObjectPool.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHit.h">
+      <Filter>ソース ファイル\State\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDead.h">
+      <Filter>ソース ファイル\State\PlayerState</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

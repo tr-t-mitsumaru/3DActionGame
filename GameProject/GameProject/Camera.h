@@ -26,7 +26,7 @@ public:
 private:
     static constexpr float CameraTargetPlayerHeight = 30.0f;   // プレイヤーからカメラの注視点への高さ
     static constexpr float ToPlayerLength           = 70.0f;   // プレイヤーとの距離
-    static constexpr float AngleSpeed               = 0.05f;   // 旋回速度
+    static constexpr float AngleSpeed               = 0.03f;   // 旋回速度
 
     VECTOR        position;          // 座標
     VECTOR        targetPosition;    // 注視店の座標

@@ -12,12 +12,18 @@ PlayerJump::PlayerJump(int initialModelHandle,int beforeAnimationIndex,VECTOR be
     ,falllSpeed(0.0f)
     ,jumpState(Ground)
 {
+    // 現在のステートを入れる
+    nowStateTag = Player::JumpState;
+
     //アニメーション速度の初期化
     animationSpeed = 0.7f;
+
     //落下速度の初期化
     falllSpeed = JumpPower;
+
     //前回のステートで移動があった場合ジャンプ中もそのまま移動させる
     velocity = beforeVelocity;
+
     //ジャンプはすぐにアニメーションをしてほしいので
     currentPlayAnimationState = StateBase::BlendEnd;
 }
@@ -113,5 +119,4 @@ void PlayerJump::ChangeState()
     {
         nextState = this;
     }
-
 }
