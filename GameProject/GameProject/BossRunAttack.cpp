@@ -16,9 +16,6 @@ BossRunAttack::BossRunAttack(int& InitializeModelHandle, const int beforeAnimati
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
 
-    //インプットマネージャーのインスタンスをもってくる
-    inputManager = InputManager::GetInstance();
-
     // コリジョンマネージャーのインスタンスをもってくる
     collisionManager = CollisionManager::GetInstance();
 
@@ -88,7 +85,7 @@ void BossRunAttack::ChangeState()
     // 最初のターゲットの座標から少し進んだ位置まで到達したらステートを切り替える
     if (currentDistance >= targetLength + TargetOffsetDistance)
     {
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::RunAttack);
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),Boss::RunAttack);
     }
     else
     {

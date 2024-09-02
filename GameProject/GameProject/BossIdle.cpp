@@ -12,13 +12,11 @@
 ///<summary>
 ///コンストラクタ
 ///</summary>
-BossIdle::BossIdle(int& InitializeModelHandle,const int beforeAnimationIndex,const IdleStateRelatedStates initializePreviousStateName)
+BossIdle::BossIdle(int& InitializeModelHandle,const int beforeAnimationIndex,const Boss::BossActionState initializePreviousStateName)
     :StateBase(InitializeModelHandle,Boss::Idle,beforeAnimationIndex)
 {
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
-    //インプットマネージャーのインスタンスをもってくる
-    inputManager = InputManager::GetInstance();
 
     // 前回のステートを保存
     previousStateName = initializePreviousStateName;
@@ -65,35 +63,35 @@ void BossIdle::ChangeState()
     switch (nextStateName)
     {
         // 通常攻撃への移行
-        case BossIdle::DefaultAttack:
+        case Boss::DefaultAttack:
         {
             nextState = new BossDefaultAttack(modelhandle, animationIndex);
 
             break;
         }
         // 移動ステートに移行
-        case BossIdle::Move:
+        case Boss::Move:
         {
             nextState = new BossMove(modelhandle, animationIndex);
 
             break;
         }
         // 範囲攻撃のステートに移行
-        case BossIdle::AreaAttack:
+        case Boss::AreaAttack:
         {
             nextState = new BossAreaAttack(modelhandle, animationIndex);
 
             break;
         }
         // 遠距離攻撃に移行
-        case BossIdle::ShotAttack:
+        case Boss::ShotAttack:
         {
             nextState = new BossShotAttack(modelhandle, animationIndex);
 
             break;
         }
         // 突進攻撃に移行
-        case BossIdle::RunAttack:
+        case Boss::RunAttack:
         {
             nextState = new BossRunAttack(modelhandle, animationIndex);
 
@@ -141,15 +139,15 @@ bool BossIdle::SelectActionOnRange(const float bossTargetDistance)
         // それぞれの確率で処理が分岐する
         if (randPattern < ShortRangeDefaultAttackProbability)
         {
-            nextStateName = DefaultAttack;
+            nextStateName = Boss::DefaultAttack;
         }
         else if (randPattern >= ShortRangeDefaultAttackProbability && randPattern < ShortRangeDefaultAttackProbability + ShortRangeAreaAttackProbability)
         {
-            nextStateName = AreaAttack;
+            nextStateName = Boss::AreaAttack;
         }
         else
         {
-            nextStateName = Move;
+            nextStateName = Boss::Move;
         }
     }
     // 中距離だった場合
@@ -157,15 +155,15 @@ bool BossIdle::SelectActionOnRange(const float bossTargetDistance)
     {
         if (randPattern < MiddleRangeAreaAttackProbability)
         {
-            nextStateName = AreaAttack;
+            nextStateName = Boss::AreaAttack;
         }
         else if (randPattern >= MiddleRangeAreaAttackProbability && randPattern < MiddleRangeShotAttackProbability + MiddleRangeShotAttackProbability)
         {
-            nextStateName = ShotAttack;
+            nextStateName = Boss::ShotAttack;
         }
         else
         {
-            nextStateName = Move;
+            nextStateName = Boss::Move;
         }
     }
     // 遠距離だった場合
@@ -173,15 +171,15 @@ bool BossIdle::SelectActionOnRange(const float bossTargetDistance)
     {
         if (randPattern < LongRangeRunAttackProbability)
         {
-            nextStateName = RunAttack;
+            nextStateName = Boss::RunAttack;
         }
         else if (randPattern >= LongRangeRunAttackProbability && randPattern < LongRangeShotAttackProbability + LongRangeRunAttackProbability)
         {
-            nextStateName = ShotAttack;
+            nextStateName = Boss::ShotAttack;
         }
         else
         {
-            nextStateName = Move;
+            nextStateName = Boss::Move;
         }
     }
 

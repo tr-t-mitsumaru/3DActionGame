@@ -63,7 +63,7 @@ void BossStart::ChangeState()
     if (currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの移動ステートに移行
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::None);
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),Boss::None);
     }
     else
     {
