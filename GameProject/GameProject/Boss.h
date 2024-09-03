@@ -247,7 +247,7 @@ private:
     /// <summary>
     /// アニメーションの切り替え
     /// </summary>
-    void SwtchAnimation();
+    void SwitchAnimation();
 
     /// <summary>
     /// プレイヤーの攻撃に当たった際のエフェクトの初期化
