@@ -2,7 +2,6 @@
 #include"DxLib.h"
 #include"Player.h"
 #include"Boss.h"
-#include"BossIdle.h"
 
 
 
