@@ -78,6 +78,16 @@ public:
     void EndTutorialImageDraw();
 
     /// <summary>
+    /// ムービースキップの画像の描画を開始させる
+    /// </summary>
+    void StartMovieSkipImageDraw();
+
+    /// <summary>
+    /// ムービースキップの画像の描画を終了させる
+    /// </summary>
+    void EndMovieSkipImageDraw();
+
+    /// <summary>
     /// 点滅表示
     /// </summary>
     void Blinking();
@@ -153,6 +163,7 @@ private:
     bool              drawTutorialImage;             // チュートリアル画像を描画しているか
     int               blinkingCount;                 // 点滅表示に使うカウント
     bool              display;                       // 表示しているか
+    bool              drawMovieSkipImage;            // ムービーをスキップするためのUIを描画するか
 
 
     ///////         関数          ////////

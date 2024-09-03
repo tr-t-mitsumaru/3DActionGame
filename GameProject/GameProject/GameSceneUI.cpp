@@ -16,6 +16,7 @@ GameSceneUI::GameSceneUI()
     ,endedGameOvetUpdate(false)
     ,drawTutorialImage(false)
     ,display(false)
+    ,drawMovieSkipImage(false)
 {
     // インスタンスをもってくる
     imageDataManager = ImageDataManager::GetInstance();
@@ -268,6 +269,22 @@ void GameSceneUI::StartTutorialImageDraw()
 void GameSceneUI::EndTutorialImageDraw()
 {
     drawTutorialImage = false;
+}
+
+/// <summary>
+/// ムービースキップの画像の描画を開始させる
+/// </summary>
+void GameSceneUI::StartMovieSkipImageDraw()
+{
+    
+}
+
+/// <summary>
+/// ムービースキップの画像の描画を終了させる
+/// </summary>
+void GameSceneUI::EndMovieSkipImageDraw()
+{
+
 }
 
 /// <summary>

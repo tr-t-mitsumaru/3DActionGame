@@ -36,6 +36,8 @@ public:
         ContinueTextSmall            = 21,
         Tutorial                     = 22,
         BlackBack                    = 23,
+        XButton                      = 24,
+        MovieSkipText                = 25,
     };
 
     ///////       定数       ///////

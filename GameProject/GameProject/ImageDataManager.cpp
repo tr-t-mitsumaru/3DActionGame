@@ -33,6 +33,10 @@ ImageDataManager::ImageDataManager()
     imageHandle.insert(make_pair(ContinueTextSmall, LoadGraph("UI/ContinueTextSmall.png")));
     imageHandle.insert(make_pair(Tutorial, LoadGraph("UI/Tutorial.png")));
     imageHandle.insert(make_pair(BlackBack, LoadGraph("UI/BlackImage.png")));
+    imageHandle.insert(make_pair(XButton, LoadGraph("UI/XButton.png")));
+    imageHandle.insert(make_pair(MovieSkipText, LoadGraph("UI/skip.png")));
+
+
 
 
 
