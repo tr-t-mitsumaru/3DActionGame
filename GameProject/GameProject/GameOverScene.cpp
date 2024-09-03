@@ -32,7 +32,7 @@ void GameOverScene::Update()
     //Xキーが離されていればゲームシーンに移行
     if (inputManager->GetKeyPushState(InputManager::X) == InputManager::JustRelease)
     {
-        nextScene = new GameScene();
+       nextScene = new GameScene();
     }
     //右矢印キーが離されていればタイトルシーンに以降
     else if (inputManager->GetKeyPushState(InputManager::Y) == InputManager::JustRelease)

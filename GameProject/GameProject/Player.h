@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include"DxLib.h"
 #include"CollisionData.h"
+#include"EffectData.h"
 
 //クラスのプロトタイプ宣言
 class ModelDataManager;
@@ -77,6 +78,7 @@ private:
     static constexpr float HalfLength                 = 0.5f;   // 中央座標を出す際の長さを半分にするための定数
     static constexpr float InvincibilityStartRatio    = 0.1f;   // 無敵時間の開始割合
     static constexpr float InvincibilityEndRatio      = 0.7f;   // 無敵時間の終了割合
+    static constexpr float ShotHitEffectScale         = 10.0f;  // 弾が当たった時のエフェクトのサイズ
 
     ///////  メンバ変数  ///////
 
@@ -93,6 +95,10 @@ private:
     StateBase* nowState;                            //現在のステートを保存するポインタ
     StateBase* nextState;                           //次のループでのステートを保存するポインタ
     CollisionManager* collisionManager;             //当たり判定の管理クラスのポインタ
+
+    // エフェクト
+    EffectManager* effectManager;   // エフェクトの管理クラスにアクセスするためのポインタ
+    EffectData shotHitEffectData;   // エフェクトの更新に必要なデータ
 
 
     ///////  メンバ関数  ///////
@@ -113,7 +119,11 @@ private:
     /// <param name="">当たり判定に必要な情報をまとめたデータ</param>
     void OnHit(CollisionData collitionData);
 
-
+    /// <summary>
+    /// 弾と当たった際のエフェクトの初期化
+    /// </summary>
+    /// <param name="shotPosition">当たった弾の座標</param>
+    void InitializeShotHitEffectData(const VECTOR shotPosition);
     
     /// <summary>
     /// プレイヤーの回転制御

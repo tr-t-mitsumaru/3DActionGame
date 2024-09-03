@@ -2,6 +2,11 @@
 #include"PlayerShotMagic.h"
 #include"PlayerHit.h"
 #include"PlayerIdle.h"
+#include"EffectData.h"
+#include"EffectManager.h"
+#include"CollisionUtility.h"
+
+const VECTOR PlayerShotMagic::OffsetEffectPosition = VGet(0.0f, 15.0f, 0.0f);
 
 
 /// <summary>
@@ -11,6 +16,7 @@
 PlayerShotMagic::PlayerShotMagic(int InitalModelHandle, int beforeAnimationIndex)
     :StateBase(InitalModelHandle, Player::Spell, beforeAnimationIndex)
     ,isShotFired(false)
+    ,isPlaiedEffect(false)
 {
     // 現在のステートを入れる
     nowStateTag = Player::ShotState;
@@ -20,6 +26,9 @@ PlayerShotMagic::PlayerShotMagic(int InitalModelHandle, int beforeAnimationIndex
 
     // ショットマネージャーのインスタンスをもってくる
     shotManager = ShotManager::GetInstance();
+
+    // エフェクトマネージャーのインスタンスをもってくる
+    effectManager = EffectManager::GetInstance();
 }
 
 
@@ -28,7 +37,8 @@ PlayerShotMagic::PlayerShotMagic(int InitalModelHandle, int beforeAnimationIndex
 /// </summary>
 PlayerShotMagic::~PlayerShotMagic()
 {
-    //処理なし
+    // 再生していたエフェクトを停止させる
+    effectManager->StopEffect(effectData);
 }
 
 /// <summary>
@@ -46,6 +56,19 @@ void PlayerShotMagic::Update(VECTOR& modelDirection, VECTOR& position,const VECT
 
     // アニメーションの再生時間に合わせてショットを生成する
     CreateShotByAnimationRatio(position, playerTargetPosition, modelDirection);
+
+    // エフェクトデータの更新
+    UpdateEffectData(position, modelDirection);
+
+    // 前のアニメーションとのブレンドが終了していたら
+    // エフェクトを再生する
+    if (currentPlayAnimationState == BlendEnd && ! isPlaiedEffect)
+    {
+        effectManager->PlayEffect(&effectData);
+
+        // エフェクトを再生したフラグをたてる
+        isPlaiedEffect = true;
+    }
 
     //シーンが切り替わっていればアニメーションをデタッチ
     DetachAnimation();
@@ -115,7 +138,7 @@ InitializeShotData PlayerShotMagic::AssignInitializeShotData(const VECTOR positi
 
 
     // 座標
-    initializeShotData.position = position;
+    initializeShotData.position = VAdd(position,VGet(0.0f,20.0f,0.0f));
 
     //方向
     initializeShotData.direction = direction;
@@ -132,6 +155,45 @@ InitializeShotData PlayerShotMagic::AssignInitializeShotData(const VECTOR positi
     // 弾のダメージ
     initializeShotData.damageAmount = ShotDamageAmount;
 
+    // プレイヤーのショット攻撃で初期化する
+    initializeShotData.effectTag = EffectManager::PlayerShot;
+
+    // エフェクトの回転率を設定
+    initializeShotData.effectRotationRate = VGet(0, 0, 0);
+
+    // エフェクトのサイズを設定
+    initializeShotData.effectScalingRate = VGet(EffectDefaultScale, EffectDefaultScale, EffectDefaultScale);
+
+    // エフェクトの再生速度の設定
+    initializeShotData.effectPlaySpeed = EffectPlaySpeed;
+
     // 初期化したデータを返す
     return initializeShotData;
+}
+
+/// <summary>
+/// エフェクトデータの初期化
+/// </summary>
+void PlayerShotMagic::UpdateEffectData(const VECTOR characterPosition, const VECTOR modelDirection)
+{
+    // エフェクトの種類
+    effectData.effectTag = EffectManager::PlayerMagicCircle;
+
+    // エフェクトを描画する座標
+    effectData.position = CollisionUtility::TransrateCollisionCapsulePosition(characterPosition, modelDirection,
+        OffsetEffectPosition, OffsetEffectPositionScale);
+
+    float angle = atan2(modelDirection.x, modelDirection.z);
+
+    // エフェクトの回転率
+    effectData.rotationRate = VGet(0.0f, angle, 0.0f);
+
+    // エフェクトの種類
+    effectData.effectTag = EffectManager::PlayerMagicCircle;
+
+    // エフェクトのサイズ
+    effectData.scalingRate = VGet(EffectDefaultScale, EffectDefaultScale, EffectDefaultScale);
+
+    // エフェクトの再生速度
+    effectData.playSpeed = EffectPlaySpeed;
 }

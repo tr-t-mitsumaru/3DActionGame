@@ -1,9 +1,11 @@
 ﻿#pragma once
 #include"StateBase.h"
 #include"ShotManager.h"
+#include"EffectData.h"
 
 
 struct InitializeShotData;
+class  EffectManager;
 
 /// <summary>
 /// プレイヤーの攻撃に関するステート
@@ -33,16 +35,23 @@ public:
 private:
     ///////      定数      ///////
 
-    static constexpr float ShotCreateAnimationRatio  = 0.2f;     // ショットを作成するアニメーションの再生率
-    static constexpr float ShotSpeed                 = 7.0f;     // ショットのスピード
-    static constexpr float ShotRadius                = 5.0f;     // 弾の半径
-    static constexpr int   ShotDamageAmount          = 1;        // ショットが与えるダメージ
+    static constexpr float ShotCreateAnimationRatio  = 0.2f;        // ショットを作成するアニメーションの再生率
+    static constexpr float ShotSpeed                 = 7.0f;        // ショットのスピード
+    static constexpr float ShotRadius                = 5.0f;        // 弾の半径
+    static constexpr int   ShotDamageAmount          = 1;           // ショットが与えるダメージ
+    static constexpr float EffectDefaultScale        = 10.0f;       // エフェクトのサイズ
+    static constexpr float EffectPlaySpeed           = 1.0f;        // エフェクトの再生速度
+    static constexpr float OffsetEffectPositionScale = 15.0f; // エフェクトを再生する位置をどれだけ前に進めるか 
+    static const VECTOR    OffsetEffectPosition;                    // エフェクトを再生する位置をプレイヤーからみてどれだけずらすか
 
 
     ///////      変数      ////////
 
-    ShotManager* shotManager;    // ショット管理クラスのポインタ
-    bool         isShotFired;    // 弾が撃たれたかのフラグ
+    ShotManager*   shotManager;        // ショット管理クラスのポインタ
+    bool           isShotFired;        // 弾が撃たれたかのフラグ
+    EffectManager* effectManager;      // エフェクトの管理クラスのポインタ
+    EffectData     effectData;         // エフェクトの移動などに必要なデータ
+    bool           isPlaiedEffect;     // エフェクトを再生したか
 
 
     ///////      関数     ////////
@@ -64,6 +73,11 @@ private:
     /// <param name="targetPosition">弾を撃つ目標の座標</param>
     /// <returns>初期化した弾のデータ</returns>
     InitializeShotData AssignInitializeShotData(const VECTOR position, const VECTOR targetPosition);
+
+    /// <summary>
+    /// エフェクトデータの初期化
+    /// </summary>
+    void UpdateEffectData(const VECTOR characterPosition, const VECTOR modelDirection);
 
 
 

@@ -13,8 +13,13 @@ public:
     /// </summary>
     enum EffectTag
     {
-        BossShot = 0,   // Bossのショットのエフェクト
-        BossClaw = 1,   // ボスの通常攻撃のエフェクト
+        BossShot          = 0,   // Bossのショットのエフェクト
+        BossClaw          = 1,   // ボスの通常攻撃のエフェクト
+        PlayerShot        = 2,   // プレイヤーのショット攻撃のエフェクト
+        PlayerMagicCircle = 3,   // プレイヤーがショットを撃つ際の魔法陣
+        PlayerShotHit     = 4,   // プレイヤーのショットが当たった際のエフェクト
+        BossShotHit       = 5,   // ボスのショットが当たった際のエフェクト
+        PlayerAttackHit   = 6,   // プレイヤーの攻撃が当たった際のエフェクト
     };
 
 

@@ -5,6 +5,8 @@
 #include"Player.h"
 #include"ModelDataManager.h"
 #include"PlayerIdle.h"
+#include"EffectManager.h"
+#include"Utility.h"
 
 
 const VECTOR Player::ModelOffsetPosition = VGet(0, 0, -3);
@@ -22,6 +24,10 @@ Player::Player()
 {
     //インスタンスを持ってくる
     ModelDataManager* modelDataManager = ModelDataManager::GetInstance();
+
+    // エフェクトマネージャーのインスタンスのポインタをもってくる
+    effectManager = EffectManager::GetInstance();
+
     //モデルハンドルをもらう
     modelHandle = MV1DuplicateModel(modelDataManager->GetModelHandle(ModelDataManager::Player));
 
@@ -236,48 +242,64 @@ void Player::UpdateCollisionData()
 /// <param name="">当たり判定に必要な情報をまとめたデータ</param>
 void Player::OnHit(CollisionData collisionData)
 {
+    float damageRate = 1.0f;
+
+    // 1フレームで複数のダメージを受けないようにする
+    if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState && !nowState->GetChangedState())
+    {
+        if (nowState->GetNowStateTag() == DefenseState)
+        {
+
+            damageRate = 0.5f;
+        }
+    }
+
     switch (collisionData.hitObjectTag)
     {
         case CollisionManager::Boss:
         {
             // ボスと当たった際に押し戻し処理を行う
             PushBack(collisionData.bottomPosition, collisionData.radius);
-            //ボスと当たったフラグを立てる
-            isBossHited = true;
 
             break;
         }
         case CollisionManager::BossDefaultAttack:
         {
         case CollisionManager::BossRunAttack:
-
-        case CollisionManager::BossShot:
-
-        case CollisionManager::BossAreaAttack:
-
             // 1フレームで複数のダメージを受けないようにする
-            // ダメージを受けているか死んでいる状態じゃなければ
-            if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState && ! nowState->GetChangedState())
+            if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState && !nowState->GetChangedState())
             {
-                if (nowState->GetNowStateTag() == DefenseState)
-                {
-                    //敵の攻撃に当たったのでHPを減らす
-                    hp -= collisionData.damageAmount * 0.5f;
-                }
-                else
-                {
-                    hp -= collisionData.damageAmount;
-                }
+                //敵の攻撃に当たったのでHPを減らす
+                hp -= collisionData.damageAmount * damageRate;
 
                 // ステートにダメージを受けた事を伝える
                 nowState->OnDamage();
             }
+
             break;
         }
-         default:
-         {
-             break;
-         }
+        case CollisionManager::BossShot:
+        {
+        case CollisionManager::BossAreaAttack:
+            // 1フレームで複数のダメージを受けないようにする
+            if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState && !nowState->GetChangedState())
+            {
+                //敵の攻撃に当たったのでHPを減らす
+                hp -= collisionData.damageAmount * damageRate;
+
+                // ステートにダメージを受けた事を伝える
+                nowState->OnDamage();
+                // ショットが当たった際のエフェクトの初期化
+                InitializeShotHitEffectData(collisionData.centerPosition);
+
+                // エフェクトの再生を行う
+                effectManager->PlayEffect(&shotHitEffectData);
+            }
+        }
+        default:
+        {
+            break;
+        }
     }
 }
 
@@ -344,6 +366,33 @@ void Player::PushBack(const VECTOR targetPosition, const float targetRadius)
 
     // モデルの位置も合わせて修正
     MV1SetPosition(modelHandle, position);
+}
+
+/// <summary>
+/// 弾と当たった際のエフェクトの初期化
+/// </summary>
+/// <param name="shotPosition">当たった弾の座標</param>
+void Player::InitializeShotHitEffectData(const VECTOR shotPosition)
+{
+    // 自身のポジションと弾の座標からエフェクトの向きを算出
+    float angle = Utility::CalculateAngleBetweenPositions(position, shotPosition);
+
+    // エフェクトの回転率
+    shotHitEffectData.rotationRate = VGet(0.0f, angle, 0.0f);
+
+    // エフェクトの座標の初期化
+    shotHitEffectData.position = shotPosition;
+
+    // エフェクトの種類
+    shotHitEffectData.effectTag = EffectManager::BossShotHit;
+
+    // エフェクトの再生速度
+    shotHitEffectData.playSpeed = 1.0f;
+
+    // エフェクトのサイズ
+    shotHitEffectData.scalingRate = VGet(ShotHitEffectScale, ShotHitEffectScale, ShotHitEffectScale);
+
+
 }
 
 

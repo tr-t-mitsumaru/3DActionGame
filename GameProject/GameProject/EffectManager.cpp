@@ -14,8 +14,15 @@ EffectManager* EffectManager::effectManager = nullptr;
 EffectManager::EffectManager()
 {
     // エフェクトのロード
-    effectHandle.insert(make_pair(BossShot, LoadEffekseerEffect("Effect/FireBall3.efkefc", 1.0f)));
-    effectHandle.insert(make_pair(BossClaw, LoadEffekseerEffect("Effect/BossClaw.efkefc", 1.0f)));
+    effectHandle.insert(make_pair(BossShot, LoadEffekseerEffect("Effect/FireBall3.efkefc")));
+    effectHandle.insert(make_pair(BossClaw, LoadEffekseerEffect("Effect/BossClaw.efkefc")));
+    effectHandle.insert(make_pair(PlayerShot, LoadEffekseerEffect("Effect/PlayerShot.efkefc")));
+    effectHandle.insert(make_pair(PlayerMagicCircle, LoadEffekseerEffect("Effect/PlayerMagicCircle.efkefc")));
+    effectHandle.insert(make_pair(PlayerShotHit, LoadEffekseerEffect("Effect/PlayerShotHitEffect.efkefc")));
+    effectHandle.insert(make_pair(BossShotHit, LoadEffekseerEffect("Effect/BossShotHitEffect.efkefc")));
+    effectHandle.insert(make_pair(PlayerAttackHit, LoadEffekseerEffect("Effect/PlayerAttackHit.efkefc")));
+
+
 }
 
 /// <summary>
@@ -128,6 +135,15 @@ void EffectManager::Update()
 {
     //DXライブラリのカメラとEffekseerのカメラを同期
     Effekseer_Sync3DSetting();
+
+    // エフェクトの分回し再生が終わっていたらリストから削除する
+    for (int i = 0; i < effectDataList.size(); i++)
+    {
+        if (IsEffekseer3DEffectPlaying(effectDataList[i]->effectNumber))
+        {
+            effectDataList.erase(effectDataList.begin() + i);
+        }
+    }
 
     for (int i = 0; i < effectDataList.size(); i++)
     {

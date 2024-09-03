@@ -1,9 +1,11 @@
 ﻿#pragma once
 #include"CollisionData.h"
+#include"EffectData.h"
 
 class ModelDataManager;
 class CollisionManager;
 class StateBase;
+class EffectManager;
 
 
 /// <summary>
@@ -80,8 +82,10 @@ private:
     static constexpr int   NotRegisterTag             = -1;      // レジスタの識別番号が代入されていないことをしめす
     static constexpr float DefaultScale               = 0.2f;    // 基本的なスケール
     static constexpr float AngleSpeed                 = 0.15f;   // モデルの向きを変えるスピード
+    static constexpr float ShotHitEffectScale         = 10.0f;   // 弾が当たった時のエフェクトのサイズ
+    static constexpr float PlayerAttackHitEffectScale = 10.0f;   // プレイヤーの攻撃が当たった際のエフェクトのサイズ
 
-    ////メンバ変数////
+    ////         メンバ変数           ////
 
     //モデル
     int               modelHandle;      //モデルハンドル
@@ -96,6 +100,12 @@ private:
     StateBase* nowState;                //現在のステートを保存するポインタ
     StateBase* nextState;               //次のループでのステートをホゾンスルポインタ
 
+    // エフェクト
+    EffectManager* effectManager;         // エフェクトの管理クラスにアクセスするポインタ
+    EffectData shotHitEffectData;         // エフェクトの更新に必要なデータ
+    EffectData playerAttackHitEffectData; // プレイヤーの攻撃が当たった際のエフェクトのデータ
+    
+
 
     ////メンバ関数////
 
@@ -109,6 +119,18 @@ private:
     /// </summary>
     /// <param name="">当たり判定に必要な情報をまとめたデータ</param>
     void OnHit(const CollisionData collisionData);
+
+    /// <summary>
+    /// 弾と当たった際のエフェクトの初期化
+    /// </summary>
+    /// <param name="shotPosition">当たった弾の座標</param>
+    void InitializeShotHitEffectData(const VECTOR shotPosition);
+
+    /// <summary>
+    /// プレイヤーの攻撃に当たった際のエフェクトの初期化
+    /// </summary>
+    /// <param name="attackPosition">攻撃の座標</param>
+    void InitializePlayerAttackHitEffectData(const VECTOR attackPosition);
 
 
     /// <summary>
