@@ -34,9 +34,6 @@ private:
 
     ///////  メンバ変数  ////////
 
-    //ToDo
-    //AIを作成したら入力は必要ないので削除
-    InputManager* inputManager;      //入力管理クラス
     int moveFrameCount;              // 移動させるフレーム数のカウント
     
 

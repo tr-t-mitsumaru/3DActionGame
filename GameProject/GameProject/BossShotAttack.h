@@ -73,7 +73,6 @@ private:
 
     ///////  メンバ変数  ////////
 
-
     ShotManager*   shotManager;                   // ショット管理クラスのポインタ
     bool           isAnimationSwitch;             // アニメーションを切り替えたかのフラグ
     ShotState      shotState;                     // 弾の撃っている状態

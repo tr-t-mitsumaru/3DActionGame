@@ -36,7 +36,7 @@ void PlayerDead::Update(VECTOR& modelDirection, VECTOR& position, const VECTOR t
     ChangeState();
 
     // 一度アニメーションが再生され終わったら止める
-    if (currentPlayAnimationState == FirstRoopEnd)
+    if (currentPlayAnimationState == FirstLoopEnd)
     {
         currentPlayAnimationState = Stop;
     }

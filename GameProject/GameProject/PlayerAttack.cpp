@@ -17,7 +17,7 @@ const VECTOR PlayerAttack::StrongAttackOffsetPositionY = VGet(0.0f, 1.0f, 0.0f);
 /// <summary>
 /// コンストラクタ
 /// </summary>
-/// <param name="InitalModelHandle">モデルハンドル</param>
+/// <param name="initalModelHandle">モデルハンドル</param>
 /// <param name="beforeAnimationIndex">前のステートでのアニメーション情報</param>
 PlayerAttack::PlayerAttack(int InitalModelHandle, int beforeAnimationIndex, Player::AnimationState initializeAnimationState)
     :StateBase(InitalModelHandle,initializeAnimationState,beforeAnimationIndex)
@@ -118,7 +118,7 @@ void PlayerAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR 
     IsComboAttackActive();
 
     //アニメーションが終了していたら当たり判定を消す
-    if (currentPlayAnimationState == FirstRoopEnd || currentComboState == End)
+    if (currentPlayAnimationState == FirstLoopEnd || currentComboState == End)
     {
         collisionData.collisionState = CollisionData::CollisionEnded;
     }
@@ -209,20 +209,19 @@ void PlayerAttack::UpdateCollisionStateByAnimationRatio()
 /// </summary>
 void PlayerAttack::ChangeState()
 {
-    // ダメージを受けていたらヒットステートに移行
-    if (lifeState == Player::Damaged)
+    // 既にChangeState以外でステートが切り替えられていなければ
+    if (!changedState)
     {
-        nextState = new PlayerHit(modelhandle, animationIndex, Player::Impact);
-    }
-    //アニメーションの再生が終了したらステートを切り替える
-    else if (currentComboState == End || currentPlayAnimationState == FirstRoopEnd)
-    {
-        nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
+        //アニメーションの再生が終了したらステートを切り替える
+        if (currentComboState == End || currentPlayAnimationState == FirstLoopEnd)
+        {
+            nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
 
-    }
-    else
-    {
-        nextState = this;
+        }
+        else
+        {
+            nextState = this;
+        }
     }
 }
 
@@ -301,59 +300,67 @@ void PlayerAttack::IsComboAttackActive()
     {
         switch (currentComboState)
         {
-        case PlayerAttack::First:
-
-            // 移動速度を代入
-            moveSpeed = FirstComboMoveSpeed;
-
-            // 規定時間の間で追加入力があればコンボを続行する
-            if (currentAnimationRatio >= SecondAttackInputStartTime  && currentAnimationRatio < currentAnimationRatio < SecondAttackInputStartTime + InputTimeLimit &&
-                inputManager->GetKeyPushState(InputManager::X) == InputManager::Push)
+            case PlayerAttack::First:
             {
-                currentComboState = Second;
-                damageAmount = SecondAttackDamageAmount;
+                // 移動速度を代入
+                moveSpeed = FirstComboMoveSpeed;
 
+                // 規定時間の間で追加入力があればコンボを続行する
+                if (currentAnimationRatio >= SecondAttackInputStartTime && currentAnimationRatio < currentAnimationRatio < SecondAttackInputStartTime + InputTimeLimit &&
+                    inputManager->GetKeyPushState(InputManager::X) == InputManager::Push)
+                {
+                    currentComboState = Second;
+                    damageAmount = SecondAttackDamageAmount;
+
+                }
+                else if (currentAnimationRatio > SecondAttackInputStartTime + InputTimeLimit)
+                {
+                    currentComboState = End;
+                }
+                break;
             }
-            else if (currentAnimationRatio > SecondAttackInputStartTime + InputTimeLimit)
+            case PlayerAttack::Second:
             {
-                currentComboState = End;
+                // 移動速度を代入
+                moveSpeed = SecondComboMoveSpeed;
+
+                // 規定時間の間で追加入力があればコンボを続行する
+                if (currentAnimationRatio >= ThirdAttackInputStartTime && currentAnimationRatio < currentAnimationRatio < ThirdAttackInputStartTime + InputTimeLimit &&
+                    inputManager->GetKeyPushState(InputManager::X) == InputManager::Push)
+                {
+                    currentComboState = Third;
+                    damageAmount = ThirdAttackDamageAmount;
+                }
+                else if (currentAnimationRatio > ThirdAttackInputStartTime + InputTimeLimit)
+                {
+                    currentComboState = End;
+                }
+
+                break;
             }
-            break;
-        case PlayerAttack::Second:
-
-            // 移動速度を代入
-            moveSpeed = SecondComboMoveSpeed;
-
-            // 規定時間の間で追加入力があればコンボを続行する
-            if (currentAnimationRatio >= ThirdAttackInputStartTime && currentAnimationRatio < currentAnimationRatio < ThirdAttackInputStartTime + InputTimeLimit &&
-                inputManager->GetKeyPushState(InputManager::X) == InputManager::Push)
+            case PlayerAttack::Third:
             {
-                currentComboState = Third;
-                damageAmount = ThirdAttackDamageAmount;
+                // 移動速度を代入
+                moveSpeed = ThirdComboMoveSpeed;
+
+                // 攻撃アニメーションが終了したらコンボステートを切り替える
+                if (currentPlayAnimationState == StateBase::FirstLoopEnd)
+                {
+                    currentComboState = End;
+                }
+
+                break;
             }
-            else if (currentAnimationRatio > ThirdAttackInputStartTime + InputTimeLimit)
+            case PlayerAttack::End:
             {
-                currentComboState = End;
+                break;
             }
-
-            break;
-        case PlayerAttack::Third:
-
-            // 移動速度を代入
-            moveSpeed = ThirdComboMoveSpeed;
-
-            // 攻撃アニメーションが終了したらコンボステートを切り替える
-            if (currentPlayAnimationState == StateBase::FirstRoopEnd)
+            default:
             {
-                currentComboState = End;
+                break;
             }
-
-            break;
-        case PlayerAttack::End:
-            break;
-        default:
-            break;
         }
+
     }
 
 }

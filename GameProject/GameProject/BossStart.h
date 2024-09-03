@@ -33,7 +33,7 @@ private:
     /// </summary>
     enum StartMoveState
     {
-        SitDown      = 0,  //座っている
+        Sitting      = 0,  //座っている
         Standing     = 1,  //立ち上がっている途中
         Stand        = 2,  //立ち上がった
         Intimidation = 3,  // 威嚇状態
@@ -50,10 +50,6 @@ private:
 
     int startCount;             //ボスが行動を開始するまでのカウント
     StartMoveState currentStartMoveState; //現在のボスの行動状態
-
-    //ToDo
-    //AIを作成したら入力は必要ないので削除
-    InputManager* inputManager;      //入力管理クラス
 
     ///////  メンバ関数  //////
 
