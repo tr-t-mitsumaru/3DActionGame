@@ -19,6 +19,8 @@ BossDefaultAttack::BossDefaultAttack(int& InitializeModelHandle, const int befor
     ,isAttackParameterInitialize(false)
     ,isChangedAnimationSpeed(false)
 {
+    //アニメーション速度の初期化
+    animationSpeed = InitializeAnimationSpeed;
 
     // コリジョンマネージャーのインスタンスをもってくる
     collisionManager = CollisionManager::GetInstance();
@@ -98,15 +100,15 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
 /// </summary>
 void BossDefaultAttack::ChangeState()
 {
-    // 体力が無い時点で死亡ステートに移行
-    if (lifeState == Player::NoLife)
+    // 既にステートが切り替えてあれば早期リターン
+    if (changedState)
     {
-        nextState = new BossDead(modelhandle, animationIndex);
+        return;
     }
-    else if (currentPlayAnimationState == FirstRoopEnd)
+    else if (currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの移動ステートに移行
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::DefaultAttack,isChangingMove);
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),Boss::DefaultAttack,isChangingMove);
     }
     else
     {

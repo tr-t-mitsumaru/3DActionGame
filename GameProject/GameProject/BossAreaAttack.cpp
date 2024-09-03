@@ -14,8 +14,8 @@ BossAreaAttack::BossAreaAttack(int& InitializeModelHandle, const int beforeAnima
     ,attackState(NoAttack)
     ,isAttackParameterInitialize(false)
 {
-    //インプットマネージャーのインスタンスをもってくる
-    inputManager = InputManager::GetInstance();
+    //アニメーション速度の初期化
+    animationSpeed = InitializeAnimationSpeed;
 
     //コリジョンマネージャーのインスタンスをもってくる
     collisionManager = CollisionManager::GetInstance();
@@ -64,15 +64,16 @@ void BossAreaAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTO
 /// </summary>
 void BossAreaAttack::ChangeState()
 {
-    // 体力が無い時点で死亡ステートに移行
-    if (lifeState == Player::NoLife)
+    // 既にステートが切り替えてあれば早期リターン
+    if (changedState)
     {
-        nextState = new BossDead(modelhandle, animationIndex);
+        return;
     }
-    else if (currentPlayAnimationState == FirstRoopEnd)
+    else if (currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの移動ステートに移行
-        nextState = new BossIdle(modelhandle,this->GetAnimationIndex(),BossIdle::AreaAttack,isChangingMove);
+        nextState = new BossIdle(modelhandle,this->GetAnimationIndex(),Boss::AreaAttack,isChangingMove);
+
     }
     else
     {
