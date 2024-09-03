@@ -20,7 +20,6 @@ Player::Player()
     , modelDirection(VGet(0, 0, 0))
     , hp(MaxHp)
     , isBossHited(false)
-    , isDamage(false)
     , isEndMove(false)
     , isBlendingAnimation(false)
 {
@@ -106,12 +105,11 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
 
     MV1SetPosition(modelHandle, VAdd(position,ModelOffsetPosition));
 
-    // 体力が0かつ
-    if (hp <= 0 && nextState->GetNowStateTag() == HitState)
+    // 体力が0かつダメージを受けるステートの再生が終了していれば
+    if (hp <= 0 && nextState->GetNowStateTag() == HitState && nextState->GetCurrentAnimationPlayState() == StateBase::FirstLoopEnd)
     {
         // ライフが0になったことをステートに伝える
         nextState->SetNoLifeState();
-
     }
 
     // 無敵時間の作成
@@ -126,8 +124,7 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
     //当たり判定を行う前に当たっているかをfalseにしておく
     isBossHited = false;
 
-    // 毎ループでダメージを受けていない状態にする
-    isDamage = false;
+
 }
 
 /// <summary>
@@ -335,7 +332,7 @@ void Player::OnHit(CollisionData collisionData)
     float damageRate = 1.0f;
 
     // 1フレームで複数のダメージを受けないようにする
-    if (nowState->GetLifeState() == NoDamage)
+    if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState && !nowState->GetChangedState())
     {
         if (nowState->GetNowStateTag() == DefenseState)
         {
@@ -346,54 +343,52 @@ void Player::OnHit(CollisionData collisionData)
 
     switch (collisionData.hitObjectTag)
     {
-    case CollisionManager::Boss:
-
-        // ボスと当たった際に押し戻し処理を行う
-        PushBack(collisionData.bottomPosition,collisionData.radius);
-
-        break;
-    case CollisionManager::BossDefaultAttack:
-
-    case CollisionManager::BossIntimidation:
-
-    case CollisionManager::BossRunAttack:
-        // 1フレームで複数のダメージを受けないようにする
-        if (nowState->GetLifeState() == NoDamage)
+        case CollisionManager::Boss:
         {
-            //敵の攻撃に当たったのでHPを減らす
-            hp -= collisionData.damageAmount * damageRate;
+            // ボスと当たった際に押し戻し処理を行う
+            PushBack(collisionData.bottomPosition, collisionData.radius);
 
-            // ステートにダメージを受けた事を伝える
-            nowState->OnDamage();
+            break;
         }
-        break;
-    case CollisionManager::BossShot:
-
-    case CollisionManager::BossAreaAttack:
-
-        // 1フレームで複数のダメージを受けないようにする
-        if (nowState->GetLifeState() == NoDamage)
+        case CollisionManager::BossIntimidation:
         {
-            //敵の攻撃に当たったのでHPを減らす
-            hp -= collisionData.damageAmount * damageRate;
+        case CollisionManager::BossDefaultAttack:
+        case CollisionManager::BossRunAttack:
+            // 1フレームで複数のダメージを受けないようにする
+            if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState && !nowState->GetChangedState())
+            {
+                //敵の攻撃に当たったのでHPを減らす
+                hp -= collisionData.damageAmount * damageRate;
 
-            // ステートにダメージを受けた事を伝える
-            nowState->OnDamage();
-            // ショットが当たった際のエフェクトの初期化
-            InitializeShotHitEffectData(collisionData.centerPosition);
+                // ステートにダメージを受けた事を伝える
+                nowState->OnDamage();
+            }
 
-            // エフェクトの再生を行う
-            effectManager->PlayEffect(&shotHitEffectData);
+            break;
         }
+        case CollisionManager::BossShot:
+        {
+        case CollisionManager::BossAreaAttack:
+            // 1フレームで複数のダメージを受けないようにする
+            if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState && !nowState->GetChangedState())
+            {
+                //敵の攻撃に当たったのでHPを減らす
+                hp -= collisionData.damageAmount * damageRate;
 
+                // ステートにダメージを受けた事を伝える
+                nowState->OnDamage();
+                // ショットが当たった際のエフェクトの初期化
+                InitializeShotHitEffectData(collisionData.centerPosition);
 
-        break;
-
-    default:
-        break;
+                // エフェクトの再生を行う
+                effectManager->PlayEffect(&shotHitEffectData);
+            }
+        }
+        default:
+        {
+            break;
+        }
     }
-
-
 }
 
 /// <summary>

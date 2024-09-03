@@ -18,6 +18,8 @@ BossDefaultAttack::BossDefaultAttack(int& InitializeModelHandle, const int befor
     ,isAttackParameterInitialize(false)
     ,isChangedAnimationSpeed(false)
 {
+    //アニメーション速度の初期化
+    animationSpeed = InitializeAnimationSpeed;
 
     // コリジョンマネージャーのインスタンスをもってくる
     collisionManager = CollisionManager::GetInstance();
@@ -58,7 +60,7 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
     ChangeAnimationSpeed();
 
     // 向く方向を計算
-    VECTOR direction = CalculateTargetDirection(bossTargetPosition, position);
+    VECTOR direction = CalculateTargetDirection(bossTargetPosition, characterPosition);
 
     // 向きの変更
     modelDirection = direction;
@@ -69,10 +71,10 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
         collisionData.collisionState = CollisionData::CollisionEnded;
     }
     //当たり判定に必要な情報の更新
-    UpdateCollisionData(modelDirection,position);
+    UpdateCollisionData(modelDirection,characterPosition);
 
     // エフェクトの再生に必要な情報の更新
-    UpdateEffectData(modelDirection,position);
+    UpdateEffectData(modelDirection,characterPosition);
 
     // 当たり判定が有効になった入ればCollisionManagerに送信
     if (collisionData.collisionState == CollisionData::NoCollision)
@@ -97,12 +99,12 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
 /// </summary>
 void BossDefaultAttack::ChangeState()
 {
-    //ToDo
-    //BossのAIを作るまではボタンでステートが遷移するようにしている
-    if (currentPlayAnimationState == FirstRoopEnd)
+
+    if (currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの移動ステートに移行
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::DefaultAttack,isChangingMove);
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),Boss::DefaultAttack,isChangingMove);
+
     }
     else
     {
