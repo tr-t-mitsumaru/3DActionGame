@@ -1,11 +1,13 @@
 ﻿#include"DxLib.h"
 #include"Boss.h"
+#include"BossIdle.h"
 #include"ModelDataManager.h"
 #include"CollisionManager.h"
 #include"CollisionData.h"
 #include"StateBase.h"
 #include"BossStart.h"
 #include"EffectManager.h"
+#include"GameScene.h"
 #include"Utility.h"
 
 //初期座標の入力
@@ -21,6 +23,12 @@ Boss::Boss()
     ,nowState(NULL)
     ,modelDirection(VGet(0,0,-1))
     ,hp(10)
+    ,currentPlayAnimationState(Stop)
+    ,currentStartMoveState(StopMove)
+    ,animationSpeed(FirstAnimationSpeed)
+    ,isStartUpdateStartScene(false)
+    ,isEndAnimationFirstRoop(false)
+    ,isPlaiedIntimidationEffect(false)
 {
     //モデルマネージャーにアクセスるポインタの代入
     ModelDataManager* modelDataManager = ModelDataManager::GetInstance();
@@ -31,8 +39,17 @@ Boss::Boss()
     //モデルハンドルをもってくる
     modelHandle = MV1DuplicateModel(modelDataManager->GetModelHandle(ModelDataManager::Boss));
 
+    //最初に座り状態のアニメーションをアタッチしておく
+    animationIndex = MV1AttachAnim(modelHandle, Standing, -1, FALSE);
+
+    //アニメーションの総再生時間を取得
+    animationLimitTime = MV1GetAttachAnimTotalTime(modelHandle, animationIndex);
+
+    //アニメーションの再生時間の初期化
+    animationNowTime = 0.0f;
+
     //最初のステートを待機状態にする
-    nowState = new BossStart(modelHandle, -1);
+    nowState = new BossIdle(modelHandle, -1,Boss::None);
 
     //コリジョンマネージャーのインスタンスのアドレスを取得
     collisionManager = collisionManager->GetInstance();
@@ -89,6 +106,31 @@ void Boss::Update(const VECTOR bossTargetPosition,const VECTOR cameraPosition)
     if (nowState != nextState)
     {
         ChangeState();
+    }
+}
+
+// 登場シーンでの更新処理
+void Boss::UpdateStartScene()
+{
+    // 開始フラグがたっていなければ早期リターン
+    if (! isStartUpdateStartScene)
+    {
+        return;
+    }
+    else
+    {
+        // アニメーションの状態変更させる
+        ChangeStartMoveState();
+
+        // アニメーションの切り替え
+        SwitchAnimation();
+
+        //モデルを描画する座標の調整
+        MV1SetPosition(modelHandle, VAdd(position, OffsetModelPosition));
+
+        // アニメーションの更新
+        UpdateAnimation();
+
     }
 }
 
@@ -202,6 +244,15 @@ void Boss::InitializeShotHitEffectData(const VECTOR shotPosition)
 }
 
 /// <summary>
+/// 登場シーンのボスのアップデートを開始させる
+/// </summary>
+void Boss::StartUpdateStartScene()
+{
+    // フラグを切り替える
+    isStartUpdateStartScene = true;
+}
+
+/// <summary>
 /// プレイヤーの攻撃に当たった際のエフェクトの初期化
 /// </summary>
 /// <param name="attackPosition">攻撃の座標</param>
@@ -286,5 +337,146 @@ void Boss::UpdateAngle()
     // モデルの角度を更新
     angle = targetAngle - difference;
     MV1SetRotationXYZ(modelHandle, VGet(0.0f, angle + DX_PI_F, 0.0f));
+}
+
+/// <summary>
+/// 行動開始前のアニメーションの状態変更させるための関数
+/// </summary>
+void Boss::ChangeStartMoveState()
+{
+    //カウントが一定のラインに達するまで動きを止めておく
+    if (currentStartMoveState == StopMove)
+    {
+        moveStartCount++;
+        //カウントが超えたら立ち上がらせる
+        if (moveStartCount >= MoveStartCountLimit)
+        {
+            currentStartMoveState = StandingNow;
+        }
+    }
+    //立ち上がっている状態の処理
+    else if (currentStartMoveState == StandingNow)
+    {
+        //アニメーションが開始されていなければ開始させる
+        if (currentPlayAnimationState == Stop)
+        {
+            currentPlayAnimationState = Play;
+        }
+        //立ち上がり終わっていたら状態を変更させる
+        else if (animationNowTime / animationLimitTime >= SwitchAnimationRatio)
+        {
+            currentStartMoveState = Stand;
+            animationSpeed = SecondAnimationSpeed;
+        }
+    }
+    // 威嚇状態のアニメーション中
+    else if (currentStartMoveState == IntimidationStart)
+    {
+        if (animationNowTime / animationLimitTime >= GameScene::ShakeStartBossAnimationRatio && ! isPlaiedIntimidationEffect)
+        {
+            // エフェクトの初期化
+            InitializeIntimidationEffectData();
+
+            // エフェクトを流す
+            effectManager->PlayEffect(&intimidationEffectData);
+
+            // フラグを下げる
+            isPlaiedIntimidationEffect = true;
+        }
+        // 一回目のループが終わったら再生を止める
+        if (isEndAnimationFirstRoop)
+        {
+            currentPlayAnimationState = Stop;
+            currentStartMoveState = EndMove;
+        }
+    }
+}
+
+/// <summary>
+/// アニメーションの更新処理
+/// </summary>
+void Boss::UpdateAnimation()
+{
+    // ブレンドする
+    if (currentPlayAnimationState == BlendNow)
+    {
+        //前回とのアニメーションをブレンドして表示
+        animationBlendRate += AnimationBlendSpeed;
+        //ブレンドが終わったら
+        if (animationBlendRate >= 1.0f)
+        {
+            //前のアニメーションをでタッチ
+            MV1DetachAnim(modelHandle, beforeAnimationIndex);
+            beforeAnimationIndex = -1;
+            currentPlayAnimationState = Play;
+        }
+        MV1SetAttachAnimBlendRate(modelHandle, beforeAnimationIndex, 1.0f - animationBlendRate);
+        MV1SetAttachAnimBlendRate(modelHandle, animationIndex, animationBlendRate);
+    }
+    else if (currentPlayAnimationState == Play)
+    {
+        // 再生時間を進める
+        animationNowTime += animationSpeed;
+
+        // 再生時間をセットする
+        MV1SetAttachAnimTime(modelHandle, animationIndex, animationNowTime);
+
+        // 再生時間がアニメーションの総再生時間に達したら再生時間を０に戻す
+        if (animationNowTime >= animationLimitTime)
+        {
+            animationNowTime = 0.0f;
+            // 最初のアニメーションのループが終了したフラグをたてる
+            isEndAnimationFirstRoop = true;
+        }
+    }
+}
+
+/// <summary>
+/// アニメーションの切り替え
+/// </summary>
+void Boss::SwitchAnimation()
+{
+    // アニメーションの1ループが終了したら
+    if (animationNowTime / animationLimitTime >= SwitchAnimationRatio && currentStartMoveState == Stand)
+    {
+        // 現在のアニメーションインデックスを前のインデックスに入れる
+        beforeAnimationIndex = animationIndex;
+
+        //アニメーションをアタッチ
+        animationIndex = MV1AttachAnim(modelHandle, Intimidation, -1, FALSE);
+
+        // アニメーションの総再生時間を取得
+        animationLimitTime = MV1GetAttachAnimTotalTime(modelHandle, animationIndex);
+
+        //アニメーションの再生時間の初期化
+        animationNowTime = 0.0f;
+
+        // アニメーションを切り替えたのでブレンドを開始させる
+        currentPlayAnimationState = BlendNow;
+
+        // ボスの動きの状態を変更する
+        currentStartMoveState = IntimidationStart;
+
+        // アニメーションも変更したのでフラグを戻す
+        isEndAnimationFirstRoop = false;
+    }
+}
+
+void Boss::InitializeIntimidationEffectData()
+{
+    // エフェクトの回転率
+    intimidationEffectData.rotationRate = VGet(0.0f, 0.0f, 0.0f);
+
+    // エフェクトの座標の初期化
+    intimidationEffectData.position = position;
+
+    // エフェクトの種類
+    intimidationEffectData.effectTag = EffectManager::BossIntimidation;
+
+    // エフェクトの再生速度
+    intimidationEffectData.playSpeed = 1.0f;
+
+    // エフェクトのサイズ
+    intimidationEffectData.scalingRate = VGet(IntimidationEffectScale, IntimidationEffectScale, IntimidationEffectScale);
 }
 

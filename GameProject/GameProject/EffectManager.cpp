@@ -21,8 +21,7 @@ EffectManager::EffectManager()
     effectHandle.insert(make_pair(PlayerShotHit, LoadEffekseerEffect("Effect/PlayerShotHitEffect.efkefc")));
     effectHandle.insert(make_pair(BossShotHit, LoadEffekseerEffect("Effect/BossShotHitEffect.efkefc")));
     effectHandle.insert(make_pair(PlayerAttackHit, LoadEffekseerEffect("Effect/PlayerAttackHit.efkefc")));
-
-
+    effectHandle.insert(make_pair(BossIntimidation, LoadEffekseerEffect("Effect/BossIntimidation.efkefc")));
 }
 
 /// <summary>
@@ -193,3 +192,4 @@ void EffectManager::StopAllEffect()
     // エフェクトデータを全て削除
     effectDataList.clear();
 }
+

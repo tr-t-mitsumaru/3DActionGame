@@ -1,5 +1,22 @@
 ﻿#include"DxLib.h"
 #include"Camera.h"
+#include"GameScene.h"
+
+
+const VECTOR Camera::StartCameraPosition = VGet(0.0f, 100.0f, -150.0f);
+
+const VECTOR Camera::StartTargetPosition = VGet(0.0f, 0.0f, -280.0f);
+
+const VECTOR Camera::SecondCameraPosition = VGet(120.0f, 50.0f, -230.0f);
+
+const VECTOR Camera::SecondTargetPosition = VGet(0.0f, 10.0f, -40.0f);
+
+const VECTOR Camera::ThirdCameraPosition = VGet(40.0f, 30.0f, -180.0f);
+
+const VECTOR Camera::ForceCameraPosition = VGet(0.0f, 80.0f, -100.0f);
+
+const VECTOR Camera::SecondToThirdVelocity = VScale(VNorm(VSub(Camera::ThirdCameraPosition, Camera::SecondCameraPosition)), 0.7f);
+
 
 /// <summary>
 /// コンストラクタ
@@ -7,8 +24,12 @@
 Camera::Camera()
     :angleHorizontal(0)
     ,angleVertical(0)
-    ,position(VGet(0,0,0))
-    ,targetPosition(VGet(0,0,0))
+    ,position(StartCameraPosition)
+    ,targetPosition(StartTargetPosition)
+    ,currentStartCameraState(StartView)
+    ,shakeOffset(0.0f)
+    ,isShaked(false)
+    ,shakeOffsetAdjustment(ShakeSpeed)
 {
     // インプットマネージャーのポインタを取得
     inputManager = InputManager::GetInstance();
@@ -23,7 +44,7 @@ Camera::Camera()
     SetCameraNearFar(0.1f, 1000.0f);
 
     // カメラに位置を反映.
-    SetCameraPositionAndTarget_UpVecY(position, VGet(0,0,0));
+    SetCameraPositionAndTarget_UpVecY(position, targetPosition);
 }
 
 /// <summary>
@@ -38,7 +59,93 @@ Camera::~Camera()
 /// <summary>
 /// 更新処理
 /// </summary>
-void Camera::Update(VECTOR playerPosition)
+void Camera::UpdateStartScene(const float playerBossDistance,const VECTOR bossPosition,const VECTOR playerPosition)
+{
+    // フラグがたっていればカメラを揺らす
+    ShakeCamera();
+
+    // 最初のカメラの移動
+    if (playerBossDistance <= SwitchPositionDistance && currentStartCameraState == StartView)
+    {
+        // カメラの座標を変更
+        position = SecondCameraPosition;
+
+        // 注視点の変更
+        targetPosition = SecondTargetPosition;
+
+        // 状態の切り替え
+        currentStartCameraState = SecondView;
+    }
+    // ２つ目のカメラの移動
+    else if (currentStartCameraState == SecondView)
+    {
+        float cameraDistanceToTarget = VSize(VSub(ThirdCameraPosition, position));
+
+        position = VAdd(position, SecondToThirdVelocity);
+
+        if (cameraDistanceToTarget <= 1.0f)
+        {
+            position = ThirdCameraPosition;
+
+            currentStartCameraState = FoucusOnBoss;
+        }
+    }
+    // ボスに注目するカメラの移動
+    else if (currentStartCameraState == FoucusOnBoss)
+    {
+        // カメラ座標の切り替え
+        position = ForceCameraPosition;
+
+        // 注視点をボスにする
+        targetPosition = VAdd(bossPosition,VGet(0.0f,OffsetBossPositionY,0.0f));
+    }
+    // プレイヤーに注目するカメラの移動
+    else if (currentStartCameraState == FoucusOnPlayer)
+    {
+        // 目標の座標を計算
+        VECTOR movePosition = VAdd(playerPosition, VGet(0.0f, CameraTargetPlayerHeight, -ToPlayerLength - shakeOffset));
+
+        // 目標の座標との現在の距離との距離を計算
+        float cameraDistanceToTarget = VSize(VSub(movePosition, position));
+
+        // ４番目の座標からターゲットに移動するベクトルを計算
+        VECTOR velocityToTaget = VSub(movePosition, ForceCameraPosition);
+
+        // ベクトルからベロシティを計算
+        velocityToTaget = VScale(VNorm(velocityToTaget), CameraMoveSpeed);
+
+        // カメラの座標を移動させる
+        position = VAdd(position, velocityToTaget);
+
+        // 1.0＋ずらした量より小さくなったら移動をやめる
+        if (cameraDistanceToTarget <= 1.0f + shakeOffset)
+        {
+            // 目標座標に変更する
+            position = movePosition;
+
+            currentStartCameraState = Stop;
+        }
+    }
+
+
+
+    // カメラに位置を反映.
+    SetCameraPositionAndTarget_UpVecY(position, targetPosition);
+}
+
+/// <summary>
+/// カメラのフォーカスをプレイヤーに変更する
+/// </summary>
+void Camera::ChangeForcusPlayer()
+{
+    currentStartCameraState = FoucusOnPlayer;
+}
+
+/// <summary>
+/// プレイヤーに追従するカメラの更新処理
+/// </summary>
+/// <param name="playerPosition">プレイヤーの座標</param>
+void Camera::UpdatePlayerCamera(const VECTOR playerPosition)
 {
     // 「←」ボタンが押されていたら水平角度をマイナスする
     if (inputManager->IsInputAnalogKey(InputManager::AnalogLeft))
@@ -111,7 +218,44 @@ void Camera::FixCameraPosition()
     // 垂直方向の回転はＺ軸回転 )
     auto rotationX = MGetRotX(angleVertical);
 
-    position = VAdd(VTransform(VTransform(VGet(0.0f, 0.0f,ToPlayerLength), rotationX), rotationY), targetPosition);
+    position = VAdd(VTransform(VTransform(VGet(0.0f, 0.0f,ToPlayerLength + shakeOffset), rotationX), rotationY), targetPosition);
+}
+
+void Camera::ShakeCamera()
+{
+    // 画面を揺らすフラグが立っていたら値を動かす
+    if (isShaked)
+    {
+        // 加算する値の符号を判定させてゆらす向きを変える
+        if (shakeOffset <  0.0f || shakeOffset > ShakeOffsetLimit)
+        {
+            shakeOffsetAdjustment = shakeOffsetAdjustment * -1;
+        }
+        // 揺らす量を増やす
+        shakeOffset += shakeOffsetAdjustment;
+    }
+    // 画面を揺らさないように値を0にする
+    else
+    {
+        shakeOffset = 0.0f;
+        shakeOffsetAdjustment = ShakeSpeed;
+    }
 
 
 }
+
+/// <summary>
+/// カメラの揺らしを開始する
+/// </summary>
+void Camera::StartCameraShake()
+{
+    isShaked = true;
+}
+
+/// <summary>
+/// カメラの揺らしを停止する
+/// </summary>
+void Camera::StopCameraShake()
+{
+    isShaked = false;
+ }

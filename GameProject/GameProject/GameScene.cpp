@@ -17,6 +17,7 @@
 /// コンストラクタ
 /// </summary>
 GameScene::GameScene()
+    :currentGameScneState(Start)
 {
     //メモリの確保
     stage  = new Stage();
@@ -50,13 +51,44 @@ GameScene::~GameScene()
 /// </summary>
 void GameScene::Update()
 {
+    // プレイヤーとボスとの距離を図る
+    float playerBossDistance = VSize(VSub(boss->GetPosition(), player->GetPosition()));
+
+    if (currentGameScneState == Start)
+    {
+        camera->UpdateStartScene(playerBossDistance,boss->GetPosition(),player->GetPosition());
+        player->UpdateStartScene(playerBossDistance);
+        boss->UpdateStartScene();
+        if (camera->GetStartCameraState() == Camera::FoucusOnBoss)
+        {
+            boss->StartUpdateStartScene();
+        }
+        if (boss->GetCurrentStartMoveState() == Boss::IntimidationStart)
+        {
+            camera->ChangeForcusPlayer();
+        }
+        if (boss->GetAnimationNowTime() / boss->GetAnimationLimitTime() >= ShakeStartBossAnimationRatio)
+        {
+            camera->StartCameraShake();
+        }
+        if (boss->GetCurrentStartMoveState() == Boss::EndMove)
+        {
+            camera->StopCameraShake();
+            currentGameScneState = Battle;
+        }
+    }
+    else if (currentGameScneState == Battle)
+    {
+        player->Update(boss->GetPosition(),camera->GetPosition());
+        boss->Update(player->GetPosition(), camera->GetPosition());
+        camera->UpdatePlayerCamera(player->GetPosition());
+    }
+
     //各クラスのアップデートを呼ぶ
-    boss->Update(player->GetPosition(),camera->GetPosition());
-    player->Update(boss->GetPosition(),camera->GetPosition());
     shotManager->Update();
     //当たり判定全体の更新処理を行う
     collisionManager->Update();
-    camera->Update(player->GetPosition());
+    // camera->Update(player->GetPosition());
 
     // エフェクト全体の更新
     effectManager->Update();

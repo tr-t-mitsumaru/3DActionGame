@@ -15,12 +15,14 @@ const VECTOR Player::ModelOffsetPosition = VGet(0, 0, -3);
 /// コンストラクタ
 /// </summary>
 Player::Player()
-    : position(VGet(0, 0, -20.0f))
+    : position(VGet(0, 0, -370.0f))
     , angle(0.0f)
     , nowState(NULL)
     , modelDirection(VGet(0, 0, 0))
     , hp(100)
     , isBossHited(false)
+    , isEndMove(false)
+    , isBlendingAnimation(false)
 {
     //インスタンスを持ってくる
     ModelDataManager* modelDataManager = ModelDataManager::GetInstance();
@@ -32,7 +34,13 @@ Player::Player()
     modelHandle = MV1DuplicateModel(modelDataManager->GetModelHandle(ModelDataManager::Player));
 
     //最初にIdle状態のアニメーションをアタッチしておく
-    MV1AttachAnim,(modelHandle, Idle, -1);
+    animationIndex = MV1AttachAnim(modelHandle, Walk, -1,FALSE);
+
+    //アニメーションの総再生時間を取得
+    animationLimitTime = MV1GetAttachAnimTotalTime(modelHandle, animationIndex);
+
+    //アニメーションの再生時間の初期化
+    animationNowTime = 0.0f;
 
      //最初のステートを待機状態にする
     nowState = new PlayerIdle(modelHandle,-1);
@@ -54,6 +62,9 @@ Player::Player()
 
     //座標の設定
     MV1SetPosition(modelHandle, VGet(0, 0, 0));
+
+    // モデルの回転
+    MV1SetRotationXYZ(modelHandle, VGet(0.0f, DX_PI_F, 0.0f));
 
 
 }
@@ -116,6 +127,83 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
 
 
 }
+
+/// <summary>
+/// 登場シーンでの更新処理
+/// </summary>
+/// <param name="distanceToBoss">ボスとの距離</param>
+void Player::UpdateStartScene(const float distanceToBoss)
+{
+    // 移動が終わってなければ
+    if (!isEndMove)
+    {
+        // ボスに向かって移動させる
+        position.z += MoveSpeed;
+
+        // ボスとの距離が特定の距離まで近づいたら
+        if (distanceToBoss <= MoveDistance)
+        {
+            // 移動をやめる
+            isEndMove = true;
+
+            // 静止状態のアニメーションに切り替える
+            isBlendingAnimation = true;
+
+            // インデックスの切り替え
+            beforeAnimationIndex = animationIndex;
+
+            // インデックスの読み込み
+            animationIndex = MV1AttachAnim(modelHandle, Idle, -1, FALSE);
+
+            //アニメーションの総再生時間を取得
+            animationLimitTime = MV1GetAttachAnimTotalTime(modelHandle, animationIndex);
+        }
+    }
+
+    // モデルの移動
+    MV1SetPosition(modelHandle, position);
+
+    // アニメーションの更新を行う
+    UpdateAnimation();
+}
+
+/// <summary>
+/// アニメーションの更新処理
+/// </summary>
+void Player::UpdateAnimation()
+{
+    if (isBlendingAnimation)
+    {
+        //前回とのアニメーションをブレンドして表示
+        animationBlendRate += AnimationBlendSpeed;
+        //ブレンドが終わったら
+        if (animationBlendRate >= 1.0f)
+        {
+            //前のアニメーションをでタッチ
+            MV1DetachAnim(modelHandle, beforeAnimationIndex);
+            beforeAnimationIndex = -1;
+            isBlendingAnimation = false;
+        }
+        MV1SetAttachAnimBlendRate(modelHandle, beforeAnimationIndex, 1.0f - animationBlendRate);
+        MV1SetAttachAnimBlendRate(modelHandle, animationIndex, animationBlendRate);
+    }
+    else
+    {
+        // 再生時間を進める
+        animationNowTime += AnimationSpeed;
+
+        // 再生時間をセットする
+        MV1SetAttachAnimTime(modelHandle, animationIndex, animationNowTime);
+
+        // 再生時間がアニメーションの総再生時間に達したら再生時間を０に戻す
+        if (animationNowTime >= animationLimitTime)
+        {
+            animationNowTime = 0.0f;
+        }
+    }
+
+}
+
 
 /// <summary>
 /// 描画

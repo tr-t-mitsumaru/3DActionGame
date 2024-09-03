@@ -20,6 +20,7 @@ public:
         PlayerShotHit     = 4,   // プレイヤーのショットが当たった際のエフェクト
         BossShotHit       = 5,   // ボスのショットが当たった際のエフェクト
         PlayerAttackHit   = 6,   // プレイヤーの攻撃が当たった際のエフェクト
+        BossIntimidation  = 7,   // ボスの威嚇時のエフェクト
     };
 
 
