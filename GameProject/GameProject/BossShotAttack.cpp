@@ -64,15 +64,15 @@ void BossShotAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTO
 /// </summary>
 void BossShotAttack::ChangeState()
 {
-    // 体力が無い時点で死亡ステートに移行
-    if (lifeState == Player::NoLife)
+    // 既にステートが切り替えてあれば早期リターン
+    if (changedState)
     {
-        nextState = new BossDead(modelhandle, animationIndex);
+        return;
     }
-    else if (shotState == RightSHot && currentPlayAnimationState == FirstRoopEnd)
+    else if (shotState == RightSHot && currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの突進攻撃ステートに移行
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::ShotAttack,isChangingMove);
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),Boss::ShotAttack,isChangingMove);
     }
     else
     {
@@ -87,7 +87,7 @@ void BossShotAttack::ChangeState()
 void BossShotAttack::SwitchAnimation()
 {
     // アニメーションの1ループが終了したら
-    if (currentPlayAnimationState == StateBase::FirstRoopEnd && shotState == LeftShot)
+    if (currentPlayAnimationState == StateBase::FirstLoopEnd && shotState == LeftShot)
     {
         // 前のステートのアニメーションをデタッチ
         MV1DetachAnim(modelhandle, beforeAnimationIndex);

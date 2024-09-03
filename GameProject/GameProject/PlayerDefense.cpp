@@ -44,7 +44,7 @@ void PlayerDefense::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR
     UpdateAnimation();
 
     //一回のループが終わればアニメーションの更新を止める
-    if (currentPlayAnimationState == FirstRoopEnd)
+    if (currentPlayAnimationState == FirstLoopEnd)
     {
         StopAnimation();
     }
@@ -55,19 +55,17 @@ void PlayerDefense::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR
 
 void PlayerDefense::ChangeState()
 {
-
-    // ダメージを受けていたらヒットステートに移行
-    if (lifeState == Player::Damaged)
+    // 既にChangeState以外でステートが切り替えられていなければ
+    if (! changedState)
     {
-        nextState = new PlayerHit(modelhandle, animationIndex, Player::BlockingImpact);
-    }
-    //LTのキーが押されていればデフェンスステートに移行する
-    else if (inputManager->GetKeyPushState(InputManager::LT) == InputManager::Push)
-    {
-        nextState = this;
-    }
-    else
-    {
-        nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
+        //LTのキーが押されていればデフェンスステートに移行する
+        if (inputManager->GetKeyPushState(InputManager::LT) == InputManager::Push)
+        {
+            nextState = this;
+        }
+        else
+        {
+            nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
+        }
     }
 }
