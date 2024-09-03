@@ -10,6 +10,15 @@ class InputManager;
 class PlayerAttack :public StateBase
 {
 public:
+
+    // コンボ攻撃に必要な定数のデータ型
+    struct AttackData
+    {
+        const float ComboMoveSpeed;             // コンボ攻撃中の移動速度
+        const float AttackCollisionStartTime;   // コンボ攻撃での当たり判定の作成を開始する時間
+        const float AttackCollisionEndTime;     // コンボ攻撃での当たり判定の削除を開始する時間
+    };
+
     //コンストラクタ
     PlayerAttack(int modelHandle, int beforeAnimationIndex,Player::AnimationState animationState);
     //デストラクタ
@@ -73,18 +82,14 @@ private:
     static constexpr int    StrongAttackCollisionCapsuleAngle        = 0;      // 強攻撃の当たり判定用カプセルの回転角度
     static constexpr float  StrongAttackCollisionStartAnimationRatio = 0.3;    // 強攻撃の当たり判定を始めるアニメーションの再生率
     static constexpr int    StrongAttackDamageAmount                 = 1;      // 強攻撃の与えるダメージ量
-    static constexpr float  FirstComboMoveSpeed                      = 0.15f;  // １撃目の移動速度
-    static constexpr float  SecondComboMoveSpeed                     = 0.4f;   // ２撃目の移動速度
-    static constexpr float  ThirdComboMoveSpeed                      = 0.5f;   // ３撃目の移動速度
+    static constexpr int    MaxComboCount                            = 3;      // コンボ攻撃の最大回数 
     static constexpr float  InputTimeLimit                           = 0.1f;   // コンボ中の入力可能な時間
     static constexpr float  SecondAttackInputStartTime               = 0.2f;   // ２撃目の入力を開始する時間
     static constexpr float  ThirdAttackInputStartTime                = 0.53f;  // ３撃目の入力を開始する時間
-    static constexpr float  FirstAttackCollisionStartTime            = 0.2f;   // １撃目の当たり判定を開始する時間
-    static constexpr float  FirstAttackCollisionEndTime              = 0.3f;   // １撃目の当たり判定を終了する時間
-    static constexpr float  SecondAttackCollisionStartTime           = 0.49f;  // 2撃目の当たり判定を開始する時間
-    static constexpr float  SecondAttackCollisionEndTime             = 0.55f;  // 2撃目の当たり判定を終了する時間
-    static constexpr float  ThirdAttackCollisionStartTime            = 0.75f;  // 3撃目の当たり判定を開始する時間
-    static constexpr float  ThirdAttackCollisionEndTime              = 0.84f;  // 3撃目の当たり判定を終了する時間
+    static constexpr AttackData ComboAttackData[MaxComboCount]       = { { 0.15f ,0.2f  ,0.2f },    // コンボ攻撃に必要なデータの初期化
+                                                                         { 0.4f  ,0.49f ,0.55f},
+                                                                         { 0.5f  ,0.75f ,0.84f}};
+
 
 
 
@@ -97,7 +102,7 @@ private:
     VECTOR offsetPosition;                   // 当たり判定をプレイヤーの座標からどれだけ動かすか
     float  offsetPositionScale;              // 当たり判定をモデルの向きにどれだけ進めるか
     int    damageAmount;
-    float  moveSpeed;                        // 移動速度       
+    float  moveSpeed;                        // 移動速度
     
 
 
