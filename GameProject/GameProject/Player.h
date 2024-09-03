@@ -13,25 +13,20 @@ public:
     //アニメーションの種類
     enum AnimationState
     {
-        Turn180        = 0,    //180度回転
-        BackWalk       = 1,    //後ろ歩き
-        Block          = 2,    //ガード
-        BlockingImpact = 3,    //ガード中にダメージを受ける
-        Clash          = 4,    //強攻撃
-        Death          = 5,    //死亡
-        Impact         = 6,    //ダメージヒット
-        Idle           = 7,    //静止
-        Jump           = 8,    //ジャンプ
-        LeftTurn       = 9,    //左回転
-        LeftWalk       = 10,   //左歩き
-        RightTurn      = 11,   //右回転
-        RightWalk      = 12,   //右歩き
-        Rolling        = 13,   //回避
-        Run            = 14,   //走り
-        Slash          = 15,   //通常攻撃
-        StartBlocking  = 16,   //防御開始
-        Walk           = 17,   //歩き
-        Spell          = 18    //魔法攻撃
+        BackWalk         = 0,    // 後ろ歩き
+        StartBlocking    = 1,    // 防御開始
+        BlockingImpact   = 2,    // ガード中にダメージを受ける
+        ComboAttack = 3,         // 連続攻撃
+        Death            = 4,    // 死亡
+        Slash            = 5,    // 通常攻撃
+        Idle             = 6,    // 静止
+        Impact           = 7,    // ダメージヒット
+        Jump             = 8,    // ジャンプ
+        Rolling          = 9,    // 回避
+        Run              = 10,   // 走り
+        Spell            = 11,   // 魔法攻撃
+        Clash            = 12,   // 強攻撃
+        Walk             = 13,   // 歩き
     };
 
     /// <summary>
@@ -63,6 +58,8 @@ public:
     /// </summary>
     void Update(const VECTOR playerTargetPosition, const VECTOR cameraPosition);
 
+
+
     /// <summary>
     /// 描画
     /// </summary>
@@ -72,13 +69,14 @@ public:
 private:
     ///////  定数  //////
 
-    static const VECTOR ModelOffsetPosition;                  // モデルの位置を調整するための値
-    static constexpr float AngleSpeed = 0.15f;                // モデルの向きを変えるスピード
-    static constexpr float CollisionCapsuleLineLength = 24.0f;// 当たり判定に必要なカプセルの線分の長さ
-    static constexpr float CollisionRadius            = 6.0f; // 当たり判定に必要なカプセルの半径の大きさ
-    static constexpr float HalfLength                 = 0.5f; // 中央座標を出す際の長さを半分にするための定数
-    static constexpr float InvincibilityStartRatio    = 0.1f; // 無敵時間の開始割合
-    static constexpr float InvincibilityEndRatio      = 0.7f; // 無敵時間の終了割合
+    static const VECTOR ModelOffsetPosition;                    // モデルの位置を調整するための値
+    static constexpr float  DefaultScale              = 0.2f;   // モデルの初期スケール
+    static constexpr float AngleSpeed                 = 0.15f;  // モデルの向きを変えるスピード
+    static constexpr float CollisionCapsuleLineLength = 24.0f;  // 当たり判定に必要なカプセルの線分の長さ
+    static constexpr float CollisionRadius            = 6.0f;   // 当たり判定に必要なカプセルの半径の大きさ
+    static constexpr float HalfLength                 = 0.5f;   // 中央座標を出す際の長さを半分にするための定数
+    static constexpr float InvincibilityStartRatio    = 0.1f;   // 無敵時間の開始割合
+    static constexpr float InvincibilityEndRatio      = 0.7f;   // 無敵時間の終了割合
 
     ///////  メンバ変数  ///////
 
@@ -127,5 +125,12 @@ private:
     /// 無敵状態の切り替えを行う
     /// </summary>
     void SwitchInvincibility();
+
+    /// <summary>
+    /// ボスに当たった際の押し戻し処理
+    /// </summary>
+    /// <param name="targetPosition">相手の座標</param>
+    void PushBack(const VECTOR targetPosition, const float targetRadius);
+ 
 
 };

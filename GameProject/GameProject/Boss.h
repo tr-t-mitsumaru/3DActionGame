@@ -74,12 +74,12 @@ private:
     static const VECTOR InitialPosition;             //初期座標
     static const VECTOR OffsetModelPosition;         //モデルの位置調整用の値
 
-    static constexpr float CollisionCapsuleLineLength = 60.0f;   //当たり判定に必要なカプセルの線分の長さ
-    static constexpr float CollisionRadius            = 23.0f;   //当たり判定に必要なカプセルの半径の大きさ
-    static constexpr float HalfLength                 = 0.5f;    //中央座標を出す際の長さを半分にするための定数
-    static constexpr int   NotRegisterTag             = -1;      //レジスタの識別番号が代入されていないことをしめす
-    static constexpr float DefaultScale               = 0.2f;    //基本的なスケール
-    static constexpr float AngleSpeed                 = 0.15f;   //モデルの向きを変えるスピード
+    static constexpr float CollisionCapsuleLineLength = 60.0f;   // 当たり判定に必要なカプセルの線分の長さ
+    static constexpr float CollisionRadius            = 35.0f;   // 当たり判定に必要なカプセルの半径の大きさ
+    static constexpr float HalfLength                 = 0.5f;    // 中央座標を出す際の長さを半分にするための定数
+    static constexpr int   NotRegisterTag             = -1;      // レジスタの識別番号が代入されていないことをしめす
+    static constexpr float DefaultScale               = 0.2f;    // 基本的なスケール
+    static constexpr float AngleSpeed                 = 0.15f;   // モデルの向きを変えるスピード
 
     ////メンバ変数////
 

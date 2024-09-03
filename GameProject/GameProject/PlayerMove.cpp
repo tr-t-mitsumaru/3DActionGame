@@ -94,13 +94,12 @@ void PlayerMove::ChangeState()
             Player::AnimationState animationState;
             if (inputManager->GetKeyPushState(InputManager::RB) == InputManager::Push)
             {
-                animationState = Player::Slash;
+                animationState = Player::ComboAttack;
             }
             else
             {
                 animationState = Player::Clash;
             }
-            nextState = new PlayerAttack(modelhandle, this->GetAnimationIndex(), animationState);
         }
         //LTのキーが押されていればデフェンスステートに移行する
         else if (inputManager->GetKeyPushState(InputManager::LT) == InputManager::Push)

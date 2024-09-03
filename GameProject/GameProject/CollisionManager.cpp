@@ -228,7 +228,17 @@ void CollisionManager::ResponseColisionIfDetected(CollisionData* const & collide
                 collider->onHit(*target);
             }
         }
+        else if (target->hitObjectTag == PlayerShot)
+        {
+            //カプセル同士の当たり判定をおこなう
+            if (IsHitSphereAndCapsule(*target, *collider))
+            {
+                //エネミーと当たった際の関数処理を呼ぶ
+                collider->onHit(*target);
+            }
+        }
         break;
+
     case PlayerAttack:
         //エネミーに攻撃がヒットした場合
         if (target->hitObjectTag == Boss)
@@ -292,6 +302,20 @@ void CollisionManager::ResponseColisionIfDetected(CollisionData* const & collide
             }
 
         }
+        break;
+    case PlayerShot:
+        //ボスの範囲攻撃がヒットした際の処理
+        if (target->hitObjectTag == Boss)
+        {
+            //カプセルと球体の当たり判定を行う
+            if (IsHitSphereAndCapsule(*collider, *target))
+            {
+                //エネミーと当たった際の関数処理を呼ぶ
+                collider->onHit(*target);
+            }
+
+        }
+
     default:
         break;
     }

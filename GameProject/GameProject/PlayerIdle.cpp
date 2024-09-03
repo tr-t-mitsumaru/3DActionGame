@@ -77,7 +77,7 @@ void PlayerIdle::ChangeState()
             Player::AnimationState animationState;
             if (inputManager->GetKeyPushState(InputManager::RB) == InputManager::Push)
             {
-                animationState = Player::Slash;
+                animationState = Player::ComboAttack;
             }
             else
             {

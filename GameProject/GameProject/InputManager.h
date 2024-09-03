@@ -50,7 +50,7 @@ public:
 
     //定数
     static constexpr int MoveKeyIndex = 0x0000000f;   //移動キーのどれかがおされているかの指標
-    static constexpr int AnalogKeyDeadZone = 100;     // スティックを倒してもすぐ反応しない領域
+    static constexpr int AnalogKeyDeadZone = 200;     // スティックを倒してもすぐ反応しない領域
 
     //インスタンスを取得するゲッター
     static InputManager* GetInstance() { return inputManager; }

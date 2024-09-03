@@ -96,7 +96,7 @@ void Boss::Draw()
 
 #ifdef _DEBUG
     //当たり判定が正しいかの確認用の描画
-    DrawCapsule3D(collisionData.bottomPosition, collisionData.upPosition, collisionData.radius, 16, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
+    DrawCapsule3D(collisionData.bottomPosition, collisionData.upPosition, collisionData.radius, 64, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
 
     //ステートの当たり判定を描画する
     nowState->DrawCollision();
@@ -135,6 +135,7 @@ void Boss::OnHit(const CollisionData collisionData)
 {
     switch (collisionData.hitObjectTag)
     {
+        case CollisionManager::PlayerShot:
         case CollisionManager::PlayerAttack:
         {
             //HPを減らす

@@ -67,24 +67,24 @@ void Camera::Update(VECTOR playerPosition)
     // 「↑」ボタンが押されていたら垂直角度をマイナスする
     if (inputManager->IsInputAnalogKey(InputManager::AnalogUp))
     {
-        angleVertical -= AngleSpeed;
+        angleVertical += AngleSpeed;
 
         //// ある一定角度以下にはならないようにする
-        if (angleVertical < -DX_PI_F * 0.5f + 0.6f)
+        if (angleVertical > DX_PI_F * 0.5f - 0.6f)
         {
-            angleVertical = -DX_PI_F * 0.5f + 0.6f;
+            angleVertical = DX_PI_F * 0.5f - 0.6f;
         }
     }
 
     // 「↓」ボタンが押されていたら垂直角度をプラスする
     if (inputManager->IsInputAnalogKey(InputManager::AnalogDown))
     {
-        angleVertical += AngleSpeed;
+        angleVertical -= AngleSpeed;
 
         //// ある一定角度以上にはならないようにする
-        if (angleVertical > DX_PI_F * 0.5f - 0.6f)
+        if (angleVertical < -DX_PI_F * 0.5f + 0.6f)
         {
-            angleVertical = DX_PI_F * 0.5f - 0.6f;
+            angleVertical = -DX_PI_F * 0.5f + 0.6f;
         }
     }
     // カメラの注視点はプレイヤー座標から規定値分高い座標

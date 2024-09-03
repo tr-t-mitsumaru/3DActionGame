@@ -13,7 +13,7 @@ const VECTOR Player::ModelOffsetPosition = VGet(0, 0, -3);
 /// コンストラクタ
 /// </summary>
 Player::Player()
-    : position(VGet(0, 0, 0))
+    : position(VGet(0, 0, -20.0f))
     , angle(0.0f)
     , nowState(NULL)
     , modelDirection(VGet(0, 0, 0))
@@ -42,6 +42,9 @@ Player::Player()
 
     //当たり判定データを渡す
     collisionManager->RegisterCollisionData(&collisionData);
+
+    // 大きさを変更
+    MV1SetScale(modelHandle, VGet(DefaultScale, DefaultScale, DefaultScale));
 
     //座標の設定
     MV1SetPosition(modelHandle, VGet(0, 0, 0));
@@ -80,17 +83,17 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
     UpdateCollisionData();
 
 
-    MV1SetPosition(modelHandle, VAdd(position,ModelOffsetPosition));
     
     //更新処理の後次のループでのステートを代入する
     nextState = nowState->GetNextState();
+
+    MV1SetPosition(modelHandle, VAdd(position,ModelOffsetPosition));
 
     // 体力が0かつダメージを受けるステートの再生が終了していれば
     if (hp <= 0 && nextState->GetNowStateTag() == HitState && nextState->GetCurrentAnimationPlayState() == StateBase::FirstLoopEnd)
     {
         // ライフが0になったことをステートに伝える
         nextState->SetNoLifeState();
-
     }
 
     // 無敵時間の作成
@@ -121,7 +124,7 @@ void Player::Draw()
 
     if (collisionData.collisionState == CollisionData::CollisionActive)
     {
-        DrawCapsule3D(collisionData.upPosition, collisionData.bottomPosition, collisionData.radius, 16, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
+        DrawCapsule3D(collisionData.upPosition, collisionData.bottomPosition, collisionData.radius, 64, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
     }
 
     //ステートの当たり判定を描画する
@@ -237,6 +240,8 @@ void Player::OnHit(CollisionData collisionData)
     {
         case CollisionManager::Boss:
         {
+            // ボスと当たった際に押し戻し処理を行う
+            PushBack(collisionData.bottomPosition, collisionData.radius);
             //ボスと当たったフラグを立てる
             isBossHited = true;
 
@@ -252,7 +257,7 @@ void Player::OnHit(CollisionData collisionData)
 
             // 1フレームで複数のダメージを受けないようにする
             // ダメージを受けているか死んでいる状態じゃなければ
-            if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState)
+            if (nowState->GetNowStateTag() != HitState && nowState->GetNowStateTag() != DeadState && ! nowState->GetChangedState())
             {
                 if (nowState->GetNowStateTag() == DefenseState)
                 {
@@ -274,8 +279,6 @@ void Player::OnHit(CollisionData collisionData)
              break;
          }
     }
-
-
 }
 
 /// <summary>
@@ -304,6 +307,43 @@ void Player::SwitchInvincibility()
             collisionManager->RegisterCollisionData(&collisionData);
         }
     }
+}
+
+
+/// <summary>
+/// ボスに当たった際の押し戻し処理
+/// </summary>
+/// <param name="targetPosition">相手の座標</param>
+void Player::PushBack(const VECTOR targetPosition, const float targetRadius)
+{
+    float radiusSum = targetRadius + collisionData.radius;
+
+    // y座標は変更しなくていいので０に修正する
+    VECTOR correctedTargetPosition = VGet(targetPosition.x, 0.0f, targetPosition.z);
+
+    // プレイヤーも同じように修正
+    VECTOR correctedPlayerPosition = VGet(position.x, 0.0f, position.z);
+
+    // 修正した座標からボスからプレイヤーの向きのベクトルを計算
+    VECTOR vectorToPlayer = VSub(correctedPlayerPosition, correctedTargetPosition);
+
+    // ベクトルのサイズを計算
+    float distance = VSize(vectorToPlayer);
+
+    // 押し戻す距離の計算
+    distance = radiusSum - distance;
+
+
+    // ベクトルを正規化する
+    vectorToPlayer = VNorm(vectorToPlayer);
+
+    VECTOR pushBackVector = VScale(vectorToPlayer, distance);
+
+    // 計算したベクトルからプレイヤーの位置を変更
+    position = VAdd(position, pushBackVector);
+
+    // モデルの位置も合わせて修正
+    MV1SetPosition(modelHandle, position);
 }
 
 

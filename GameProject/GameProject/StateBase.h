@@ -46,6 +46,9 @@ public:
     // 現在のアニメーションの再生状態を返す
     const AnimationPlayState GetCurrentAnimationPlayState() const { return currentPlayAnimationState; }
 
+    // ステートを切り替えたかのフラグを返す
+    const bool GetChangedState() const { return changedState; }
+
     ///////  メンバ関数  //////
 
     /// <summary>

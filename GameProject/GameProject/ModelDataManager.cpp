@@ -10,7 +10,7 @@ ModelDataManager* ModelDataManager::modelDataManager = nullptr;
 ModelDataManager::ModelDataManager()
 {
     //モデルのロード
-    modelHandle.insert(make_pair(Player, MV1LoadModel("Model/PlayerModel.mv1")));
+    modelHandle.insert(make_pair(Player, MV1LoadModel("Model/PlayerModel6.mv1")));
     modelHandle.insert(make_pair(Boss, MV1LoadModel("Model/BossModel.mv1")));
     modelHandle.insert(make_pair(Stage, MV1LoadModel("Model/stage.mv1")));
 
