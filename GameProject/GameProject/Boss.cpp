@@ -49,7 +49,7 @@ Boss::Boss()
     animationNowTime = 0.0f;
 
     //最初のステートを待機状態にする
-    nowState = new BossIdle(modelHandle, -1,BossIdle::None,false);
+    nowState = new BossIdle(modelHandle, -1,None,false);
 
     //コリジョンマネージャーのインスタンスのアドレスを取得
     collisionManager = collisionManager->GetInstance();
@@ -181,31 +181,37 @@ void Boss::OnHit(const CollisionData collisionData)
 {
     switch (collisionData.hitObjectTag)
     {
-    case CollisionManager::PlayerAttack:
-        //HPを減らす
-        hp -= collisionData.damageAmount;
+        case CollisionManager::PlayerAttack:
+        {
+            //HPを減らす
+            hp -= collisionData.damageAmount;
 
-        // プレイヤーの攻撃に当たった際のエフェクトの初期化
-        InitializePlayerAttackHitEffectData(collisionData.centerPosition);
+            // プレイヤーの攻撃に当たった際のエフェクトの初期化
+            InitializePlayerAttackHitEffectData(collisionData.centerPosition);
 
-        // エフェクトの再生
-        effectManager->PlayEffect(&playerAttackHitEffectData);
+            // エフェクトの再生
+            effectManager->PlayEffect(&playerAttackHitEffectData);
 
-        break;
-    case CollisionManager::PlayerShot:
+            break;
+        }
+        case CollisionManager::PlayerShot:
+        {
 
-        // 弾にあった際のエフェクトの初期化
-        InitializeShotHitEffectData(collisionData.centerPosition);
+            // 弾にあった際のエフェクトの初期化
+            InitializeShotHitEffectData(collisionData.centerPosition);
 
-        // エフェクトの再生
-        effectManager->PlayEffect(&shotHitEffectData);
+            // エフェクトの再生
+            effectManager->PlayEffect(&shotHitEffectData);
 
-        //HPを減らす
-        hp -= collisionData.damageAmount;
+            //HPを減らす
+            hp -= collisionData.damageAmount;
 
-        break;
-    default:
-        break;
+            break;
+        }
+        default:
+        {
+            break;
+        }
     }
 }
 
