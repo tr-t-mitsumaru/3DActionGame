@@ -14,8 +14,6 @@ BossMove::BossMove(int& InitializeModelHandle, const int beforeAnimationIndex)
 {
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
-
-    inputManager = InputManager::GetInstance();
 }
 
 /// <summary>
@@ -64,7 +62,8 @@ void BossMove::ChangeState()
     // 設定したフレーム数を超えた場合はステートをIdleにする
     if (moveFrameCount >= MoveFrameLimit)
     {
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::Move,isChangingMove);
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),Boss::Move,isChangingMove);
+
     }
     else
     {
