@@ -6,6 +6,7 @@
 #include"CollisionData.h"
 #include"StateBase.h"
 #include"BossStart.h"
+#include"BossDead.h"
 #include"EffectManager.h"
 #include"GameScene.h"
 #include"SoundManager.h"
@@ -55,7 +56,7 @@ Boss::Boss()
     animationNowTime = 0.0f;
 
     //最初のステートを待機状態にする
-    nowState = new BossIdle(modelHandle, -1,BossIdle::None,false);
+    nowState = new BossIdle(modelHandle, -1,None,false);
 
     //コリジョンマネージャーのインスタンスのアドレスを取得
     collisionManager = collisionManager->GetInstance();
@@ -110,31 +111,40 @@ void Boss::Update(const VECTOR bossTargetPosition,const VECTOR cameraPosition)
     //モデルを描画する座標の調整
     MV1SetPosition(modelHandle, VAdd(position,OffsetModelPosition));
 
-    //更新処理の後次のループでのステートを代入する
-    nextState = nowState->GetNextState();
-
     // 体力が0になったらステートにそれを知らせる
     if (hp <= 0)
     {
         hp = 0;
-        nextState->SetNoLifeState();
-
-        slowMotionCount++;
-
-        // ToDo
-        // 現在は1フレームごとに既定の時間停止させてスローモーションにしているが
-        // リファクタリングのタイミングで修正する
-        if (slowMotionCount <= SlowMotionCountLimit)
+        if (!nowState->GetDeadBoss() && !nowState->GetChangedState())
         {
-            WaitTimer(WaitTime);
+            nowState->SetBossNoLifeState();
+        }
+        
+        if (nowState->GetDeadBoss())
+        {
+            slowMotionCount++;
+
+            // ToDo
+            // 現在は1フレームごとに既定の時間停止させてスローモーションにしているが
+            // リファクタリングのタイミングで修正する
+            if (slowMotionCount <= SlowMotionCountLimit)
+            {
+                WaitTimer(WaitTime);
+            }
+
+            // 体力0かつアニメーションの再生が終わっていれば
+            if (nowState->GetCurrentAnimationPlayState() == StateBase::Stop && !nowState->GetChangedState())
+            {
+                endedDeadMove = true;
+            }
+
         }
 
-        // 体力0かつアニメーションの再生が終わっていれば
-        if (nextState->GetCurrentAnimationPlayState() == StateBase::FirstRoopEnd)
-        {
-            endedDeadMove = true;
-        }
     }
+
+    //更新処理の後次のループでのステートを代入する
+    nextState = nowState->GetNextState();
+
 
 
 
@@ -208,34 +218,41 @@ void Boss::OnHit(const CollisionData collisionData)
 {
     switch (collisionData.hitObjectTag)
     {
-    case CollisionManager::PlayerAttack:
-        //HPを減らす
-        hp -= collisionData.damageAmount;
+        case CollisionManager::PlayerAttack:
+        {
+            //HPを減らす
+            hp -= collisionData.damageAmount;
 
-        // プレイヤーの攻撃に当たった際のエフェクトの初期化
-        InitializePlayerAttackHitEffectData(collisionData.centerPosition);
+            // プレイヤーの攻撃に当たった際のエフェクトの初期化
+            InitializePlayerAttackHitEffectData(collisionData.centerPosition);
 
-        // エフェクトの再生
-        effectManager->PlayEffect(&playerAttackHitEffectData);
+            // エフェクトの再生
+            effectManager->PlayEffect(&playerAttackHitEffectData);
 
-        break;
-    case CollisionManager::PlayerShot:
+            break;
+        }
+        case CollisionManager::PlayerShot:
+        {
 
-        // 弾にあった際のエフェクトの初期化
-        InitializeShotHitEffectData(collisionData.centerPosition);
+            // 弾にあった際のエフェクトの初期化
+            InitializeShotHitEffectData(collisionData.centerPosition);
 
-        // エフェクトの再生
-        effectManager->PlayEffect(&shotHitEffectData);
+            // エフェクトの再生
+            effectManager->PlayEffect(&shotHitEffectData);
 
-        // 弾が当たった際の音を流す
-        soundManager->PlaySoundEffect(SoundManager::ShotHit);
+            // 弾が当たった際の音を流す
+            soundManager->PlaySoundEffect(SoundManager::ShotHit);
 
-        //HPを減らす
-        hp -= collisionData.damageAmount;
+            //HPを減らす
+            hp -= collisionData.damageAmount;
 
-        break;
-    default:
-        break;
+
+            break;
+        }
+        default:
+        {
+            break;
+        }
     }
 }
 

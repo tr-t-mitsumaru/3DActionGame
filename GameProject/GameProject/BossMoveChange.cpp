@@ -92,10 +92,10 @@ void BossMoveChange::Update(VECTOR& modelDirection, VECTOR& position, const VECT
 void BossMoveChange::ChangeState()
 {
     // アニメーションの最初のループが終了したら
-    if (currentPlayAnimationState == FirstRoopEnd)
+    if (currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの静止ステートに移行
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(), BossIdle::MoveChange,isChangingMove);
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(), Boss::MoveChange,isChangingMove);
     }
     else
     {

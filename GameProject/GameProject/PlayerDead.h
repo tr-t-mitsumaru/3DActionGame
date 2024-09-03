@@ -14,7 +14,7 @@ public:
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    PlayerDead(int InitalModelHandle, int beforeAnimationIndex);
+    PlayerDead(int initalModelHandle, int beforeAnimationIndex);
 
     /// <summary>
     /// デストラクタ

@@ -20,11 +20,10 @@ public:
 
     static constexpr int MaxHp = 1000;      // ボスのHP
 
-
     /// <summary>
-    /// アニメーションの状態
+    /// アニメーションの種類
     /// </summary>
-    enum AnimationState
+    enum AnimationType
     {
         Attack       = 0,    //攻撃
         Dead         = 1,    //死亡
@@ -38,7 +37,7 @@ public:
         RightShot    = 9,    //右手で撃つショット
         RightTurn    = 10,   //右向き切り替え
         Run          = 11,   //走る
-        SitDown      = 12,   //座っている状態
+        Sitting      = 12,   //座っている状態
         Standing     = 13,   //立つ動作
         Walk         = 14    //歩き
     };
@@ -63,6 +62,21 @@ public:
         High   = 0,     // 多い
         Middle = 1,     // 普通
         Low    = 2,     // 少ない
+    };
+
+    /// <summary>
+    /// ボスの行動の状態
+    /// </summary>
+    enum  BossActionState
+    {
+        DefaultAttack = 0,  // 通常攻撃
+        Move          = 1,  // 移動
+        AreaAttack    = 2,  // 範囲攻撃
+        ShotAttack    = 3,  // 弾を撃つ攻撃
+        RunAttack     = 4,  // 突進攻撃
+        MoveChange    = 5,  // 行動を変更させるステート
+        IdleState     = 6,  // 静止状態
+        None          = 7,  // ステートが存在しない場合
     };
 
     ///////  ゲッター  ///////
@@ -205,7 +219,7 @@ private:
     bool           isPlaiedIntimidationEffect;     // 威嚇エフェクトが再生された
     bool           endedDeadMove;                  // 死んだ際の動きが終わったか
     PlayAnimationState currentPlayAnimationState;  // アニメーションの状態
-    int           slowMotionCount;                 // スローにするカウント
+    int            slowMotionCount;                 // スローにするカウント
 
 
     ////メンバ関数////
