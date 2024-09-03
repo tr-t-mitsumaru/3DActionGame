@@ -6,6 +6,7 @@
 #include"ModelDataManager.h"
 #include"PlayerIdle.h"
 #include"EffectManager.h"
+#include"Utility.h"
 
 
 const VECTOR Player::ModelOffsetPosition = VGet(0, 0, -3);
@@ -373,11 +374,8 @@ void Player::PushBack(const VECTOR targetPosition, const float targetRadius)
 /// <param name="shotPosition">当たった弾の座標</param>
 void Player::InitializeShotHitEffectData(const VECTOR shotPosition)
 {
-    // ボスと弾のベクトルを出す
-    VECTOR direction = VSub(position, shotPosition);
-
-    // ボスと弾のベクトルからエフェクトの回転率を出す
-    float angle = atan2(direction.x, direction.z);
+    // 自身のポジションと弾の座標からエフェクトの向きを算出
+    float angle = Utility::CalculateAngleBetweenPositions(position, shotPosition);
 
     // エフェクトの回転率
     shotHitEffectData.rotationRate = VGet(0.0f, angle, 0.0f);

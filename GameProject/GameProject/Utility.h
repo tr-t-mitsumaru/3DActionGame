@@ -22,6 +22,11 @@ public:
     /// <returns>ラジアン</returns>
     static float ConvertRadian(const int angle);
 
+    /// <summary>
+    /// 二つの座標同士の向きから角度を算出する
+    /// </summary>
+    static float CalculateAngleBetweenPositions(const VECTOR firstPosition, const VECTOR secondPosition);
+
 
     static constexpr float ErrorValue = 0.000001f;  //float型で許容する誤差の値
 
