@@ -21,9 +21,9 @@ public:
 
 
     /// <summary>
-    /// アニメーションの状態
+    /// アニメーションの種類
     /// </summary>
-    enum AnimationState
+    enum AnimationType
     {
         Attack       = 0,    //攻撃
         Dead         = 1,    //死亡
@@ -37,7 +37,7 @@ public:
         RightShot    = 9,    //右手で撃つショット
         RightTurn    = 10,   //右向き切り替え
         Run          = 11,   //走る
-        SitDown      = 12,   //座っている状態
+        Sitting      = 12,   //座っている状態
         Standing     = 13,   //立つ動作
         Walk         = 14    //歩き
     };
@@ -52,6 +52,19 @@ public:
         Stand             = 2,  // 立ち上がった
         IntimidationStart = 3,  // 威嚇の動きが始まった状態
         EndMove           = 4,  // 行動終了
+    };
+
+    /// <summary>
+    /// ボスの行動の状態
+    /// </summary>
+    enum  BossActionState
+    {
+        DefaultAttack = 0,  // 通常攻撃
+        Move          = 1,  // 移動
+        AreaAttack    = 2,  // 範囲攻撃
+        ShotAttack    = 3,  // 弾を撃つ攻撃
+        RunAttack     = 4,  // 突進攻撃
+        None          = 5,  // ステートが存在しない場合
     };
 
     ///////  ゲッター  ///////
