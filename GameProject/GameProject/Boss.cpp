@@ -122,7 +122,7 @@ void Boss::UpdateStartScene()
         ChangeStartMoveState();
 
         // アニメーションの切り替え
-        SwtchAnimation();
+        SwitchAnimation();
 
         //モデルを描画する座標の調整
         MV1SetPosition(modelHandle, VAdd(position, OffsetModelPosition));
@@ -436,7 +436,10 @@ void Boss::UpdateAnimation()
     }
 }
 
-void Boss::SwtchAnimation()
+/// <summary>
+/// アニメーションの切り替え
+/// </summary>
+void Boss::SwitchAnimation()
 {
     // アニメーションの1ループが終了したら
     if (animationNowTime / animationLimitTime >= SwitchAnimationRatio && currentStartMoveState == Stand)

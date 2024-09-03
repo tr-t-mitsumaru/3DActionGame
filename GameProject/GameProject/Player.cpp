@@ -134,7 +134,7 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
 void Player::UpdateStartScene(const float distanceToBoss)
 {
     // 移動が終わってなければ
-    if (! isEndMove)
+    if (!isEndMove)
     {
         // ボスに向かって移動させる
         position.z += MoveSpeed;
