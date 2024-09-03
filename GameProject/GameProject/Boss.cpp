@@ -10,6 +10,8 @@
 #include"EffectManager.h"
 #include"GameScene.h"
 #include"SoundManager.h"
+#include"Utility.h"
+
 
 //初期座標の入力
 const VECTOR Boss::InitialPosition = VGet(0, 0, 0.6);
@@ -170,7 +172,7 @@ void Boss::UpdateStartScene()
         ChangeStartMoveState();
 
         // アニメーションの切り替え
-        SwtchAnimation();
+        SwitchAnimation();
 
         //モデルを描画する座標の調整
         MV1SetPosition(modelHandle, VAdd(position, OffsetModelPosition));
@@ -262,11 +264,8 @@ void Boss::OnHit(const CollisionData collisionData)
 /// <param name="shotPosition">当たった弾の座標</param>
 void Boss::InitializeShotHitEffectData(const VECTOR shotPosition)
 {
-    // ボスと弾のベクトルを出す
-    VECTOR direction = VSub(position, shotPosition);
-
-    // ボスと弾のベクトルからエフェクトの回転率を出す
-    float angle = atan2(direction.x, direction.z);
+    // 自身のポジションと弾の座標からエフェクトの向きを算出
+    float angle = Utility::CalculateAngleBetweenPositions(position, shotPosition);
 
     // エフェクトの回転率
     shotHitEffectData.rotationRate = VGet(0.0f, angle, 0.0f);
@@ -301,11 +300,8 @@ void Boss::StartUpdateStartScene()
 /// <param name="attackPosition">攻撃の座標</param>
 void Boss::InitializePlayerAttackHitEffectData(const VECTOR attackPosition)
 {
-    // ボスと弾のベクトルを出す
-    VECTOR direction = VSub(position, attackPosition);
-
-    // ボスと弾のベクトルからエフェクトの回転率を出す
-    float angle = atan2(direction.x, direction.z);
+    // 自身のポジションと弾の座標からエフェクトの向きを算出
+    float angle = Utility::CalculateAngleBetweenPositions(position, attackPosition);
 
     // エフェクトの回転率
     playerAttackHitEffectData.rotationRate = VGet(0.0f, angle, 0.0f);
@@ -481,7 +477,10 @@ void Boss::UpdateAnimation()
     }
 }
 
-void Boss::SwtchAnimation()
+/// <summary>
+/// アニメーションの切り替え
+/// </summary>
+void Boss::SwitchAnimation()
 {
     // アニメーションの1ループが終了したら
     if (animationNowTime / animationLimitTime >= SwitchAnimationRatio && currentStartMoveState == Stand)
