@@ -15,7 +15,7 @@ public:
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    PlayerHit(int InitalModelHandle, int beforeAnimationIndex, Player::AnimationState animationState);
+    PlayerHit(int initalModelHandle, int beforeAnimationIndex, Player::AnimationState animationState);
 
     /// <summary>
     /// デストラクタ

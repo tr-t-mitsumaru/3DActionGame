@@ -30,9 +30,9 @@ private:
     static constexpr float InitializeAnimationSpeed = 0.6f;    //アニメーションの初期速度
 
     ///////  メンバ変数  ///////
-
     SoundManager* soundManager;          // 音管理クラスのポインタ
     bool          playedDeadSoundEffect; // 死んだ際の音を再生させたか
+
 
     ///////  メンバ関数  ///////
 

@@ -19,9 +19,6 @@ PlayerHit::PlayerHit(int InitalModelHandle, int beforeAnimationIndex, Player::An
     // 現在のステートを入れる
     nowStateTag = Player::HitState;
 
-    // ヒットステート中はダメージを受けている状態にする
-    lifeState = Player::Damaged;
-
     // アニメーションの速度を代入
     animationSpeed = AnimationSpeed;
 }
@@ -65,20 +62,16 @@ void PlayerHit::Update(VECTOR& modelDirection, VECTOR& position, const VECTOR ta
 /// </summary>
 void PlayerHit::ChangeState()
 {
-    if (currentPlayAnimationState == FirstRoopEnd && lifeState == Player::NoLife)
+    if (!changedState)
     {
-        nextState = new PlayerDead(modelhandle, this->GetAnimationIndex());
-    }
-    //アニメーションの再生が終了したらステートを切り替える
-    else if (currentPlayAnimationState == FirstRoopEnd)
-    {
-        nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
-
-        // ダメージを受けていない状態に戻す
-        lifeState = Player::NoDamage;
-    }
-    else
-    {
-        nextState = this;
+        //アニメーションの再生が終了したらステートを切り替える
+        if (currentPlayAnimationState == FirstLoopEnd)
+        {
+            nextState = new PlayerIdle(modelhandle, this->GetAnimationIndex());
+        }
+        else
+        {
+            nextState = this;
+        }
     }
 }

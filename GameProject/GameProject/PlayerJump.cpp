@@ -67,7 +67,7 @@ void PlayerJump::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR pl
     }
 
     //アニメーションが一定ラインまで再生が終わったら
-    if (currentPlayAnimationState == StateBase::FirstRoop)
+    if (currentPlayAnimationState == StateBase::FirstLoop)
     {
         if (this->GetAnimationNowTime() / this->GetAnimationLimitTime() >= AnimationStopLine)
         {
@@ -75,7 +75,7 @@ void PlayerJump::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR pl
         }
     }
     //ループ再生されないように一回再生されたら止める
-    if (currentPlayAnimationState == StateBase::FirstRoopEnd)
+    if (currentPlayAnimationState == StateBase::FirstLoopEnd)
     {
         StopAnimation();
     }

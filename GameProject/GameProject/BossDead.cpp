@@ -10,6 +10,8 @@ BossDead::BossDead(int& InitializeModelHandle, const int beforeAnimationIndex)
     :StateBase(InitializeModelHandle, Boss::Dead, beforeAnimationIndex)
     ,playedDeadSoundEffect(false)
 {
+    // このステートに入った時点で死んだフラグを立てる
+    deadBoss = true;
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
 
@@ -47,6 +49,11 @@ void BossDead::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR boss
 
     //アニメーションの再生時間のセット
     UpdateAnimation();
+
+    if (currentPlayAnimationState == FirstLoopEnd)
+    {
+        StopAnimation();
+    }
 
     //シーンが切り替わっていればアニメーションをデタッチ
     DetachAnimation();
