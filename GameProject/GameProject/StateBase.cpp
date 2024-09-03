@@ -1,6 +1,9 @@
 ﻿#include"DxLib.h"
 #include"StateBase.h"
+#include"PlayerHit.h"
+#include"PlayerDead.h"
 #include"Utility.h"
+
 
 
 
@@ -15,9 +18,9 @@ StateBase::StateBase(int& modelHandle,const int animationState,const int beforeA
     ,animationBlendRate(0.0f)
     ,beforeAnimationIndex(-1)
     ,currentPlayAnimationState(BlendStart)
-    ,lifeState(Player::NoDamage)
     ,currentHpState(Boss::High)
     ,isChangingMove(false)
+    ,changedState(false)
 {
     //もってきたモデルハンドルを代入
     this->modelhandle = modelHandle;
@@ -70,7 +73,7 @@ void StateBase::UpdateAnimation(const float blendSpeed)
         if (animationNowTime >= animationLimitTime)
         {
             animationNowTime = 0.0f;
-            currentPlayAnimationState = FirstRoopEnd;
+            currentPlayAnimationState = FirstLoopEnd;
         }
     }
 
@@ -91,7 +94,7 @@ void StateBase::StopAnimation()
 /// </summary>
 void StateBase::StartAnimation()
 {
-    currentPlayAnimationState = FirstRoop;
+    currentPlayAnimationState = FirstLoop;
 }
 
 /// <summary>
@@ -110,8 +113,16 @@ void StateBase::DetachAnimation()
 /// </summary>
 void StateBase::OnDamage()
 {
-    // ダメージを受けた状態に設定
-    lifeState = Player::Damaged;
+    // ガード中とそれ以外で渡すアニメーションステートを変える
+    if (nowStateTag == Player::DefenseState)
+    {
+        nextState = new PlayerHit(modelhandle, animationIndex, Player::BlockingImpact);
+    }
+    else
+    {
+        nextState = new PlayerHit(modelhandle, animationIndex, Player::Impact);
+    }
+    changedState = true;
 }
 
 /// <summary>
@@ -119,8 +130,9 @@ void StateBase::OnDamage()
 /// </summary>
 void StateBase::SetNoLifeState()
 {
-    // ライフが0の状態に設定
-    lifeState = Player::NoLife;
+    nextState = new PlayerDead(modelhandle, animationIndex);
+
+    changedState = true;
 }
 
 /// <summary>

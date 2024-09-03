@@ -9,22 +9,12 @@ class BossIdle :public StateBase
 {
 public:
 
-    enum  NextStateList
-    {
-        DefaultAttack = 0,  // 通常攻撃
-        Move          = 1,  // 移動
-        AreaAttack    = 2,  // 範囲攻撃
-        ShotAttack    = 3,  // 弾を撃つ攻撃
-        RunAttack     = 4,  // 突進攻撃
-        MoveChange    = 5,  // 行動を変更させるステート
-        Idle          = 6,  // 静止状態
-        None          = 7,  // ステートが存在しない場合
-    };
-
     ///////  メンバ関数  ///////
 
     //コンストラクタ
-    BossIdle(int& modelHandle, const int beforeAnimationIndex, const NextStateList initializeBeforeStateName, const bool beforeIsChangintMove);
+    BossIdle(int& modelHandle, const int beforeAnimationIndex, const Boss::BossActionState initializeBeforeStateName, const bool beforeIsChangintMove);
+    ///////  メンバ関数  ///////
+
     //デストラクタ
     ~BossIdle();
 
@@ -58,11 +48,11 @@ private:
 
     ///////  メンバ変数  ///////
 
-    NextStateList nextStateName;              // 次のステート
-    NextStateList previousStateName;          // 前のステート
-    int           idleWaitCountLimit;         // アイドル状態で止めておくカウントの総合時間
-    int           idleWaitCount;              // アイドル状態でどれだけ止めているかのカウント
-    bool          isIdleWaitCountInitialzie;  // 静止状態の待ち時間を初期化したか
+    Boss::BossActionState nextStateName;          // 次のステート
+    Boss::BossActionState previousStateName;      // 前のステート
+    int                   idleWaitCountLimit;         // アイドル状態で止めておくカウントの総合時間
+    int                   idleWaitCount;              // アイドル状態でどれだけ止めているかのカウント
+    bool                  isIdleWaitCountInitialzie;  // 静止状態の待ち時間を初期化したか
     
 
     ///////  メンバ関数  ///////
@@ -72,14 +62,21 @@ private:
     /// </summary>
     void ChangeState()override;
 
-    /// <summary>
-    /// 行動パターンを選択する
-    /// </summary>
-    void SelectActionPattern(const float targetDistance);
 
     /// <summary>
     /// 体力に合わせて静止状態にしておくカウントを変えて初期化
     /// </summary>
     void InitializeIdleWaitCount();
+
+    /// <summary>
+    /// 行動パターンが決定するまでループを続ける
+    /// </summary>
+    void SelectActionPatternLoop(const float bossTargetDistance);
+
+    /// <summary>
+    /// 距離に合わせて行動パターンを選択
+    /// </summary>
+    /// <param name="targetDistance">ボスが攻撃する対象との距離</param>
+    bool SelectActionOnRange(const float bossTargetDistance);
 };
 

@@ -18,6 +18,8 @@ BossDefaultAttack::BossDefaultAttack(int& InitializeModelHandle, const int befor
     ,isAttackParameterInitialize(false)
     ,isChangedAnimationSpeed(false)
 {
+    //アニメーション速度の初期化
+    animationSpeed = InitializeAnimationSpeed;
 
     // コリジョンマネージャーのインスタンスをもってくる
     collisionManager = CollisionManager::GetInstance();
@@ -97,10 +99,11 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
 /// </summary>
 void BossDefaultAttack::ChangeState()
 {
-    if (currentPlayAnimationState == FirstRoopEnd)
+    if (currentPlayAnimationState == FirstLoopEnd)
     {
         //ボスの移動ステートに移行
-        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),BossIdle::DefaultAttack,isChangingMove);
+        nextState = new BossIdle(modelhandle, this->GetAnimationIndex(),Boss::DefaultAttack,isChangingMove);
+
     }
     else
     {
