@@ -14,6 +14,7 @@ public:
     enum EffectTag
     {
         BossShot = 0,   // Bossのショットのエフェクト
+        BossClaw = 1,   // ボスの通常攻撃のエフェクト
     };
 
 
@@ -49,6 +50,11 @@ public:
     /// </summary>
     /// <param name="effectData">止めるエフェクトの情報</param>
     void StopEffect(const EffectData effectData);
+
+    /// <summary>
+    /// 全てのエフェクトの停止
+    /// </summary>
+    void StopAllEffect();
 
     /// <summary>
     ///  エフェクト全体の更新処理

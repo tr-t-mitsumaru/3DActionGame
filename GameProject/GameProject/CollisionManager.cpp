@@ -179,6 +179,15 @@ void CollisionManager::Update()
 }
 
 /// <summary>
+/// コリジョンデータを全て削除する
+/// </summary>
+void CollisionManager::DeleteAllCollisionDataList()
+{
+    //hitObjectListの削除
+    hitObjectList.clear();
+}
+
+/// <summary>
 /// 物体に当たったかを判定してその際の関数を呼ぶ
 /// </summary>
 /// <param name="collider">衝突を検出するオブジェクト</param>

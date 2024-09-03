@@ -51,6 +51,11 @@ public:
     /// </summary>
     void OnHit(CollisionData collisionData);
 
+    /// <summary>
+    /// 非アクティブ状態に切り替える
+    /// </summary>
+    void SetInactive();
+
 
 
 private:

@@ -1,4 +1,5 @@
-﻿#include"DxLib.h"
+﻿#include<cmath>
+#include"DxLib.h"
 #include"Utility.h"
 
 

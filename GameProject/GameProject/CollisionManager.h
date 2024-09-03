@@ -60,6 +60,11 @@ public:
     /// </summary>
     void Update();
 
+    /// <summary>
+    /// コリジョンデータを全て削除する
+    /// </summary>
+    void DeleteAllCollisionDataList();
+
 private:
     ///////  定数  ///////
 

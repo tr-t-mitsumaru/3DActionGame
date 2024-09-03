@@ -191,6 +191,15 @@ void Shot::DeleteShot()
     }
 }
 
+/// <summary>
+/// 非アクティブ状態に切り替える
+/// </summary>
+void Shot::SetInactive()
+{
+    // アクティブフラグを切り替える
+    isActive = false;
+}
+
 
 /// <summary>
 /// 描画

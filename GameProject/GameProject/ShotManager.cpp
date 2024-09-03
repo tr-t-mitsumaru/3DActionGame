@@ -102,3 +102,16 @@ void ShotManager::DeleteShot()
     // 使用しなくなった弾を未使用に移動
     shotObjectPool->ReturnActiveShotInstance(activeShot);
 }
+
+void ShotManager::DeleteAllShot()
+{
+    // 現在あるショットの分だけまわす
+    for (auto it = activeShot.begin(); it != activeShot.end(); ++it)
+    {
+        (*it)->SetInactive();
+    }
+
+    // 弾を未使用に移行させる
+    shotObjectPool->ReturnActiveShotInstance(activeShot);
+
+}

@@ -3,6 +3,8 @@
 #include "BossDefaultAttack.h"
 #include"Utility.h"
 #include"CollisionUtility.h"
+#include"EffectManager.h"
+
 
 const VECTOR BossDefaultAttack::OffsetPosition = VGet(30.0f, 40.0f, 0.0f);
 
@@ -20,6 +22,9 @@ BossDefaultAttack::BossDefaultAttack(int& InitializeModelHandle, const int befor
     // コリジョンマネージャーのインスタンスをもってくる
     collisionManager = CollisionManager::GetInstance();
 
+    // エフェクトマネージャーのインスタンスをもってくる
+    effectManager = EffectManager::GetInstance();
+
     //当たり判定がまだ生成されていない状態
     collisionData.collisionState = CollisionData::NoCollision;
 }
@@ -29,7 +34,8 @@ BossDefaultAttack::BossDefaultAttack(int& InitializeModelHandle, const int befor
 /// </summary>
 BossDefaultAttack::~BossDefaultAttack()
 {
-    //処理なし
+    // エフェクトの停止
+    effectManager->StopEffect(effectData);
 }
 
 
@@ -59,6 +65,9 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
     //当たり判定に必要な情報の更新
     UpdateCollisionData(modelDirection,position);
 
+    // エフェクトの再生に必要な情報の更新
+    UpdateEffectData(modelDirection,position);
+
     // 当たり判定が有効になった入ればCollisionManagerに送信
     if (collisionData.collisionState == CollisionData::NoCollision)
     {
@@ -69,6 +78,7 @@ void BossDefaultAttack::Update(VECTOR& modelDirection, VECTOR& characterPosition
         if (collisionData.collisionState == CollisionData::CollisionActive)
         {
             collisionManager->RegisterCollisionData(&collisionData);
+            effectManager->PlayEffect(&effectData);
         }
     }
 
@@ -139,6 +149,31 @@ void BossDefaultAttack::UpdateCollisionData(const VECTOR& modelDirection, const 
     //当たった際のダメージ量
     collisionData.damageAmount = DamageAmount;
     
+}
+
+/// <summary>
+/// エフェクトの再生に必要なデータの更新
+/// </summary>
+/// <param name="modelDirection">モデルの向き</param>
+void BossDefaultAttack::UpdateEffectData(const VECTOR modelDirection,const VECTOR characterPosition)
+{
+    // エフェクトの座標を代入
+    effectData.position = VAdd(characterPosition, VGet(0.0f, EffectOffsetPositionY, 0.0f));
+
+    // モデルの向きからY軸の回転率を出す
+    float angle = atan2(modelDirection.x, modelDirection.z);
+
+    // エフェクトの回転率
+    effectData.rotationRate = VGet(0.0f, angle, 0.0f);
+
+    // エフェクトの種類
+    effectData.effectTag = EffectManager::BossClaw;
+
+    // エフェクトのサイズ
+    effectData.scalingRate = VGet(EffectDefaultScale, EffectDefaultScale, EffectDefaultScale);
+
+    // エフェクトの再生速度
+    effectData.playSpeed = EffectPlaySpeed;
 }
 
 

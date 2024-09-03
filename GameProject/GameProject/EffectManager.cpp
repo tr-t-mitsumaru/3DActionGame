@@ -15,6 +15,7 @@ EffectManager::EffectManager()
 {
     // エフェクトのロード
     effectHandle.insert(make_pair(BossShot, LoadEffekseerEffect("Effect/FireBall3.efkefc", 1.0f)));
+    effectHandle.insert(make_pair(BossClaw, LoadEffekseerEffect("Effect/BossClaw.efkefc", 1.0f)));
 }
 
 /// <summary>
@@ -159,4 +160,20 @@ void EffectManager::Draw()
 {
     // 描画
     DrawEffekseer3D();
+}
+
+/// <summary>
+/// 全てのエフェクトの停止
+/// </summary>
+void EffectManager::StopAllEffect()
+{
+    // エフェクトデータのサイズ分回す
+    for (int i = 0; i < effectDataList.size(); i++)
+    {
+        // エフェクトを停止
+        StopEffekseer3DEffect(effectDataList[i]->effectNumber);
+    }
+
+    // エフェクトデータを全て削除
+    effectDataList.clear();
 }

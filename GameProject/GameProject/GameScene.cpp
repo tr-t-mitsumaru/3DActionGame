@@ -38,6 +38,11 @@ GameScene::~GameScene()
     delete camera;
     delete player;
     delete boss;
+
+    // シングルトンクラスで作成したものを全て削除する
+    collisionManager->DeleteAllCollisionDataList();
+    shotManager->DeleteAllShot();
+    effectManager->StopAllEffect();
 }
 
 /// <summary>

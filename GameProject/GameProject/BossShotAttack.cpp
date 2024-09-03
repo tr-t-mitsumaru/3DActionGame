@@ -15,8 +15,9 @@ BossShotAttack::BossShotAttack(int& InitializeModelHandle, const int beforeAnima
     //アニメーション速度の初期化
     animationSpeed = InitializeAnimationSpeed;
 
-    // ショットマネージャーのインスタンスをもってくる「
+    // ショットマネージャーのインスタンスをもってくる
     shotManager = ShotManager::GetInstance();
+
 }
 
 /// <summary>

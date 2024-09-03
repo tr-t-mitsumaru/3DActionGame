@@ -35,6 +35,11 @@ public:
     void DeleteShot();
 
     /// <summary>
+    /// 弾を全て削除
+    /// </summary>
+    void DeleteAllShot();
+
+    /// <summary>
     /// 更新処理
     /// </summary>
     void Update();
