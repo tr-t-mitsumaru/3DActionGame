@@ -51,6 +51,8 @@ private:
     static constexpr int   ShotDamageAmount         = 15;           // 弾のダメージ量
     static constexpr float ShotSpeed                = 5.0f;         // 弾のスピード
     static constexpr float ShotCreateAnimationRatio = 0.5f;         // ショットを撃つアニメーションの再生率
+    static constexpr float EffectDefaultScale       = 25.0f;        // エフェクトの初期スケール
+    static constexpr float EffectPlaySpeed          = 1.0f;
 
     ///////  メンバ変数  ////////
 
@@ -58,7 +60,7 @@ private:
     CollisionData collisionData;           //当たり判定に必要な情報をまとめたもの
     CollisionManager* collisionManager;    //当たり判定の管理クラスのポインタ
     //ショット関連
-    ShotManager* shotManager;              //ショットの管理クラス
+    ShotManager* shotManager;              // ショットの管理クラス
     AttackState  attackState;              // 現在の攻撃の状態
 
     ///////  メンバ関数  //////

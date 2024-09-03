@@ -7,6 +7,7 @@ class Player;
 class Boss;
 class CollisionManager;
 class ShotManager;
+class EffectManager;
 
 
 /// <summary>
@@ -32,12 +33,13 @@ public:
     void Draw() override;
 
 private:
-    Stage*  stage;  //ステージ
-    Camera* camera; //カメラ
-    Player* player; //プレイヤー
-    Boss*   boss;   //ボス
+    Stage*            stage;            //ステージ
+    Camera*           camera;           //カメラ
+    Player*           player;           //プレイヤー
+    Boss*             boss;             //ボス
     CollisionManager* collisionManager; //コリジョンマネージャーのインスタンスにアクセスるポインタ
     ShotManager*      shotManager;      // ショットマネージャーにアクセスするポインタ
+    EffectManager*    effectManager ;   // エフェクトマネージャーにアクセスするポインタ
     
 };
 

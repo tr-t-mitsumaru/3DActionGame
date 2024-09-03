@@ -8,6 +8,8 @@
 #include"Boss.h"
 #include"CollisionManager.h"
 #include"ShotManager.h"
+#include"EffectManager.h"
+
 
 
 
@@ -23,6 +25,7 @@ GameScene::GameScene()
     boss   = new Boss();
     collisionManager = CollisionManager::GetInstance();
     shotManager = ShotManager::GetInstance();
+    effectManager = EffectManager::GetInstance();
 }
 
 /// <summary>
@@ -49,6 +52,9 @@ void GameScene::Update()
     //当たり判定全体の更新処理を行う
     collisionManager->Update();
     camera->Update(player->GetPosition());
+
+    // エフェクト全体の更新
+    effectManager->Update();
 
 
     //デバッグ時だけキー入力でシーン遷移するように
@@ -81,4 +87,5 @@ void GameScene::Draw()
     player->Draw();
     boss->Draw();
     shotManager->Draw();
+    effectManager->Draw();
 }

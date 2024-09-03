@@ -53,6 +53,4 @@ private:
     static ModelDataManager* modelDataManager;     //自身のインスタンスのポインタ
 
     map<ModelTag, int> modelHandle;              //モデルハンドルをまとめているマップ配列
-
-    
 };

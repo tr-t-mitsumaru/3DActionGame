@@ -1,7 +1,9 @@
 ﻿#pragma once
 #include<map>
+#include<vector>
 
 using namespace std;
+struct EffectData;
 
 class EffectManager
 {
@@ -11,7 +13,7 @@ public:
     /// </summary>
     enum EffectTag
     {
-
+        BossShot = 0,   // Bossのショットのエフェクト
     };
 
 
@@ -32,10 +34,31 @@ public:
     static void DeleteInstance();
 
     /// <summary>
+    /// エフェクシアの設定を行う
+    /// </summary>
+    static int Setting();
+
+    /// <summary>
     /// 指定されたエフェクトを再生する
     /// </summary>
-    /// <param name="imageTag">エフェクトの種類</param>
-    static const void PlayEffect(EffectTag effectTag);
+    /// <param name="effectData">再生するエフェクトの情報が格納されている場所のポインタ</param>
+    void PlayEffect(EffectData* effectData);
+
+    /// <summary>
+    /// 指定されたエフェクトを停止する
+    /// </summary>
+    /// <param name="effectData">止めるエフェクトの情報</param>
+    void StopEffect(const EffectData effectData);
+
+    /// <summary>
+    ///  エフェクト全体の更新処理
+    /// </summary>
+    void Update();
+
+    /// <summary>
+    /// エフェクトの描画
+    /// </summary>
+    void Draw();
 
 private:
     //コンストラクタ
@@ -44,21 +67,14 @@ private:
     //デストラクタ
     ~EffectManager();
 
-    /// <summary>
-    /// 必要なエフェクトをロードする
-    /// </summary>
-    static void LoadEffect();
-
-    /// <summary>
-    /// 読み込んだエフェクトの削除
-    /// </summary>
-    static void DeleteEffect();
 
     //自身のポインタ
     static EffectManager* effectManager;
 
     //メンバ変数
     map<EffectTag, int> effectHandle;           //イメージハンドルをまとめているマップ配列
+    vector<EffectData*> effectDataList;
+
 };
 
 

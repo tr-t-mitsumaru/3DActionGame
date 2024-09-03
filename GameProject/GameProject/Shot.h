@@ -1,9 +1,13 @@
 ﻿#pragma once
 #include"DxLib.h"
 #include"CollisionData.h"
+#include"EffectData.h"
+
 
 class CollisionManager;
 struct InitializeShotData;
+class EffectManager;
+struct EffectData;
 
 /// <summary>
 /// 弾クラス
@@ -64,6 +68,9 @@ private:
     // 当たり判定
     CollisionManager* collisionManager;     // 当たり判定を管理するクラスにアクセスするポインタ
     CollisionData     collisionData;        // 当たり判定情報を格納するためのデータ構造
+    // エフェクト
+    EffectManager* effectManager;           // エフェクト管理クラスにアクセスするポインタ
+    EffectData     effectData;              // エフェクトの更新が必要なデータ
 
     ///////          関数             ///////
 
@@ -71,6 +78,11 @@ private:
     /// 座標などを当たり判定に必要なデータに変換
     /// </summary>
     void UpdateCollisionData() ;
+
+    /// <summary>
+    /// エフェクトの再生に必要な座標などのデータを更新する
+    /// </summary>
+    void UpdataEffectData();
 
     /// <summary>
     /// 中心からの距離をはかる

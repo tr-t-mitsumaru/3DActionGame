@@ -1,6 +1,8 @@
 ﻿#include"CollisionData.h"
 #include"InitializeShotData.h"
 #include"CollisionManager.h"
+#include"EffectData.h"
+#include"EffectManager.h"
 #include"Shot.h"
 
 
@@ -11,6 +13,9 @@ Shot::Shot()
 {
     //CollisionManagerのインスタンスをもってくる
     collisionManager = CollisionManager::GetInstance();
+
+    // EffectManagerのインスタンスをもってくる
+    effectManager = EffectManager::GetInstance();
 
 }
 
@@ -49,14 +54,31 @@ void Shot::Initialize(InitializeShotData initializeShotData)
     // 撃ったキャラの種類
     shooterTag = initializeShotData.shooterTag;
 
+    // エフェクトの種類
+    effectData.effectTag = initializeShotData.effectTag;
+
+    // エフェクトのサイズ
+    effectData.scalingRate = initializeShotData.effectScalingRate;
+
+    // エフェクトの回転率
+    effectData.rotationRate = initializeShotData.effectRotationRate;
+
+    // エフェクトの再生率
+    effectData.playSpeed = initializeShotData.effectPlaySpeed;
+
+    effectData.position = position;
+
     // 弾が生成された時点で当たり判定を作成する
     collisionData.collisionState = CollisionData::CollisionActive;
 
     // 当たり判定情報を設定
     UpdateCollisionData();
 
-    // 弾の当たり判定情報を
+    // 弾の当たり判定情報をわたす
     collisionManager->RegisterCollisionData(&collisionData);
+
+    // エフェクトの再生を行う
+    effectManager->PlayEffect(&effectData);
 }
 
 /// <summary>
@@ -78,6 +100,8 @@ void Shot::Update()
 
     // 当たり判定情報を設定
     UpdateCollisionData();
+
+    UpdataEffectData();
 }
 
 /// <summary>
@@ -87,6 +111,9 @@ void Shot::OnHit(CollisionData collisionData)
 {
     // 当たり判定を削除する
     this->collisionData.collisionState = CollisionData::CollisionEnded;
+
+    // エフェクトを停止
+    effectManager->StopEffect(effectData);
 
     // 弾自体の生きているフラグもおろす
     isActive = false;
@@ -120,6 +147,15 @@ void Shot::UpdateCollisionData()
 }
 
 /// <summary>
+/// エフェクトの再生に必要な情報を更新する
+/// </summary>
+void Shot::UpdataEffectData()
+{
+    // 座標の更新
+    effectData.position = position;
+}
+
+/// <summary>
 /// 中心からの距離をはかる
 /// </summary>
 /// <returns>中心からの距離</returns>
@@ -147,6 +183,9 @@ void Shot::DeleteShot()
         // 当たり判定を削除する
         this->collisionData.collisionState = CollisionData::CollisionEnded;
 
+        // エフェクトの停止
+        effectManager->StopEffect(effectData);
+
         // 弾自体の生きているフラグもおろす
         isActive = false;
     }
@@ -161,6 +200,4 @@ void Shot::Draw()
 #ifdef _DEBUG
     DrawSphere3D(collisionData.centerPosition, collisionData.radius, 16, GetColor(255, 0, 0), GetColor(255, 0, 0), FALSE);
 #endif 
-
-
 }

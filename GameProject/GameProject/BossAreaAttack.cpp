@@ -120,6 +120,18 @@ InitializeShotData BossAreaAttack::InitializeShot(const int index,const VECTOR c
     // ショットを撃ったキャラのタグを代入
     initializeShotData.shooterTag = CollisionManager::BossAreaAttack;
 
+    // ボスのショット攻撃で初期化する
+    initializeShotData.effectTag = EffectManager::BossShot;
+
+    // エフェクトの回転率を設定
+    initializeShotData.effectRotationRate = VGet(0, 0, 0);
+
+    // エフェクトのサイズを設定
+    initializeShotData.effectScalingRate = VGet(EffectDefaultScale, EffectDefaultScale, EffectDefaultScale);
+
+    // エフェクトの再生速度の設定
+    initializeShotData.effectPlaySpeed = EffectPlaySpeed;
+
     //作成したShotDataを返す
     return initializeShotData;
 }

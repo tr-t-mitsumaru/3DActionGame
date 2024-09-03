@@ -1,6 +1,7 @@
 ﻿#include"InitializeShotData.h"
 #include"BossIdle.h"
 #include"BossShotAttack.h"
+#include"EffectManager.h"
 
 
 ///<summary>
@@ -159,6 +160,18 @@ InitializeShotData BossShotAttack::AssignInitializeShotData(const VECTOR positio
 
     // 弾のダメージ
     initializeShotData.damageAmount = ShotDamageAmount;
+
+    // ボスのショット攻撃で初期化する
+    initializeShotData.effectTag = EffectManager::BossShot;
+
+    // エフェクトの回転率を設定
+    initializeShotData.effectRotationRate = VGet(0, 0, 0);
+
+    // エフェクトのサイズを設定
+    initializeShotData.effectScalingRate = VGet(EffectDefaultScale, EffectDefaultScale, EffectDefaultScale);
+
+    // エフェクトの再生速度の設定
+    initializeShotData.effectPlaySpeed = EffectPlaySpeed;
 
     // 初期化したデータを返す
     return initializeShotData;

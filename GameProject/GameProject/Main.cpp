@@ -4,6 +4,7 @@
 #include"ModelDataManager.h"
 #include"CollisionManager.h"
 #include"ShotManager.h"
+#include"EffectManager.h"
 
 //----------------------------//
 // WinMain関数.
@@ -31,10 +32,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     }
     SetDrawScreen(DX_SCREEN_BACK);
 
+    // エフェクシアの設定を行う
+    if (EffectManager::Setting() == -1)
+    {
+        return -1;
+    }
+
     //シングルトンクラスのインスタンス確保
     InputManager::CreateInstance();
     ModelDataManager::CreateInstance();
     CollisionManager::CreateInstance();
+    EffectManager::CreateInstance();
     ShotManager::CreateInstance();
 
 
@@ -59,6 +67,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     ModelDataManager::DeleteInstance();
     CollisionManager::DeleteInstance();
     ShotManager::DeleteInstance();
+    EffectManager::DeleteInstance();
 
 
     DxLib_End();                // ＤＸライブラリ使用の終了処理

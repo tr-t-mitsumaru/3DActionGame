@@ -49,16 +49,18 @@ void BossRunAttack::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR
     // 現在どれだけ進んだかを計算
     float currentDistance = VSize(VSub(position, startPosition));
 
-    // 最初のターゲットの座標から少し進んだ位置まで到達したらステートを切り替える
-    if (currentDistance >= targetLength + TargetOffsetDistance && currentRunState == Run)
-    {
-        currentRunState = RunEnd;
-    }
+
 
     //ステートの切り替え処理を呼ぶ
     ChangeState();
 
-
+    // 最初のターゲットの座標から少し進んだ位置まで到達したらステートを切り替える
+    if (currentDistance >= targetLength + TargetOffsetDistance && currentRunState == Run)
+    {
+        currentRunState = RunEnd;
+        //当たり判定を消す
+        collisionData.collisionState = CollisionData::CollisionEnded;
+    }
 
     //アニメーションの再生時間のセット
     UpdateAnimation(AnimationBlendSpeed);

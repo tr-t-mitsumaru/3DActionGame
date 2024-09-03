@@ -195,6 +195,7 @@
     <ClInclude Include="CollisionData.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="CollisionUtility.h" />
+    <ClInclude Include="EffectData.h" />
     <ClInclude Include="EffectManager.h" />
     <ClInclude Include="FadeInOut.h" />
     <ClInclude Include="FrameRateController.h" />
