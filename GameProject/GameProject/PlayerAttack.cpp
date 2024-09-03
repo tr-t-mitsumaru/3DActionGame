@@ -147,23 +147,21 @@ void PlayerAttack::UpdateCollisionStateByAnimationRatio()
 
     if (currentAttackState == Player::ComboAttack)
     {
-
         // アニメーションの再生率が１撃目の開始ラインを超えていたら当たり判定を作成
-        if (currentAnimationRatio > FirstAttackCollisionStartTime && collisionData.collisionState == CollisionData::NoCollision)
+        if (currentAnimationRatio > ComboAttackData[First].AttackCollisionStartTime && collisionData.collisionState == CollisionData::NoCollision)
         {
             collisionData.collisionState = CollisionData::CollisionActive;
             collisionManager->RegisterCollisionData(&collisionData);
         }
-
         // アニメーションの再生率が１撃目の終了ラインを超えていたら当たり判定を削除
-        else if (currentAnimationRatio > FirstAttackCollisionEndTime && currentComboCollisionState == FirstStart)
+        else if (currentAnimationRatio > ComboAttackData[First].AttackCollisionEndTime && currentComboCollisionState == FirstStart)
         {
             collisionData.collisionState = CollisionData::CollisionEnded;
             currentComboCollisionState = FirstEnd;
         }
 
         // アニメーションの再生率が２撃目の開始ラインを超えていたら当たり判定を作成
-        else if (currentAnimationRatio > SecondAttackCollisionStartTime && currentComboCollisionState == FirstEnd)
+        else if (currentAnimationRatio > ComboAttackData[Second].AttackCollisionStartTime && currentComboCollisionState == FirstEnd)
         {
             collisionData.collisionState = CollisionData::CollisionActive;
             collisionManager->RegisterCollisionData(&collisionData);
@@ -171,14 +169,14 @@ void PlayerAttack::UpdateCollisionStateByAnimationRatio()
         }
 
         // アニメーションの再生率が２撃目の終了ラインを超えていたら当たり判定を削除
-        else if (currentAnimationRatio > SecondAttackCollisionEndTime && currentComboCollisionState == SecondStart)
+        else if (currentAnimationRatio > ComboAttackData[Second].AttackCollisionEndTime && currentComboCollisionState == SecondStart)
         {
             collisionData.collisionState = CollisionData::CollisionEnded;
             currentComboCollisionState = SecondEnd;
         }
 
         // アニメーションの再生率が３撃目の開始ラインを超えていたら当たり判定を作成
-        else if (currentAnimationRatio > ThirdAttackCollisionStartTime && currentComboCollisionState == SecondEnd)
+        else if (currentAnimationRatio > ComboAttackData[Third].AttackCollisionStartTime && currentComboCollisionState == SecondEnd)
         {
             collisionData.collisionState = CollisionData::CollisionActive;
             collisionManager->RegisterCollisionData(&collisionData);
@@ -186,7 +184,7 @@ void PlayerAttack::UpdateCollisionStateByAnimationRatio()
         }
 
         // アニメーションの再生率が３撃目の終了ラインを超えていたら当たり判定を削除
-        else if (currentAnimationRatio > ThirdAttackCollisionEndTime && currentComboCollisionState == ThirdStart)
+        else if (currentAnimationRatio > ComboAttackData[Third].AttackCollisionEndTime && currentComboCollisionState == ThirdStart)
         {
             collisionData.collisionState = CollisionData::CollisionEnded;
             currentComboCollisionState = ThirdEnd;
@@ -200,8 +198,6 @@ void PlayerAttack::UpdateCollisionStateByAnimationRatio()
             collisionManager->RegisterCollisionData(&collisionData);
         }
     }
-
-
 }
 
 /// <summary>
@@ -303,7 +299,7 @@ void PlayerAttack::IsComboAttackActive()
             case PlayerAttack::First:
             {
                 // 移動速度を代入
-                moveSpeed = FirstComboMoveSpeed;
+                moveSpeed = ComboAttackData[First].ComboMoveSpeed;
 
                 // 規定時間の間で追加入力があればコンボを続行する
                 if (currentAnimationRatio >= SecondAttackInputStartTime && currentAnimationRatio < currentAnimationRatio < SecondAttackInputStartTime + InputTimeLimit &&
@@ -322,7 +318,7 @@ void PlayerAttack::IsComboAttackActive()
             case PlayerAttack::Second:
             {
                 // 移動速度を代入
-                moveSpeed = SecondComboMoveSpeed;
+                moveSpeed = ComboAttackData[Second].ComboMoveSpeed;
 
                 // 規定時間の間で追加入力があればコンボを続行する
                 if (currentAnimationRatio >= ThirdAttackInputStartTime && currentAnimationRatio < currentAnimationRatio < ThirdAttackInputStartTime + InputTimeLimit &&
@@ -341,7 +337,7 @@ void PlayerAttack::IsComboAttackActive()
             case PlayerAttack::Third:
             {
                 // 移動速度を代入
-                moveSpeed = ThirdComboMoveSpeed;
+                moveSpeed = ComboAttackData[Third].ComboMoveSpeed;
 
                 // 攻撃アニメーションが終了したらコンボステートを切り替える
                 if (currentPlayAnimationState == StateBase::FirstLoopEnd)
@@ -360,7 +356,6 @@ void PlayerAttack::IsComboAttackActive()
                 break;
             }
         }
-
     }
 
 }

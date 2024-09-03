@@ -36,3 +36,17 @@ float Utility::ConvertRadian(const int angle)
     return DX_PI_F / 180 * angle;
 }
 
+/// <summary>
+/// 二つの座標同士の向きから角度を算出する
+/// </summary>
+float Utility::CalculateAngleBetweenPositions(const VECTOR firstPosition, const VECTOR secondPosition)
+{
+    // ボスと弾のベクトルを出す
+    VECTOR direction = VSub(firstPosition, secondPosition);
+
+    // ボスと弾のベクトルからエフェクトの回転率を出す
+    float angle = atan2(direction.x, direction.z);
+
+    return angle;
+}
+
