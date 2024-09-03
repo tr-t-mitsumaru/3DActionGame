@@ -88,6 +88,35 @@ Player::~Player()
 }
 
 /// <summary>
+/// ボスとの戦いが始まった瞬間の初期化
+/// </summary>
+void Player::InitializeBattleStart(const VECTOR playerTargetPosition)
+{
+    // ボスからプレイヤーの向きを計算
+    VECTOR playerBossDirection = VNorm(VSub(position, playerTargetPosition));
+
+    // ボスから一定の位置にプレイヤーを配置
+    position = VAdd(playerTargetPosition, VScale(playerBossDirection, MoveDistance));
+
+    // 移動をやめる
+    isEndMove = true;
+
+    // 音を止める
+    soundManager->StopSoundEffect(SoundManager::PlayerFootSteps);
+
+    // デタッチを行う
+    MV1DetachAnim(modelHandle, animationIndex);
+
+    // インデックスの読み込み
+    animationIndex = MV1AttachAnim(modelHandle, Idle, -1, FALSE);
+
+    //アニメーションの総再生時間を取得
+    animationLimitTime = MV1GetAttachAnimTotalTime(modelHandle, animationIndex);
+
+
+}
+
+/// <summary>
 /// 更新処理
 /// </summary>
 void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPosition)
@@ -105,6 +134,26 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
     //当たり判定に必要なデータを更新
     UpdateCollisionData();
 
+    // 体力が0かつダメージを受けるステートの再生が終了していれば
+    if (hp <= 0)
+    {
+        hp = 0;
+        if (nowState->GetNowStateTag() == HitState && nowState->GetCurrentAnimationPlayState() == StateBase::FirstLoopEnd)
+        {
+            // ライフが0になったことをステートに伝える
+            WaitTimer(50);
+
+            nowState->SetPlayerNoLifeState();
+        }
+    }
+
+
+    // ステートが死亡かつ死亡時のアニメーションが終了していたら
+    if (nowState->GetNowStateTag() == DeadState && nowState->GetCurrentAnimationPlayState() == StateBase::Stop)
+    {
+        // 死んだフラグをたてる
+        endedDeadMove = true;
+    }
 
     
     //更新処理の後次のループでのステートを代入する
@@ -113,23 +162,6 @@ void Player::Update(const VECTOR playerTargetPosition, const VECTOR cameraPositi
     MV1SetPosition(modelHandle, VAdd(position,ModelOffsetPosition));
 
 
-    // 体力が0かつダメージを受けるステートの再生が終了していれば
-    if (hp <= 0 && nextState->GetNowStateTag() == HitState && nextState->GetCurrentAnimationPlayState() == StateBase::FirstLoopEnd)
-    {
-        hp = 0;
-        // ライフが0になったことをステートに伝える
-        WaitTimer(50);
-
-        nextState->SetPlayerNoLifeState();
-    }
-
-
-    // ステートが死亡かつ死亡時のアニメーションが終了していたら
-    if (nextState->GetNowStateTag() == DeadState && nextState->GetCurrentAnimationPlayState() == StateBase::FirstLoopEnd)
-    {
-        // 死んだフラグをたてる
-        endedDeadMove = true;
-    }
 
     // 無敵時間の作成
     SwitchInvincibility();

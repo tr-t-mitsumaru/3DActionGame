@@ -91,6 +91,11 @@ public:
     /// </summary>
     void ApplyBoundaryPushback();
 
+    /// <summary>
+    /// バトル開始時の初期化処理
+    /// </summary>
+    void InitializeBattleStart(const VECTOR playerTargetPosition);
+
 
 private:
 

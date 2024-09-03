@@ -120,6 +120,11 @@ public:
     ~Boss();
 
     /// <summary>
+    /// バトル開始時の初期化
+    /// </summary>
+    void InitializeBattleStart();
+
+    /// <summary>
     /// 更新処理
     /// </summary>
     void Update(const VECTOR bossTargetPosition,const VECTOR cameraPosition);

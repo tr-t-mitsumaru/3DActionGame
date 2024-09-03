@@ -19,7 +19,7 @@
 /// コンストラクタ
 /// </summary>
 GameScene::GameScene()
-    :currentGameScneState(Start)
+    :currentGameScneState(Tutorial)
 {
     //メモリの確保
     stage       = new Stage();
@@ -91,11 +91,22 @@ void GameScene::Update()
         player->UpdateStartScene(playerBossDistance);
         boss->UpdateStartScene();
 
-        // 最初に再生する
-        if (camera->GetStartCameraState() == Camera::StartView)
+        // Xキーが押されていれば登場演出をスキップ
+        if (inputManager->GetKeyPushState(InputManager::X) == InputManager::JustRelease)
         {
-            soundManager->PlayBGM(SoundManager::Start);
+            player->InitializeBattleStart(boss->GetPosition());
+            boss->InitializeBattleStart();
+
+            // 開始時のBGMを止める
+            soundManager->StopBGM(SoundManager::Start);
+
+            // ゲーム中の音を再生する
+            soundManager->PlayBGM(SoundManager::Game);
+
+            currentGameScneState = Battle;
         }
+
+
 
         // カメラがボスに注目している場合
         if (camera->GetStartCameraState() == Camera::FoucusOnBoss)
@@ -144,10 +155,7 @@ void GameScene::Update()
             camera->StopCameraShake();
 
             // 登場シーンからバトルシーンに変更する
-            currentGameScneState = Tutorial;
-
-            // チュートリアル画像の描画を開始
-            gameSceneUI->StartTutorialImageDraw();
+            currentGameScneState = Battle;
 
             // 開始時にサウンドを止める
             soundManager->StopSoundEffect(SoundManager::BossRoar);
@@ -160,11 +168,20 @@ void GameScene::Update()
     {
         gameSceneUI->Blinking();
 
+        // チュートリアル画像の描画を開始
+        gameSceneUI->StartTutorialImageDraw();
+
+        // 最初に再生する
+        if (camera->GetStartCameraState() == Camera::StartView)
+        {
+            soundManager->PlayBGM(SoundManager::Start);
+        }
+
         if (inputManager->GetKeyPushState(InputManager::X) == InputManager::JustRelease)
         {
             // チュートリアル画像の描画を終了させる
             gameSceneUI->EndTutorialImageDraw();
-            currentGameScneState = Battle;
+            currentGameScneState = Start;
         }
     }
 

@@ -36,12 +36,11 @@ PlayerDefense::~PlayerDefense()
 /// <param name="position">プレイヤーモデルの向き</param>
 void PlayerDefense::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR playerTargetPosition, VECTOR cameraPosition)
 {
+    //アニメーションの再生時間のセット
+    UpdateAnimation();
 
     //ステートの切り替え処理を呼ぶ
     ChangeState();
-
-    //アニメーションの再生時間のセット
-    UpdateAnimation();
 
     //一回のループが終わればアニメーションの更新を止める
     if (currentPlayAnimationState == FirstLoopEnd)

@@ -90,6 +90,18 @@ Boss::~Boss()
 }
 
 /// <summary>
+/// バトル開始時の初期化
+/// </summary>
+void Boss::InitializeBattleStart()
+{
+    // アニメーションをデタッチする
+    MV1DetachAnim(modelHandle, animationIndex);
+
+    currentPlayAnimationState = Stop;
+    currentStartMoveState = EndMove;
+}
+
+/// <summary>
 /// 更新処理
 /// </summary>
 void Boss::Update(const VECTOR bossTargetPosition,const VECTOR cameraPosition)

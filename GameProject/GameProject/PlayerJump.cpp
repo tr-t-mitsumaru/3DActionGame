@@ -85,12 +85,12 @@ void PlayerJump::Update(VECTOR& modelDirection, VECTOR& position,const VECTOR pl
     {
         StartAnimation();
     }
+    //アニメーションの再生時間のセット
+    UpdateAnimation();
 
     //ステートの切り替え
     ChangeState();
 
-    //アニメーションの再生時間のセット
-    UpdateAnimation();
 
     //シーンが切り替わっていればアニメーションをデタッチ
     DetachAnimation();
