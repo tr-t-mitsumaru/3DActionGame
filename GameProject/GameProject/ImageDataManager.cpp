@@ -36,19 +36,9 @@ ImageDataManager::ImageDataManager()
     imageHandle.insert(make_pair(XButton, LoadGraph("UI/XButton.png")));
     imageHandle.insert(make_pair(MovieSkipText, LoadGraph("UI/skip.png")));
 
-
-
-
-
-
-
     // 分割画像のロード
     divisionImageHandle[ClearSceneScroll] = new int[ScrollImageAllDivision];
     LoadDivGraph("UI/ScrollResize2_.png", ScrollImageAllDivision, ScrollImageXDivision, ScrollImageYDivision, ScrollImageWidth, ScrollImageHeight, divisionImageHandle[ClearSceneScroll]);
-
-   
-
-
 }
 
 /// <summary>

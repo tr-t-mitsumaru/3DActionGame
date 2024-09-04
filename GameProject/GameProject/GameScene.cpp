@@ -91,6 +91,9 @@ void GameScene::Update()
         player->UpdateStartScene(playerBossDistance);
         boss->UpdateStartScene();
 
+        // ムービースキップの描画を開始させる
+        gameSceneUI->StartMovieSkipImageDraw();
+
         // Xキーが押されていれば登場演出をスキップ
         if (inputManager->GetKeyPushState(InputManager::X) == InputManager::JustRelease)
         {
@@ -188,9 +191,15 @@ void GameScene::Update()
     // バトル中のみ行うアップデート
     else if (currentGameScneState == Battle)
     {
+        // 体力などの描画されていない状態なら
         if (gameSceneUI->GetCurrentBlendState() == GameSceneUI::Opaque)
         {
+            // UIのフェードインを開始させる
             gameSceneUI->StartFeadIn();
+
+            // ゲームシーンが始まっているのでムービースキップの描画をやめる
+            gameSceneUI->EndMovieSkipImageDraw();
+
         }
         player->Update(boss->GetPosition(),camera->GetPosition());
         if (player->GetEndedDeadMove())

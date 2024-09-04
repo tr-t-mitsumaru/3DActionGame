@@ -104,6 +104,10 @@ private:
 
     static constexpr VECTOR StartHpGagePosition           = { 600.0f,-100.0f,0.0f };      // HPゲージの最初の座標
     static constexpr VECTOR StartHpFramePosition          = { 550.0f,-100.0f,0.0f };      // HPゲージフレームの最初の座標
+    static constexpr VECTOR MovieSkipTextPosition         = { 1600,980,0 };               // ムービースキップのテキストの座標
+    static constexpr float  MovieSkipTextScale            = 0.3f;                         // ムービースキップのテキストの拡大率
+    static constexpr float  XButtonImageScale             = 0.4f;                         // Xボタン画像の拡大率
+    static constexpr VECTOR XButtonImagePosition          = { 1760,980,0 };               // XボタンのUI画像の座標
     static constexpr float  FeadInMax                     =  255;                         // フェードインの最大値
     static constexpr int    FeadInSpeed                   =  4;                           // フェードインのスピード
     static constexpr int    FeadOutSpeed                  =  4;                           // フェードアウトのスピード
@@ -121,9 +125,6 @@ private:
     static constexpr int    StartTextY2Position           = 1050;                         // 開始説明のテキストのY2座標
     static constexpr int    DisplayTime                   = 30;                           // 表示する時間
     static constexpr int    InbisibleTime                 = 60;                           // 表示しない時間
-
-
-
 
 
     ////////         変数          ////////
@@ -144,6 +145,8 @@ private:
     int               gameOvetTextImage;             // ゲームオーバーのテキスト
     int               tutorialImage;                 // チュートリアル画像
     int               startTextImage;                // ゲームを開始する時の説明テキストの画像
+    int               xButtonImage;                  // Xボタンの画像
+    int               skipImage;                     // スキップのボタン説明用のUI画像
     int               uiBlendOpacity;                // UIのブレンド率
     int               playerHpGageMaxWidth;          // プレイヤーのHPゲージの幅
     int               playerHpGageMaxHeight;         // プレイヤーのHPゲージの高さ
@@ -198,6 +201,11 @@ private:
     /// チュートリアルの描画
     /// </summary>
     void DrawTutorial();
+
+    /// <summary>
+    /// ムービースキップ用のUIの描画
+    /// </summary>
+    void DrawMovieSkipUI();
 
 
 };

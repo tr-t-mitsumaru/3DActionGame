@@ -37,7 +37,8 @@ GameSceneUI::GameSceneUI()
     gameOvetTextImage   = imageDataManager->GetImageHandle(ImageDataManager::GameOverText);
     tutorialImage       = imageDataManager->GetImageHandle(ImageDataManager::Tutorial);
     startTextImage      = imageDataManager->GetImageHandle(ImageDataManager::TitleStartString);
-
+    xButtonImage        = imageDataManager->GetImageHandle(ImageDataManager::XButton);
+    skipImage           = imageDataManager->GetImageHandle(ImageDataManager::MovieSkipText);
 
 
     // 画像のサイズを取る
@@ -151,6 +152,9 @@ void GameSceneUI::Draw()
     // ブレンドモードをノーマルに戻す
     SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 0);
 
+    // ムービースキップのUIの描画
+    DrawMovieSkipUI();
+
     // チュートリアルの描画
     DrawTutorial();
     
@@ -209,6 +213,27 @@ void GameSceneUI::DrawBossUI()
 
     // ボスの名前
     DrawStringToHandle(BossNameStringXPosition, BossNameStringYPosition, "FIRE GOLEM", GetColor(210, 210, 210), font->GetBossNameHandle());
+}
+
+/// <summary>
+/// ムービースキップ用のUIの描画
+/// </summary>
+void GameSceneUI::DrawMovieSkipUI()
+{
+    // 描画するフラグがたっているか
+    if (!drawMovieSkipImage)
+    {
+        // 立っていなければ早期リターン
+        return;
+    }
+    else
+    {
+        // ムービースキップのテキストUIの描画
+        DrawRotaGraph(MovieSkipTextPosition.x, MovieSkipTextPosition.y, MovieSkipTextScale, 0.0f, skipImage, TRUE);
+
+        // Xボタンの画像の描画
+        DrawRotaGraph(XButtonImagePosition.x, XButtonImagePosition.y, XButtonImageScale, 0.0f, xButtonImage, TRUE);
+    }
 }
 
 
@@ -276,7 +301,7 @@ void GameSceneUI::EndTutorialImageDraw()
 /// </summary>
 void GameSceneUI::StartMovieSkipImageDraw()
 {
-    
+    drawMovieSkipImage = true;
 }
 
 /// <summary>
@@ -284,7 +309,7 @@ void GameSceneUI::StartMovieSkipImageDraw()
 /// </summary>
 void GameSceneUI::EndMovieSkipImageDraw()
 {
-
+    drawMovieSkipImage = false;
 }
 
 /// <summary>

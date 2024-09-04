@@ -14,7 +14,7 @@ public:
 
     /////////        定数         ////////
 
-    static constexpr int   MaxHp = 700;   // HPの最大値
+    static constexpr int   MaxHp = 1000;   // HPの最大値
 
     //アニメーションの種類
     enum AnimationState
